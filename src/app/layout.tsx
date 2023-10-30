@@ -1,13 +1,13 @@
-import { Inter, Roboto } from 'next/font/google';
-import localFont from 'next/font/local';
-
-
+import {Inter, Roboto} from 'next/font/google'
+import localFont from 'next/font/local'
 
 import type {Metadata} from 'next'
 
 import './_styles/globals.css'
 
 import {cn} from '@/lib/utils/tailwindUtil'
+import Navbar from '@/components/navbar/navbar'
+import {Providers} from '@/components/providers'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -54,13 +54,16 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en">
       <body
         className={cn(
-          'font-geo relative flex min-h-screen flex-col justify-center antialiased',
+          'relative flex min-h-screen flex-col justify-center font-geo antialiased',
           inter.variable,
           geoFont.variable,
           roboto.variable
         )}
       >
-        {children}
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   )
