@@ -1,9 +1,11 @@
-import {Inter, Roboto} from 'next/font/google'
-import localFont from 'next/font/local'
+import { Inter, Roboto } from 'next/font/google';
+import localFont from 'next/font/local';
+
+
 
 import type {Metadata} from 'next'
 
-import './globals.css'
+import './_styles/globals.css'
 
 import {cn} from '@/lib/utils/tailwindUtil'
 
@@ -21,15 +23,15 @@ const roboto = Roboto({
 const geoFont = localFont({
   src: [
     {
-      path: '../styles/fonts/geomanist-regular-webfont.woff2',
+      path: './_styles/fonts/geomanist-regular-webfont.woff2',
       weight: '400',
     },
     {
-      path: '../styles/fonts/geomanist-medium-webfont.woff2',
+      path: './_styles/fonts/geomanist-medium-webfont.woff2',
       weight: '500',
     },
     {
-      path: '../styles/fonts/geomanist-bold-webfont.woff2',
+      path: './_styles/fonts/geomanist-bold-webfont.woff2',
       weight: '700',
     },
   ],
