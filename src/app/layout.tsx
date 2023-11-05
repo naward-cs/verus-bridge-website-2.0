@@ -8,6 +8,7 @@ import './_styles/globals.css'
 import {cn} from '@/lib/utils/tailwindUtil'
 import Navbar from '@/components/navbar/navbar'
 import {Providers} from '@/components/providers'
+import SafetyWrapper from '@/components/providers/safetyWrapper'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     follow: false, //will change
   },
 }
-
+//TODO: need to add a safety boundary to error on unsupported chains
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">

@@ -19,6 +19,8 @@ import {
 import {cn} from '@/lib/utils/tailwindUtil'
 import {Logo} from '@/components/shared/icons'
 
+import Web3Button from './web3Button'
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
@@ -55,6 +57,9 @@ const Navbar = () => {
             </Link>
           </NavbarItem>
         ))}
+        <NavbarItem>
+          <Web3Button />
+        </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="bg-[#f5f5f5] ">
         {menuList.map((menu, index) => (

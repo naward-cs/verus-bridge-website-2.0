@@ -1,3 +1,4 @@
+declare module '@bitgo/utxo-lib'
 type DestinationOption = {
   value: string
   label: string
@@ -47,4 +48,28 @@ type BridgeList = {
     iaddress: string
     currency: string
   }
+}
+
+type CReserveTransferType = {
+  version: number
+  currencyvalue: {
+    currency: `0x${string}`
+    amount: string
+  }
+  flags: number
+  feecurrencyid: `0x${string}`
+  fees: string
+  destination: {
+    destinationtype: number
+    destinationaddress: `0x${string}`
+  }
+  destcurrencyid: `0x${string}`
+  destsystemid: `0x${string}`
+  secondreserveid: `0x${string}`
+}
+
+type TxConfigType = {
+  formValues: ConvertFormData
+  CReserveTransfer: CReserveTransferType
+  fee: string
 }

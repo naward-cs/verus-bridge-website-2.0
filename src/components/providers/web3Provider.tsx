@@ -53,7 +53,6 @@ createWeb3Modal({
   wagmiConfig,
   projectId,
   chains,
-  defaultChain: env.NEXT_PUBLIC_TESTNET_ONLY ? goerli : mainnet,
 })
 
 const Web3Provider = ({children}: {children: React.ReactNode}) => {
