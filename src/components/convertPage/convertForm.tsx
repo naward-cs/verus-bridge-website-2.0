@@ -1,6 +1,7 @@
 'use client'
 
 import React, {useState} from 'react'
+import {useDelegatorBridgeConverterActive} from '@/generated'
 import {
   Modal,
   ModalBody,
@@ -11,14 +12,19 @@ import {
 import {ZeroAddress} from 'ethers'
 import {FormProvider, useForm} from 'react-hook-form'
 import {toast} from 'sonner'
-import {BaseError, ContractFunctionRevertedError} from 'viem'
-import {useAccount, useNetwork, useWaitForTransaction} from 'wagmi'
+import {
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  useWaitForTransaction,
+} from 'wagmi'
 import {getContract} from 'wagmi/actions'
 
+import {abi} from '@/config/abi/DelegatorAbi'
 import {maxGas} from '@/config/constants'
 import {DelegatorAbi, useIsPoolActive} from '@/lib/hooks/delegator'
 import {useEthers} from '@/lib/hooks/ethers'
-import {DelegatorAddress} from '@/lib/hooks/network'
+import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import {isValidVerusID} from '@/lib/server/verusQueries'
 import {AuthorizeTokenAmount} from '@/lib/utils/authorizeERC20'
@@ -40,9 +46,15 @@ import FinalReview from './finalReview'
 
 const ConvertForm = () => {
   const {address: account, isConnected} = useAccount()
+  const chainId = NetworkChain()
   const {chain} = useNetwork()
   const {refundAddresses, error: signError, signMsg} = useEthers()
-  const {data: isActive} = useIsPoolActive()
+  // const {data: isActive} = useIsPoolActive()
+  const {data: isActive} = useDelegatorBridgeConverterActive({
+    chainId: chainId,
+    watch: true,
+    staleTime: 2_000,
+  })
   const delegatorAddr = DelegatorAddress()
   const {isOpen, onOpen, onOpenChange} = useDisclosure()
   const {bridgeList} = useGetTokens()
@@ -58,6 +70,7 @@ const ConvertForm = () => {
     mode: 'onChange',
     reValidateMode: 'onSubmit',
   })
+
   const CheckIfReady = async (account: `0x${string}`) => {
     if (refundAddresses && account) {
       if (refundAddresses[account]) {
@@ -81,7 +94,12 @@ const ConvertForm = () => {
       }
     }
   }
-
+  // const {data, write, reset} = useContractWrite({
+  //   address: delegatorAddr,
+  //   abi,
+  //   functionName: 'sendTransfer',
+  //   account,
+  // })
   // useWaitForTransaction({
   //   hash: txHash,
   //   enabled: !!txHash,
@@ -136,53 +154,13 @@ const ConvertForm = () => {
       })
       if (txConfigs) {
         setTxConfig({formValues: values, ...txConfigs})
-        // onOpen()
-
-        const {CReserveTransfer: tx} = txConfigs
-
-        const x = await getContract({
-          address: delegatorAddr,
-          abi: DelegatorAbi,
-        })
-        await x.simulate
-          .sendTransfer(
-            [
-              {
-                version: tx.version,
-                currencyvalue: {
-                  currency: tx.currencyvalue.currency,
-                  amount: BigInt(tx.currencyvalue.amount),
-                },
-                flags: tx.flags,
-                feecurrencyid: tx.feecurrencyid,
-                fees: BigInt(tx.fees),
-                destination: {
-                  destinationtype: tx.destination.destinationtype,
-                  destinationaddress: tx.destination.destinationaddress,
-                },
-                destcurrencyid: tx.destcurrencyid,
-                destsystemid: tx.destsystemid,
-                secondreserveid: tx.secondreserveid,
-              },
-            ],
-            {
-              account,
-              value: BigInt(txConfigs.fee),
-              gas: BigInt(maxGas),
-            }
-          )
-          .then((res) => console.log(res))
-          .catch((error) => {
-            if (error instanceof BaseError) {
-              const revertError = error.walk(
-                (err) => err instanceof ContractFunctionRevertedError
-              )
-              if (revertError instanceof ContractFunctionRevertedError) {
-                const errorName = revertError.data?.errorName ?? ''
-                console.log(errorName)
-              }
-            }
-          })
+        onOpen()
+        // reset()
+        // write({
+        //   args: [txConfigs.CReserveTransfer],
+        //   value: BigInt(txConfigs.fee),
+        //   // gas: BigInt(maxGas),
+        // })
       }
     }
   }
@@ -232,7 +210,14 @@ const ConvertForm = () => {
             Confirm conversion
           </ModalHeader>
           <ModalBody>
-            {txConfig && <FinalReview setHash={setTxHash} {...txConfig} />}
+            {txConfig && (
+              <FinalReview
+                setHash={setTxHash}
+                account={account!}
+                chain={chainId!}
+                {...txConfig}
+              />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

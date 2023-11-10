@@ -1,18 +1,19 @@
-'use client'
+'use client';
 
+import {delegatorABI} from '@/generated'
 import {useQuery} from '@tanstack/react-query'
 import {useContractRead} from 'wagmi'
 import {readContract} from 'wagmi/actions'
 
-import DELEGATORABI from '@/config/abi/DelegatorAbi.json'
+// import {abi} from '@/config/abi/DelegatorAbi'
+import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json'
 import {FLAGS} from '@/config/constants'
 import {toBase58Check} from '@/lib/utils/convert'
 
 import {DelegatorAddress, NetworkChain} from './network'
 
-import type {Abi} from 'viem'
-
-export const DelegatorAbi = DELEGATORABI as Abi
+// export const DelegatorAbi = abi
+// import type { Abi } from 'viem';
 
 export const useGetTransactionHeight = () => {
   const chainId = NetworkChain()
@@ -22,10 +23,10 @@ export const useGetTransactionHeight = () => {
     queryFn: () =>
       readContract({
         address: delegatorAddr,
-        abi: DelegatorAbi,
+        abi: delegatorABI,
         functionName: 'bestForks',
         chainId: chainId,
-        args: ['0'],
+        args: [0n],
       }),
     select(data) {
       const heightPos = 194
@@ -44,15 +45,16 @@ export const useGetTransactionHeight = () => {
 export const useGetTokenFromList = () => {
   const chainId = NetworkChain()
   const delegatorAddr = DelegatorAddress()
+
   return useContractRead({
     address: delegatorAddr,
-    abi: DelegatorAbi,
+    abi: DELEGATORABI,
     functionName: 'getTokenList',
     chainId: chainId,
-    args: ['0', '0'],
+    args: [0n, 0n],
     staleTime: 60_000,
     select(data) {
-      const list = (data as FromTokenList[]).map((e) => ({
+      const list = (data as unknown as FromTokenList[]).map((e) => ({
         label: e.name,
         value: e.ticker,
         iaddress: e.iaddress,
@@ -73,7 +75,7 @@ export const useIsPoolActive = () => {
   const delegatorAddr = DelegatorAddress()
   return useContractRead({
     address: delegatorAddr,
-    abi: DelegatorAbi,
+    abi: delegatorABI,
     functionName: 'bridgeConverterActive',
     chainId: chainId,
     watch: true,

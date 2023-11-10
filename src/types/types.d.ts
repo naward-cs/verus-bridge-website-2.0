@@ -54,11 +54,11 @@ type CReserveTransferType = {
   version: number
   currencyvalue: {
     currency: `0x${string}`
-    amount: string
+    amount: BigInt
   }
   flags: number
   feecurrencyid: `0x${string}`
-  fees: string
+  fees: BigInt
   destination: {
     destinationtype: number
     destinationaddress: `0x${string}`

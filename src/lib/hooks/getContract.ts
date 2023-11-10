@@ -1,7 +1,15 @@
-import React from 'react'
+import React from 'react';
+import {delegatorABI} from '@/generated'
+import {Contract} from 'ethers'
 
-const getContract = () => {
-  return null
+import {useEtherSigner} from '../utils/ethersProvider'
+import {DelegatorAddress} from './network'
+
+export const useContract = () => {
+  const delegatorAddr = DelegatorAddress()
+  const signer = useEtherSigner()
+  return React.useMemo(
+    () => new Contract(delegatorAddr, delegatorABI, signer),
+    [delegatorAddr, signer]
+  )
 }
-
-export default getContract

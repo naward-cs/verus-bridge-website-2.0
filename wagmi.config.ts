@@ -1,9 +1,12 @@
-import {defineConfig} from '@wagmi/cli'
+import { defineConfig } from '@wagmi/cli';
 import {react} from '@wagmi/cli/plugins'
 
-import DELEGATORABI from '@/config/abi/DelegatorAbi.json'
+import DELEGATORABI from '@/config/abi/DelegatorAbi'
 
-import type {Abi} from 'viem'
+
+
+import type { Abi } from 'viem';
+
 
 export const DelegatorAbi = DELEGATORABI as Abi
 export default defineConfig({

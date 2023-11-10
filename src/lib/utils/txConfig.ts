@@ -210,10 +210,10 @@ export const getConfigOptions = async ({
   const currencyIaddress = fromToken.iaddress as `0x${string}`
   const CReserveTransfer: CReserveTransferType = {
     version: 1,
-    currencyvalue: {currency: currencyIaddress, amount: verusAmount}, // currency sending from ethereum
+    currencyvalue: {currency: currencyIaddress, amount: BigInt(verusAmount)}, // currency sending from ethereum
     flags: flagValue,
     feecurrencyid: feeCurrency, // fee is vrsc pre bridge launch, veth or others post.
-    fees,
+    fees: BigInt(fees),
     destination: {
       destinationtype: destinationType,
       destinationaddress: destinationAddress as `0x${string}`,

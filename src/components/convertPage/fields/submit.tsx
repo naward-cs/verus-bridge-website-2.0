@@ -1,8 +1,15 @@
 import React, {useState} from 'react'
-import {Tooltip} from '@nextui-org/react'
-import {useWeb3Modal} from '@web3modal/wagmi/react'
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Tooltip,
+  useDisclosure,
+} from '@nextui-org/react'
+// import {useWeb3Modal} from '@web3modal/wagmi/react'
 import {useFormContext} from 'react-hook-form'
-import {useAccount} from 'wagmi'
+import {useAccount, useConnect} from 'wagmi'
 
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
@@ -86,17 +93,59 @@ const FormSubmitButton = ({pending}: {pending: boolean}) => {
 }
 const ConnectSubmitButton = () => {
   const {isConnecting} = useAccount()
-  const {open} = useWeb3Modal()
+  // const {open} = useWeb3Modal()
+
+  // return (
+  //   <button
+  //     className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+  //     type="button"
+  //     disabled={isConnecting}
+  //     onClick={() => open()}
+  //   >
+  //     Connect Wallet
+  //   </button>
+  // )
+  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
+
+  const {connect, connectors} = useConnect()
 
   return (
-    <button
-      className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
-      type="button"
-      disabled={isConnecting}
-      onClick={() => open()}
-    >
-      Connect Wallet
-    </button>
+    <>
+      <button
+        onClick={onOpen}
+        disabled={isConnecting}
+        type="button"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+      >
+        Connect Wallet
+      </button>
+      <Modal
+        isOpen={isOpen}
+        backdrop="opaque"
+        size="md"
+        placement="center"
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          <ModalHeader className="font-normal">Connect a Wallet</ModalHeader>
+          <ModalBody>
+            {connectors.map((connector) => (
+              <button
+                disabled={!connector.ready}
+                key={connector.id}
+                onClick={() => {
+                  connect({connector})
+                  onClose()
+                }}
+                className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white "
+              >
+                {connector.name}
+              </button>
+            ))}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }
 const SubmitButton = ({pending}: {pending: boolean}) => {

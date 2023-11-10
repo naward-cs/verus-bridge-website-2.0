@@ -1,18 +1,27 @@
-import React from 'react'
+'use client'
+
+import React, {useEffect} from 'react'
 import {
+  delegatorABI,
+  delegatorConfig,
   useDelegatorSendTransfer,
   usePrepareDelegatorSendTransfer,
 } from '@/generated'
+import {toast} from 'sonner'
 import {
   useAccount,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
+  useWalletClient,
 } from 'wagmi'
 
 import {maxGas} from '@/config/constants'
 import {DelegatorAbi} from '@/lib/hooks/delegator'
+import {useContract} from '@/lib/hooks/getContract'
+import {useIsMounted} from '@/lib/hooks/mounted'
 import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
+import {ethers} from 'ethers'
 
 // const initConfig: TxConfigType = {
 //   CReserveTransfer: {
@@ -55,67 +64,19 @@ import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
 // }, [config])
 interface FinalProps extends TxConfigType {
   setHash: (hash: string) => void
+  account: `0x${string}`
+  chain: number
 }
 const FinalReview = (props: FinalProps) => {
-  const {address: account} = useAccount()
-  const chain = NetworkChain()
-  const {formValues, CReserveTransfer: cr, fee} = props
-
-  // const {data, write} = useDelegatorSendTransfer({
-  //   address: delegatorAddr,
-  //   account,
-  //   args: [cr],
-  //   value: fee,
-  //   gas: BigInt(maxGas),
-  // })
-  const {config} = usePrepareDelegatorSendTransfer({
-    account,
-    chainId: chain,
-    args: [
-      {
-        version: cr.version,
-        currencyvalue: {
-          currency: cr.currencyvalue.currency,
-          amount: BigInt(cr.currencyvalue.amount),
-        },
-        flags: cr.flags,
-        feecurrencyid: cr.feecurrencyid,
-        fees: BigInt(cr.fees),
-        destination: {
-          destinationtype: cr.destination.destinationtype,
-          destinationaddress: cr.destination.destinationaddress,
-        },
-        destcurrencyid: cr.destcurrencyid,
-        destsystemid: cr.destsystemid,
-        secondreserveid: cr.secondreserveid,
-      },
-    ],
-    value: BigInt(fee),
-    gas: BigInt(maxGas),
-  })
-  // const {config} = usePrepareContractWrite({
-  //   address: delegatorAddr,
-  //   abi: DelegatorAbi,
-  //   functionName: 'sendTransfer',
-  //   account,
-  //   args: [cr],
-  //   value: fee,
-  //   gas: BigInt(maxGas),
-  // })
-  const {data, write} = useContractWrite(config)
-  return (
-    <div>
-      FinalReview{' '}
-      <button
-        disabled={!write}
-        onClick={() => write?.()}
-        className="bg-blue-400 disabled:bg-slate-400"
-      >
-        write
-      </button>
-      <p>{data?.hash}</p>
-    </div>
-  )
+  const {formValues, CReserveTransfer: cr, fee, account, chain} = props
+  const walletconnect = useWalletClient()
+  const delegatorAddr = DelegatorAddress()
+  const contract = new ethers.Contract(delegatorAddr, delegatorABI, walletconnect)
+  const newSubmit = async()=>{
+    const tx = await contract.sendTransfer(cr, {from:account, value:BigInt(fee)})
+    console.log(tx)
+  }
+  return <div><button onClick={()=>newSubmit()}>test</button></div>
 }
 
 export default FinalReview

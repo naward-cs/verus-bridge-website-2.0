@@ -13,7 +13,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-  Skeleton,
+
 } from '@nextui-org/react'
 
 import {cn} from '@/lib/utils/tailwindUtil'
