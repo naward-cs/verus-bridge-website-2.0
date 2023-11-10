@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
+import {formatEther} from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
-import {formatEther} from 'ethers'
 import {useFormContext} from 'react-hook-form'
 
 import {useFormValues} from '@/lib/hooks/formValues'

@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react'
-import {SigningKey} from 'ethers'
+import {computePublicKey} from '@ethersproject/signing-key'
 import {hashMessage, recoverPublicKey} from 'viem'
 import {useAccount, useSignMessage} from 'wagmi'
 
-import {convertEthToVerusAddress} from '../utils/convert'
+import {convertEthToVerusAddress} from '@/lib/utils/convert'
 
 export const useEthers = () => {
   const {address} = useAccount()
@@ -23,7 +23,7 @@ export const useEthers = () => {
           hash: hashMessage(msg),
           signature: sigMessage,
         })
-        const compressed = SigningKey.computePublicKey(pubKey, true)
+        const compressed = computePublicKey(pubKey, true)
         const rAddress = convertEthToVerusAddress(compressed)
         localStorage.setItem(
           'refundAddresses',

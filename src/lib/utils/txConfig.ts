@@ -1,5 +1,6 @@
-import {parseEther, ZeroAddress} from 'ethers'
+import {AddressZero} from '@ethersproject/constants'
 import {toast} from 'sonner'
+import {parseEther} from 'viem'
 
 import {
   bounceBackFee,
@@ -51,7 +52,7 @@ export const getConfigOptions = async ({
   const {toToken, fromToken, gasPrice: GasPrice, fromAmount} = formInput
   let destinationType: null | number = null
   let flagValue = VALID
-  let secondReserveId = ZeroAddress
+  let secondReserveId = AddressZero
   let destinationCurrency: null | string = null
   let destinationAddress: `0x${string}` | string
 
@@ -210,16 +211,16 @@ export const getConfigOptions = async ({
   const currencyIaddress = fromToken.iaddress as `0x${string}`
   const CReserveTransfer: CReserveTransferType = {
     version: 1,
-    currencyvalue: {currency: currencyIaddress, amount: BigInt(verusAmount)}, // currency sending from ethereum
+    currencyvalue: {currency: currencyIaddress, amount: verusAmount}, // currency sending from ethereum
     flags: flagValue,
     feecurrencyid: feeCurrency, // fee is vrsc pre bridge launch, veth or others post.
-    fees: BigInt(fees),
+    fees: Number(fees),
     destination: {
       destinationtype: destinationType,
       destinationaddress: destinationAddress as `0x${string}`,
     }, // destination address currency is going to
     destcurrencyid: destinationCurrency as `0x${string}`, // destination currency is vrsc on direct. bridge.veth on bounceback
-    destsystemid: ZeroAddress as `0x${string}`, // destination system not used
+    destsystemid: AddressZero as `0x${string}`, // destination system not used
     secondreserveid: secondReserveId as `0x${string}`, // used as return currency type on bounce back
   }
   if (currencyIaddress === secondReserveId) {
@@ -232,8 +233,10 @@ export const getConfigOptions = async ({
     walletFee = walletFee + BigInt(GasPrice.WEICOST) // bounceback fee
   }
 
-  if (fromToken.iaddress === ZeroAddress) {
-    walletFee = walletFee + parseEther(fromAmount.toString())
+  if (fromToken.erc20address === AddressZero) {
+    // parseEther(fromAmount.toString())
+
+    walletFee = walletFee + BigInt(parseEther(fromAmount.toString()))
   }
 
   return {CReserveTransfer, fee: walletFee.toString()}

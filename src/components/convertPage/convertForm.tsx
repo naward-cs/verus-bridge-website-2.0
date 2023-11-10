@@ -1,7 +1,8 @@
-'use client'
+'use client';
 
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import {useDelegatorBridgeConverterActive} from '@/generated'
+import {AddressZero} from '@ethersproject/constants'
 import {
   Modal,
   ModalBody,
@@ -9,20 +10,10 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@nextui-org/react'
-import {ZeroAddress} from 'ethers'
 import {FormProvider, useForm} from 'react-hook-form'
 import {toast} from 'sonner'
-import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  useWaitForTransaction,
-} from 'wagmi'
-import {getContract} from 'wagmi/actions'
+import {useAccount, useNetwork, useWaitForTransaction} from 'wagmi'
 
-import {abi} from '@/config/abi/DelegatorAbi'
-import {maxGas} from '@/config/constants'
-import {DelegatorAbi, useIsPoolActive} from '@/lib/hooks/delegator'
 import {useEthers} from '@/lib/hooks/ethers'
 import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
 import {useGetTokens} from '@/lib/hooks/tokens'
@@ -49,18 +40,18 @@ const ConvertForm = () => {
   const chainId = NetworkChain()
   const {chain} = useNetwork()
   const {refundAddresses, error: signError, signMsg} = useEthers()
-  // const {data: isActive} = useIsPoolActive()
+
   const {data: isActive} = useDelegatorBridgeConverterActive({
     chainId: chainId,
     watch: true,
     staleTime: 2_000,
   })
   const delegatorAddr = DelegatorAddress()
-  const {isOpen, onOpen, onOpenChange} = useDisclosure()
+  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
-  const [txHash, setTxHash] = useState<string | undefined>()
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>()
   const formMethods = useForm<ConvertFormData>({
     defaultValues: {
       fromAmount: '',
@@ -94,28 +85,7 @@ const ConvertForm = () => {
       }
     }
   }
-  // const {data, write, reset} = useContractWrite({
-  //   address: delegatorAddr,
-  //   abi,
-  //   functionName: 'sendTransfer',
-  //   account,
-  // })
-  // useWaitForTransaction({
-  //   hash: txHash,
-  //   enabled: !!txHash,
-  //   timeout: 240_000, //4 minutes
-  //   onReplaced(data) {
-  //     toast(`Transaction change of ${data.reason}`)
-  //   },
-  //   onSuccess(data) {
-  //     toast.success(`Transaction successful ${data.transactionHash}`)
-  //     setTxHash(undefined)
-  //   },
-  //   onError(err) {
-  //     console.error('Transaction Error', err)
-  //     toast.error('Something went wrong with transaction')
-  //   },
-  // })
+
   const onSubmit = async (values: ConvertFormData) => {
     //check to make sure if VerusID, it is valid before continuing
     let sendAddress = values.toAddress
@@ -134,7 +104,7 @@ const ConvertForm = () => {
     const rAddress = await CheckIfReady(account!)
 
     if (rAddress) {
-      if (values.fromToken.erc20address !== ZeroAddress) {
+      if (values.fromToken.erc20address !== AddressZero) {
         //if ERC-20 Token, get approval to spend
         await AuthorizeTokenAmount({
           token: values.fromToken,
@@ -155,15 +125,27 @@ const ConvertForm = () => {
       if (txConfigs) {
         setTxConfig({formValues: values, ...txConfigs})
         onOpen()
-        // reset()
-        // write({
-        //   args: [txConfigs.CReserveTransfer],
-        //   value: BigInt(txConfigs.fee),
-        //   // gas: BigInt(maxGas),
-        // })
       }
     }
   }
+
+  useWaitForTransaction({
+    hash: txHash,
+    enabled: !!txHash,
+    timeout: 240_000, //4 minutes
+    onReplaced(data) {
+      toast(`Transaction change of ${data.reason}`)
+    },
+    onSuccess(data) {
+      toast.success(`Transaction successful ${data.transactionHash}`)
+      setTxHash(undefined)
+    },
+    onError(err) {
+      console.error('Transaction Error', err)
+      toast.error('Something went wrong with transaction')
+    },
+  })
+
   return (
     <>
       <FormProvider {...formMethods}>
@@ -213,8 +195,8 @@ const ConvertForm = () => {
             {txConfig && (
               <FinalReview
                 setHash={setTxHash}
+                closeModal={onClose}
                 account={account!}
-                chain={chainId!}
                 {...txConfig}
               />
             )}

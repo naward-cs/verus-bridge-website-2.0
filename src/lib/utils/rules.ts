@@ -1,5 +1,5 @@
 import List from '@/data/exclude.json'
-import {isAddress} from 'ethers'
+import {isAddress} from '@ethersproject/address'
 
 export const isRAddress = (address: string) =>
   /^R[1-9A-HJ-NP-Za-km-z]{33,34}$/.test(address)

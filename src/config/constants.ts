@@ -5,8 +5,8 @@ export const ETH_FEES = {
   MINIMUM_GAS_PRICE_WEI: '10000000000', // Minimum WEI price as defined in contract. (10 GWEI)
   VRSC_SATS_FEE: 2000000,
 }
-
-export const maxGas = '6000000'
+export const maxTxGas = 1000000
+export const maxNFTGas = '6000000'
 
 export const FLAGS = {
   MAPPING_ETHEREUM_OWNED: 1,
