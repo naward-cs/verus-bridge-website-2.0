@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React, {useEffect} from 'react'
+import React from 'react'
 import {useNetwork, useSwitchNetwork} from 'wagmi'
 
 const Error = ({error, reset}: {error: Error; reset: () => void}) => {
@@ -23,6 +23,7 @@ const Error = ({error, reset}: {error: Error; reset: () => void}) => {
           <p>Select from the supported chains to switch to.</p>
           {chains.map((x) => (
             <button
+              key={x.id}
               disabled={!switchNetwork || x.id === chain?.id}
               onClick={() => switchNetwork?.(x.id)}
               className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white "
