@@ -3,7 +3,7 @@ import React from 'react'
 // import {createWeb3Modal} from '@web3modal/wagmi/react'
 import {configureChains, createConfig, WagmiConfig} from 'wagmi'
 import {goerli, mainnet} from 'wagmi/chains'
-// import {InjectedConnector} from 'wagmi/connectors/injected'
+
 import {MetaMaskConnector} from 'wagmi/connectors/metaMask'
 import {WalletConnectConnector} from 'wagmi/connectors/walletConnect'
 import {infuraProvider} from 'wagmi/providers/infura'

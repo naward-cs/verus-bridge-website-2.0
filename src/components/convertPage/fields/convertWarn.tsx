@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
-import {Tooltip} from '@nextui-org/react'
+import React, { useState } from 'react';
+import { Tooltip } from '@nextui-org/react';
 
-import {useFormValues} from '@/lib/hooks/formValues'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
 import {Icons} from '@/components/shared/icons'
 
-const WarnContent = () => {
+export const WarnContent = () => {
   return (
     <div className="max-w-xs space-y-3 py-2 text-xs">
       <p>

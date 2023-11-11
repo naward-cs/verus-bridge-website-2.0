@@ -35,6 +35,10 @@ import SubmitButton from './fields/submit'
 import ToTokenField from './fields/toToken'
 import FinalReview from './finalReview'
 
+
+
+
+
 const ConvertForm = () => {
   const {address: account, isConnected} = useAccount()
   const chainId = NetworkChain()
@@ -122,6 +126,7 @@ const ConvertForm = () => {
         bridgeList: bridgeList!,
         chain: chain!.id,
       })
+
       if (txConfigs) {
         setTxConfig({formValues: values, ...txConfigs})
         onOpen()
@@ -174,7 +179,7 @@ const ConvertForm = () => {
           </div>
           <ConvertRate />
           {isConnected && <Address />}
-          <SubmitButton pending={false} />
+          <SubmitButton />
         </form>
       </FormProvider>
       <Modal

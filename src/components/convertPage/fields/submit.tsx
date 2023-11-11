@@ -8,14 +8,14 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
-import {useFormContext} from 'react-hook-form'
+// import { useFormContext } from 'react-hook-form';
 import {useAccount, useConnect} from 'wagmi'
 
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
 import {Icons} from '@/components/shared/icons'
 
-const WarnContent = () => {
+export const WarnContent = () => {
   return (
     <div className="max-w-xs space-y-3 py-2 text-xs">
       <p>
@@ -58,13 +58,10 @@ const SubmitWarn = () => {
     </div>
   )
 }
-const FormSubmitButton = ({pending}: {pending: boolean}) => {
+const FormSubmitButton = () => {
   const {toToken, sendOnly, toAddress} = useFormValues()
   //if not connected to wallet, connect to wallet
 
-  const {
-    formState: {isSubmitting},
-  } = useFormContext()
   return (
     <>
       <button
@@ -148,15 +145,11 @@ const ConnectSubmitButton = () => {
     </>
   )
 }
-const SubmitButton = ({pending}: {pending: boolean}) => {
+const SubmitButton = () => {
   const {isConnected} = useAccount()
   const isMounted = useIsMounted()
   if (!isMounted) return null
-  return isConnected ? (
-    <FormSubmitButton pending={pending} />
-  ) : (
-    <ConnectSubmitButton />
-  )
+  return isConnected ? <FormSubmitButton /> : <ConnectSubmitButton />
 }
 
 export default SubmitButton
