@@ -53,6 +53,37 @@ export const Icons = {
       />
     </svg>
   ),
+  checkmark: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  ),
+  errormark: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="m15 9-6 6" />
+      <path d="m9 9 6 6" />
+    </svg>
+  ),
   arrowDown: ({...props}: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -171,6 +202,32 @@ export const Icons = {
           <rect width="18" height="18" fill="white" />
         </clipPath>
       </defs>
+    </svg>
+  ),
+  info: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 12 12"
+      fill="none"
+      {...props}
+    >
+      <path
+        d="M6 1C3.24 1 1 3.24 1 6C1 8.76 3.24 11 6 11C8.76 11 11 8.76 11 6C11 3.24 8.76 1 6 1ZM6.5 9.5H5.5V8.5H6.5V9.5ZM7.535 5.625L7.085 6.085C6.725 6.45 6.5 6.75 6.5 7.5H5.5V7.25C5.5 6.7 5.725 6.2 6.085 5.835L6.705 5.205C6.89 5.025 7 4.775 7 4.5C7 3.95 6.55 3.5 6 3.5C5.45 3.5 5 3.95 5 4.5H4C4 3.395 4.895 2.5 6 2.5C7.105 2.5 8 3.395 8 4.5C8 4.94 7.82 5.34 7.535 5.625Z"
+        fill="#81A0E2"
+      />
+    </svg>
+  ),
+  ticker: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 12 6"
+      fill="none"
+      {...props}
+    >
+      <path
+        d="M6 6L0.803849 -9.78799e-07L11.1962 -7.02746e-08L6 6Z"
+        fill="currentColor"
+      />
     </svg>
   ),
 }

@@ -3,7 +3,11 @@
 import {useQuery} from '@tanstack/react-query'
 import {useFormContext} from 'react-hook-form'
 
-import {getBlockHeight, getConversionRate} from '@/lib/server/verusQueries'
+import {
+  getBlockHeight,
+  getConversionRate,
+  getDestinationList,
+} from '@/lib/server/verusQueries'
 
 import {NetworkChain} from './network'
 import {useGetTokens} from './tokens'
@@ -85,4 +89,50 @@ export const useGetCurrencyRate = (
       }
     },
   })
+}
+
+export const useBridgeInfo = () => {
+  const {data: bridgeInfo} = useQuery({
+    queryKey: ['mainBridgeInfo'],
+    queryFn: () => getDestinationList(1, 'i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx'),
+    staleTime: 60_000, //stale for a minute
+    refetchInterval: 300_000, //every 5 minutes
+    select(data) {
+      try {
+        const currencyNames = data?.result?.currencynames
+        const currencies = data?.result?.bestcurrencystate?.reservecurrencies
+        const supply = data?.result?.bestcurrencystate?.supply
+        const count = currencies?.length || 4
+        const daiKey = Object.keys(currencyNames || {}).find(
+          (key) =>
+            currencyNames !== undefined && currencyNames[key] === 'DAI.vETH'
+        )
+
+        const daiAmount =
+          currencies?.find((c) => c.currencyid === daiKey)?.reserves || 0
+        //get price of each reserve coin
+        //(reserve DAI / reserve currency ) = price of reserve currency in DAI
+        //(reserve DAI * count ) / supply = price of Bridge.vETH in DAI
+        const list: CoinList[] | undefined = currencies?.map((token) => {
+          const name = currencyNames![token.currencyid]
+          return {
+            name,
+            amount: token.reserves,
+            daiPrice: daiAmount / token.reserves,
+            value: name.split('.')[0].toLowerCase(),
+          }
+        })
+        const bridge: CoinList = {
+          name: 'Bridge.vEth',
+          amount: supply!,
+          daiPrice: (daiAmount * count) / supply!,
+        }
+
+        return {list, bridge}
+      } catch {
+        throw new Error('unable to get converstion list')
+      }
+    },
+  })
+  return {bridgeInfo}
 }

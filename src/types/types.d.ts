@@ -73,3 +73,10 @@ type TxConfigType = {
   CReserveTransfer: CReserveTransferType
   fee: string
 }
+
+type CoinList = {
+  name: string
+  amount: number
+  daiPrice: number
+  value?: string
+}

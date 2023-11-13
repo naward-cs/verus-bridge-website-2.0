@@ -30,3 +30,23 @@ export const useGetTokens = () => {
   })
   return {tokenList, bridgeList, bridge}
 }
+
+export const useGetBridgeInfo = () => {
+  const chainID = NetworkChain()
+  const {bridge} = useGetTokens()
+
+  const {data: bridgeInfo} = useQuery({
+    queryKey: ['destinationList', chainID, bridge],
+    queryFn: () => getDestinationList(chainID, bridge!),
+    select(data) {
+      try {
+        const info = data.result
+        return info
+      } catch {
+        throw new Error('unable to get converstion list')
+      }
+    },
+    enabled: !!bridge,
+  })
+  return {bridgeInfo}
+}

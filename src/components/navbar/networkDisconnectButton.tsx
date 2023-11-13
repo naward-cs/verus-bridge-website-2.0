@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import {
   Divider,
@@ -26,7 +28,11 @@ const NetworkDisconnectButton = () => {
 
   const {disconnect} = useDisconnect()
   const {chain} = useNetwork()
-  const {chains, isLoading, pendingChainId, switchNetwork} = useSwitchNetwork()
+  const {chains, isLoading, pendingChainId, switchNetwork} = useSwitchNetwork({
+    onSuccess: () => {
+      location.reload()
+    },
+  })
 
   const {data: balance} = useBalance({
     address,

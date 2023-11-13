@@ -1,18 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import {useDelegatorBridgeConverterActive} from '@/generated'
-import {AddressZero} from '@ethersproject/constants'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from '@nextui-org/react'
+import { useDelegatorBridgeConverterActive } from '@/generated';
+import { AddressZero } from '@ethersproject/constants';
+import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
 import {FormProvider, useForm} from 'react-hook-form'
 import {toast} from 'sonner'
-import {useAccount, useNetwork, useWaitForTransaction} from 'wagmi'
+import {useAccount, useNetwork} from 'wagmi'
 
 import {useEthers} from '@/lib/hooks/ethers'
 import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
@@ -35,10 +29,6 @@ import SubmitButton from './fields/submit'
 import ToTokenField from './fields/toToken'
 import FinalReview from './finalReview'
 
-
-
-
-
 const ConvertForm = () => {
   const {address: account, isConnected} = useAccount()
   const chainId = NetworkChain()
@@ -51,11 +41,11 @@ const ConvertForm = () => {
     staleTime: 2_000,
   })
   const delegatorAddr = DelegatorAddress()
-  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
+  const {isOpen, onOpen, onOpenChange} = useDisclosure()
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>()
+
   const formMethods = useForm<ConvertFormData>({
     defaultValues: {
       fromAmount: '',
@@ -134,23 +124,6 @@ const ConvertForm = () => {
     }
   }
 
-  useWaitForTransaction({
-    hash: txHash,
-    enabled: !!txHash,
-    timeout: 240_000, //4 minutes
-    onReplaced(data) {
-      toast(`Transaction change of ${data.reason}`)
-    },
-    onSuccess(data) {
-      toast.success(`Transaction successful ${data.transactionHash}`)
-      setTxHash(undefined)
-    },
-    onError(err) {
-      console.error('Transaction Error', err)
-      toast.error('Something went wrong with transaction')
-    },
-  })
-
   return (
     <>
       <FormProvider {...formMethods}>
@@ -191,21 +164,10 @@ const ConvertForm = () => {
         onOpenChange={() => {
           onOpenChange()
         }}
+        isDismissable={false}
       >
         <ModalContent>
-          <ModalHeader className="text-sm font-normal">
-            Confirm conversion
-          </ModalHeader>
-          <ModalBody>
-            {txConfig && (
-              <FinalReview
-                setHash={setTxHash}
-                closeModal={onClose}
-                account={account!}
-                {...txConfig}
-              />
-            )}
-          </ModalBody>
+          {txConfig && <FinalReview account={account!} {...txConfig} />}
         </ModalContent>
       </Modal>
     </>
