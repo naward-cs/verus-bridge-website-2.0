@@ -1,8 +1,38 @@
+'use client'
+
+import ConnectButton from '@/components/navbar/connectButton'
+
 export default function NFTsPage() {
+  const con = true
+  if (!con) {
+    return (
+      <main className="container flex flex-col items-center justify-center ">
+        <div className="flex flex-col space-y-4">
+          <h1 className="text-center text-2xl font-medium">
+            Tranfer your NFTs
+          </h1>
+          <h3 className="text-center text-base opacity-60 ">
+            Connect your Ethereum wallet to see your transferrable NFTs
+          </h3>
+          <div className="mx-auto max-w-sm">
+            <ConnectButton />
+          </div>
+        </div>
+      </main>
+    )
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        Claims Page
+      <div className="container z-10 w-full max-w-5xl items-center justify-between space-y-4 border-2 border-green-500">
+        <h1 className="text-center text-2xl font-medium">Tranfer your NFTs</h1>
+        <div className="border-2 border-red-500 sm:flex sm:columns-2 md:columns-3 lg:columns-4">
+          <div>1</div>
+          <div>1</div>
+          <div>1</div>
+          <div>1</div>
+          <div>1</div>
+          <div>1</div>
+        </div>
       </div>
     </main>
   )
