@@ -1,16 +1,24 @@
 'use client';
 
-import {delegatorABI} from '@/generated'
-import {useQuery} from '@tanstack/react-query'
-import {useContractRead} from 'wagmi'
-import {readContract} from 'wagmi/actions'
+import { delegatorABI } from '@/generated';
+import { useQuery } from '@tanstack/react-query';
+import { useContractRead } from 'wagmi';
+import { readContract } from 'wagmi/actions';
+
+
 
 // import {abi} from '@/config/abi/DelegatorAbi'
-import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json'
-import {FLAGS} from '@/config/constants'
-import {toBase58Check} from '@/lib/utils/convert'
+import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json';
+import { FLAGS } from '@/config/constants';
+import { toBase58Check } from '@/lib/utils/convert';
 
-import {DelegatorAddress, NetworkChain} from './network'
+
+
+import { DelegatorAddress, NetworkChain } from './network';
+
+
+
+
 
 // export const DelegatorAbi = abi
 // import type { Abi } from 'viem';
@@ -66,6 +74,46 @@ export const useGetTokenFromList = () => {
         (token) => token.flags & FLAGS.MAPPING_ERC20_DEFINITION && token.label
       )
       return ercList as TokenList[]
+    },
+  })
+}
+
+export const useGetNFTfromList = () => {
+  const chainId = NetworkChain()
+  const delegatorAddr = DelegatorAddress()
+
+  return useContractRead({
+    address: delegatorAddr,
+    abi: DELEGATORABI,
+    functionName: 'getTokenList',
+    chainId: chainId,
+    args: [0n, 0n],
+    staleTime: 60_000,
+    select(data) {
+      const list = (data as unknown as FromTokenList[]).map((e) => ({
+        label: e.name,
+        erc:
+          e.flags & FLAGS.MAPPING_ERC721_NFT_DEFINITION
+            ? '[ERC721]'
+            : e.flags & FLAGS.MAPPING_ERC1155_NFT_DEFINITION
+            ? '[ERC1155 Verus single NFT]'
+            : '[ERC1155]',
+        iaddress: e.iaddress,
+        erc20address: e.erc20ContractAddress,
+        id: toBase58Check(e.iaddress),
+        flags: e.flags,
+      }))
+      // const ercList = list.filter(
+      //   (token) => token.flags & FLAGS.MAPPING_ERC20_DEFINITION && token.label
+      // )
+      // return ercList as TokenList[]
+      return list.filter(
+        (nft) =>
+          nft.flags &
+          (FLAGS.MAPPING_ERC1155_NFT_DEFINITION +
+            FLAGS.MAPPING_ERC1155_ERC_DEFINITION +
+            FLAGS.MAPPING_ERC721_NFT_DEFINITION)
+      )
     },
   })
 }
