@@ -3,9 +3,12 @@ import localFont from 'next/font/local'
 
 import type {Metadata} from 'next'
 
-import './globals.css'
+import './_styles/globals.css'
 
 import {cn} from '@/lib/utils/tailwindUtil'
+import Navbar from '@/components/navbar/navbar'
+import {Providers} from '@/components/providers'
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,15 +24,15 @@ const roboto = Roboto({
 const geoFont = localFont({
   src: [
     {
-      path: '../styles/fonts/geomanist-regular-webfont.woff2',
+      path: './_styles/fonts/geomanist-regular-webfont.woff2',
       weight: '400',
     },
     {
-      path: '../styles/fonts/geomanist-medium-webfont.woff2',
+      path: './_styles/fonts/geomanist-medium-webfont.woff2',
       weight: '500',
     },
     {
-      path: '../styles/fonts/geomanist-bold-webfont.woff2',
+      path: './_styles/fonts/geomanist-bold-webfont.woff2',
       weight: '700',
     },
   ],
@@ -46,19 +49,22 @@ export const metadata: Metadata = {
     follow: false, //will change
   },
 }
-
+//TODO: need to add a safety boundary to error on unsupported chains
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body
         className={cn(
-          'font-geo relative flex min-h-screen flex-col justify-center antialiased',
+          'relative flex min-h-screen flex-col justify-center font-geo antialiased',
           inter.variable,
           geoFont.variable,
           roboto.variable
         )}
       >
-        {children}
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   )
