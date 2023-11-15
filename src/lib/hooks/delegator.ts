@@ -92,7 +92,8 @@ export const useGetNFTfromList = () => {
     select(data) {
       const list = (data as unknown as FromTokenList[]).map((e) => ({
         label: e.name,
-        erc:
+        ercNum: e.flags & FLAGS.MAPPING_ERC721_NFT_DEFINITION ? 721 : 1155,
+        ercString:
           e.flags & FLAGS.MAPPING_ERC721_NFT_DEFINITION
             ? '[ERC721]'
             : e.flags & FLAGS.MAPPING_ERC1155_NFT_DEFINITION
@@ -100,7 +101,7 @@ export const useGetNFTfromList = () => {
             : '[ERC1155]',
         iaddress: e.iaddress,
         erc20address: e.erc20ContractAddress,
-        id: toBase58Check(e.iaddress),
+        value: e.tokenID,
         flags: e.flags,
       }))
       // const ercList = list.filter(

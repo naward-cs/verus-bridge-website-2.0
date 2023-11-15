@@ -1,6 +1,10 @@
-'use server'
+'use server';
 
-import {VerusRPC} from './verusRPC'
+import { VerusRPC } from './verusRPC';
+
+
+
+
 
 export const getBlockHeight = async (chain?: number) => {
   try {
@@ -70,4 +74,14 @@ export const isValidVerusID = async (chain: number, address: string) => {
   const result = await VerusRPC(chain).interface.getIdentity(address)
 
   return {result: result.result?.identity, error: result.error}
+}
+
+export const getIdentityInfo = async (chain: number, address: string) => {
+  const result = await VerusRPC(chain).interface.getIdentity(address)
+  return result
+}
+
+export const getVdxfId = async (chain: number, vdxf: string) => {
+  const result = await VerusRPC(chain).interface.getVdxfId(vdxf)
+  return result
 }
