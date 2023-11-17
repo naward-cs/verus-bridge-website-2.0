@@ -64,7 +64,7 @@ const DaiTicker = () => {
 }
 
 const PriceRow = (coin: CoinList) => {
-  throw new Error('tests')
+  
   return (
     <div className="grid grid-cols-4 rounded-lg border border-bluePrimary p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
       <p className="text-left">{coin.name}</p>
