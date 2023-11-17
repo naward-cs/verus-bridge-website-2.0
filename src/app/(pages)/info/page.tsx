@@ -4,11 +4,11 @@ import PriceTable from '@/components/infoPage/priceTable'
 
 export default function ClaimsPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4 pt-24 sm:p-24 md:pt-40">
-      <div className="z-10  w-full max-w-5xl items-start justify-between gap-4 space-y-10 text-sm md:flex md:space-y-0 ">
-        <Suspense>
-          <PriceTable />
-        </Suspense>
+    // <main className="flex min-h-screen flex-col items-center justify-between p-4 pt-24 sm:p-24 md:pt-40">
+    //   <div className="z-10  w-full max-w-5xl items-start justify-between gap-4 space-y-10 text-sm md:flex md:space-y-0 ">
+    //     <Suspense>
+    //       <PriceTable />
+    //     </Suspense>
         <div className="flex flex-col pt-4 md:basis-1/3">
           <div className="flex w-full flex-col space-y-4 rounded-xl border-2 border-[#EFEFEF] p-8 ">
             <h2 className="text-2xl font-medium">
@@ -28,7 +28,7 @@ export default function ClaimsPage() {
             </p>
           </div>
         </div>
-      </div>
-    </main>
+    //   </div>
+    // </main>
   )
 }

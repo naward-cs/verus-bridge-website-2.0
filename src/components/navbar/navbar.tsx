@@ -1,24 +1,19 @@
-'use client'
+'use client';
 
-import React, {useState} from 'react'
-import NextLink from 'next/link'
-import {usePathname} from 'next/navigation'
-import menuList from '@/data/navbar.json'
-import {
-  Link,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-  Navbar as NextUINavbar,
+import React, { useState } from 'react';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
+import menuList from '@/data/navbar.json';
+import { Link, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Navbar as NextUINavbar } from '@nextui-org/react';
 
-} from '@nextui-org/react'
 
-import {cn} from '@/lib/utils/tailwindUtil'
-import {Logo} from '@/components/shared/icons'
 
+import { cn } from '@/lib/utils/tailwindUtil';
+import { Logo } from '@/components/shared/icons';
+
+
+
+import Network from './network';
 import Web3Button from './web3Button'
 
 const Navbar = () => {
@@ -39,7 +34,7 @@ const Navbar = () => {
       </NavbarContent>
       <NavbarContent>
         <NavbarBrand>
-          <Logo height={28} className="text-bluePrimary" />
+          <Logo height={28} className="text-bluePrimary" /> <Network />
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden gap-4 font-medium sm:flex" justify="end">

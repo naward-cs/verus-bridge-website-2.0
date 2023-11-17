@@ -1,11 +1,19 @@
-'use client'
+'use client';
 
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react';
 
-import {useCaprikaMarketInfo} from '@/lib/hooks/marketInfo'
-import {cn} from '@/lib/utils/tailwindUtil'
 
-import {Icons} from '../shared/icons'
+
+import { useCaprikaMarketInfo } from '@/lib/hooks/marketInfo';
+import { cn } from '@/lib/utils/tailwindUtil';
+
+
+
+import { Icons } from '../shared/icons';
+
+
+
+
 
 type Mlist = {
   [key: string]: string
@@ -56,6 +64,7 @@ const DaiTicker = () => {
 }
 
 const PriceRow = (coin: CoinList) => {
+  throw new Error('tests')
   return (
     <div className="grid grid-cols-4 rounded-lg border border-bluePrimary p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
       <p className="text-left">{coin.name}</p>

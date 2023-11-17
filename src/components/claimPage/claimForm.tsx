@@ -1,16 +1,28 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
 import {FormProvider, useForm} from 'react-hook-form'
 
-import RadioField from './radioField'
+import AddressField from './addressField'
+import AvailableClaims from './availableClaims'
+import ClaimTypeField from './claimTypeField'
 
+type ClaimFormTypes = {
+  claimType: 'fees' | 'refund'
+  token?: TokenList
+  addressType: 'pubkey' | 'verus'
+  address: string
+}
+//NOTE: Refunds can only be Verus address (Cannot use public Key)
+//NOTE: Fees can be either public key or verus address
+//NOTE: R-address priv key should be imported to be cheaper for fees
 const ClaimForm = () => {
-  const formMethods = useForm({
+  const formMethods = useForm<ClaimFormTypes>({
     defaultValues: {
-      claimMethod: 'claimType',
-      toAddress: '',
-      token: '',
+      claimType: 'fees',
+      token: undefined,
+      addressType: 'verus',
+      address: '',
     },
     mode: 'onChange',
     reValidateMode: 'onSubmit',
@@ -26,7 +38,9 @@ const ClaimForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <RadioField />
+          <AddressField />
+          <ClaimTypeField />
+          <AvailableClaims />
         </form>
       </FormProvider>
     </>

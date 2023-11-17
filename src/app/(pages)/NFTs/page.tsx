@@ -1,8 +1,12 @@
 'use client';
 
-import ConnectButton from '@/components/navbar/connectButton'
+import ConnectButton from '@/components/navbar/connectButton';
+import NFTsSection from '@/components/nftPage/nftSection'
 
-// import NFTsSection from '@/components/nftPage/nftSection';
+
+
+
+
 // import ThirdWeb from '@/components/providers/thirdWeb';
 
 // import ThirdWeb from '@/components/providers/thirdWeb'
@@ -31,8 +35,9 @@ export default function NFTsPage() {
       <div className="container z-10 w-full max-w-5xl items-center justify-between space-y-4 ">
         <h1 className="text-center text-2xl font-medium">Tranfer your NFTs</h1>
         <p className="text-center">Comming soon</p>
-        {/* <ThirdWeb>
         <NFTsSection />
+        {/* <ThirdWeb>
+        // <NFTsSection />
         </ThirdWeb> */}
       </div>
     </main>

@@ -2,24 +2,27 @@ import React from 'react'
 import {Radio, RadioGroup} from '@nextui-org/react'
 import {Controller, useFormContext} from 'react-hook-form'
 
-const RadioField = () => {
+const ClaimTypeField = () => {
   const {control} = useFormContext()
+
   return (
     <Controller
       control={control}
-      name="claimMethod"
+      name="claimType"
       render={({field: {value, onChange}}) => (
         <RadioGroup
           orientation="horizontal"
           value={value}
           onValueChange={onChange}
+          label="Claim Type"
         >
-          <Radio value="publicKey">Use your Public Key to claim</Radio>
-          <Radio value="claimType">Fees/Refund (Claim Type)</Radio>
+          <Radio value="fees">Fees</Radio>
+
+          <Radio value="refund">Refund</Radio>
         </RadioGroup>
       )}
     />
   )
 }
 
-export default RadioField
+export default ClaimTypeField
