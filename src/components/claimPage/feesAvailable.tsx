@@ -1,9 +1,15 @@
-'use client'
+'use client';
 
-import React from 'react'
-import {useAccount} from 'wagmi'
+import React from 'react';
+import { useAccount } from 'wagmi';
 
-import {useFormValues} from '@/lib/hooks/formValues'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
+
+
+
+
 
 const FeesAvailable = () => {
   //this section shows available fees pending if
@@ -12,7 +18,7 @@ const FeesAvailable = () => {
   // NOTE: wallet must be connected to process
   //TODO: make this auto detect based on ether wallet connected or not
   const {address, addressType} = useFormValues()
-  const {address: account, isConnected} = useAccount()
+  const {isConnected} = useAccount()
 
   if (addressType === 'pubkey' && !isConnected) {
     return <p>Must connect Wallet first to check for available fee returns</p>

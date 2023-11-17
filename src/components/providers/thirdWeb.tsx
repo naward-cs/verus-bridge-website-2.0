@@ -2,7 +2,7 @@
 
 import React from 'react'
 import {Ethereum, Goerli} from '@thirdweb-dev/chains'
-import {ThirdwebProvider, ThirdwebSDKProvider} from '@thirdweb-dev/react'
+import {ThirdwebSDKProvider} from '@thirdweb-dev/react'
 import {useQueryClient} from 'wagmi'
 
 import {NetworkChain} from '@/lib/hooks/network'

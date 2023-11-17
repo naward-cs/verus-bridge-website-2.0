@@ -4,6 +4,8 @@ import React from 'react';
 
 
 
+
+
 // import { erc721ABI, erc1155ABI, useDelegatorOnErc721Received, useErc721Event, useErc721TokenByIndex, useErc721TokenUri, useErc721TransferEvent, useErc721TransferFrom, useErc1155Uri } from '@/generated';
 // import { Erc1155, useContract, useNFTs, useSDK } from '@thirdweb-dev/react';
 // import { useContractRead } from 'wagmi';
@@ -11,7 +13,7 @@ import React from 'react';
 // import ERC721 from '@/config/abi/ERC721AbiJson.json';
 // import { erc1155 } from '@/config/abi/ERC1155Abi';
 // import { useERC721contract, useERC1155contract } from '@/lib/hooks/contract';
-import { useGetNFTfromList } from '@/lib/hooks/delegator';
+// import { useGetNFTfromList } from '@/lib/hooks/delegator';
 
 
 
@@ -22,8 +24,8 @@ import { useGetNFTfromList } from '@/lib/hooks/delegator';
 // import { toBase58Check } from '@/lib/utils/convert';
 
 const NFTsSection = () => {
-  const {data: list} = useGetNFTfromList()
-  console.log(list)
+  // const {data: list} = useGetNFTfromList()
+  // console.log(list)
 
   // console.log(data)
   // const contract0 = useERC721contract(list[0].erc20address)
