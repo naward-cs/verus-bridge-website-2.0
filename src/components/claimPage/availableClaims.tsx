@@ -1,28 +1,20 @@
-'use client'
+'use client';
 
 import React, {Suspense} from 'react'
 
+import {useAddressContext} from './addressContext'
+
 // import { useFormValues } from '@/lib/hooks/formValues';
 
-import {useClaimContext} from './claimForm'
-import FeesAvailable from './feesAvailable'
-import RefundsAvailable from './refundsAvailable'
-
 const AvailableClaims = () => {
+  const {addressInfo} = useAddressContext()
   //TODO: need to make this auto generate
-  // const {addressType} = useFormValues()
-  const {addressType} = useClaimContext()
-  if (addressType === 'pubkey') {
-    //can only return fees and not refunds
-    return <FeesAvailable />
-  }
+
   return (
-    <>
-      <Suspense fallback="Checking for available refundable fees....">
-        <FeesAvailable />
-      </Suspense>
-      <RefundsAvailable />
-    </>
+    <div>
+      <p>{addressInfo.addressType}</p>
+      <p>{addressInfo.address}</p>
+    </div>
   )
 }
 

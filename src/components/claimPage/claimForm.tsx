@@ -1,73 +1,39 @@
 'use client';
 
-import React, {createContext, useContext} from 'react'
-import {FormProvider, useForm} from 'react-hook-form'
+import React from 'react'
 
+import {AddressContext} from './addressContext'
 import AddressField from './addressField'
+import AddressTypeField from './addressType'
 import AvailableClaims from './availableClaims'
+import PubkeyFees from './pubkeyFees'
+import VerusFees from './verusFees'
+import VerusRefunds from './verusRefunds'
+
+import type {AddressTypes} from './addressContext'
 
 // import ClaimTypeField from './claimTypeField'
-
-type ClaimFormTypes = {
-  claimType: 'fees' | 'refund'
-  token?: TokenList
-  addressType: 'pubkey' | 'verus'
-  address: string
-}
 
 //NOTE: Refunds can only be Verus address (Cannot use public Key)
 //NOTE: Fees can be either public key or verus address
 //NOTE: R-address priv key should be imported to be cheaper for fees
 
-const ClaimContext = createContext<Omit<ClaimFormTypes, 'claimType' | 'token'>>(
-  {
-    addressType: 'verus',
-    address: '',
-  }
-)
-export const useClaimContext = () => useContext(ClaimContext)
 const ClaimForm = () => {
-  const formMethods = useForm<ClaimFormTypes>({
-    defaultValues: {
-      claimType: 'fees',
-      token: undefined,
-      addressType: 'verus',
-      address: '',
-    },
-    mode: 'onChange',
-    reValidateMode: 'onSubmit',
-  })
-  const [claimValues, setClaimValues] = React.useState<
-    Omit<ClaimFormTypes, 'claimType' | 'token'>
-  >({
+  const [addressInfo, setAddressInfo] = React.useState<AddressTypes>({
     addressType: 'verus',
     address: '',
   })
 
-  const onSubmit = async (
-    values: Omit<ClaimFormTypes, 'claimType' | 'token'>
-  ) => {
-    //TODO: check if verusid, get i-address
-    setClaimValues(values)
-  }
   return (
-    <>
-      <FormProvider {...formMethods}>
-        <form
-          className="flex flex-col space-y-1"
-          onSubmit={formMethods.handleSubmit(onSubmit)}
-        >
-          <AddressField />
-          {/* <ClaimTypeField />
-          <AvailableClaims /> */}
-        </form>
-      </FormProvider>
-      <ClaimContext.Provider value={claimValues}>
-        <div className="flex flex-col space-y-1">
-          <AvailableClaims />
-        </div>
-      </ClaimContext.Provider>
-    </>
+    <AddressContext.Provider value={{addressInfo, setAddressInfo}}>
+      <div className="flex flex-col space-y-1">
+        <AddressTypeField />
+        <AddressField />
+        <AvailableClaims />
+        {addressInfo.addressType === 'pubkey' ? <PubkeyFees /> : <VerusFees />}
+        {addressInfo.addressType === 'verus' && <VerusRefunds />}
+      </div>
+    </AddressContext.Provider>
   )
 }
 
