@@ -28,7 +28,7 @@
     "framer-motion": "^10.16.4",
     "lokijs": "^1.5.12",
     "lucide-react": "^0.290.0",
-    "next": "14.0.1",
+    "next": "14.0.3",
     "pino-pretty": "^10.2.3",
     "react": "^18",
     "react-dom": "^18",

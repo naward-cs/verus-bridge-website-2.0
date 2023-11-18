@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, {createContext, useContext} from 'react'
 import {FormProvider, useForm} from 'react-hook-form'
 
 import AddressField from './addressField'
 import AvailableClaims from './availableClaims'
-import ClaimTypeField from './claimTypeField'
+
+// import ClaimTypeField from './claimTypeField'
 
 type ClaimFormTypes = {
   claimType: 'fees' | 'refund'
@@ -13,9 +14,18 @@ type ClaimFormTypes = {
   addressType: 'pubkey' | 'verus'
   address: string
 }
+
 //NOTE: Refunds can only be Verus address (Cannot use public Key)
 //NOTE: Fees can be either public key or verus address
 //NOTE: R-address priv key should be imported to be cheaper for fees
+
+const ClaimContext = createContext<Omit<ClaimFormTypes, 'claimType' | 'token'>>(
+  {
+    addressType: 'verus',
+    address: '',
+  }
+)
+export const useClaimContext = () => useContext(ClaimContext)
 const ClaimForm = () => {
   const formMethods = useForm<ClaimFormTypes>({
     defaultValues: {
@@ -27,9 +37,18 @@ const ClaimForm = () => {
     mode: 'onChange',
     reValidateMode: 'onSubmit',
   })
+  const [claimValues, setClaimValues] = React.useState<
+    Omit<ClaimFormTypes, 'claimType' | 'token'>
+  >({
+    addressType: 'verus',
+    address: '',
+  })
 
-  const onSubmit = async () => {
-    return
+  const onSubmit = async (
+    values: Omit<ClaimFormTypes, 'claimType' | 'token'>
+  ) => {
+    //TODO: check if verusid, get i-address
+    setClaimValues(values)
   }
   return (
     <>
@@ -39,10 +58,15 @@ const ClaimForm = () => {
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
           <AddressField />
-          <ClaimTypeField />
-          <AvailableClaims />
+          {/* <ClaimTypeField />
+          <AvailableClaims /> */}
         </form>
       </FormProvider>
+      <ClaimContext.Provider value={claimValues}>
+        <div className="flex flex-col space-y-1">
+          <AvailableClaims />
+        </div>
+      </ClaimContext.Provider>
     </>
   )
 }

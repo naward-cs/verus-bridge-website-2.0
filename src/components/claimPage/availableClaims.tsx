@@ -2,14 +2,16 @@
 
 import React, {Suspense} from 'react'
 
-import {useFormValues} from '@/lib/hooks/formValues'
+// import { useFormValues } from '@/lib/hooks/formValues';
 
+import {useClaimContext} from './claimForm'
 import FeesAvailable from './feesAvailable'
 import RefundsAvailable from './refundsAvailable'
 
 const AvailableClaims = () => {
   //TODO: need to make this auto generate
-  const {addressType} = useFormValues()
+  // const {addressType} = useFormValues()
+  const {addressType} = useClaimContext()
   if (addressType === 'pubkey') {
     //can only return fees and not refunds
     return <FeesAvailable />

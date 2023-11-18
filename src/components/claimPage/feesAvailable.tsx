@@ -5,7 +5,8 @@ import { useAccount } from 'wagmi';
 
 
 
-import { useFormValues } from '@/lib/hooks/formValues';
+// import { useFormValues } from '@/lib/hooks/formValues';
+import { useClaimContext } from './claimForm';
 
 
 
@@ -17,7 +18,8 @@ const FeesAvailable = () => {
   // verus address (wallet is/not connected)
   // NOTE: wallet must be connected to process
   //TODO: make this auto detect based on ether wallet connected or not
-  const {address, addressType} = useFormValues()
+  // const {address, addressType} = useFormValues()
+  const {address, addressType} = useClaimContext()
   const {isConnected} = useAccount()
 
   if (addressType === 'pubkey' && !isConnected) {
