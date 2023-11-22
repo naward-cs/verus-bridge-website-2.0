@@ -29,7 +29,7 @@
 // import AddressAddressFieldField from './ClaimAddressField'
 
 // const maxGas = 800000
-// const maxGasClaim = 80000
+//  const maxGasClaim = 80000
 // const TYPE_FEE = 1
 // const TYPE_REFUND = 2
 // const TYPE_REFUND_CHECK = 3

@@ -11,56 +11,73 @@ export const useEthers = () => {
   // const [sigMessage, setSigMessage] = useState<EtherType>()
   const [refundAddresses, setRefundAddresses] =
     useState<Record<`0x${string}`, string>>()
+  const [refundcKey, setRefundcKey] =
+    useState<Record<`0x${string}`, {x1: string; x2: string}>>()
   const [error, setError] = useState<Error>()
-  const {signMessageAsync: signMsg} = useSignMessage({
-    message: msg,
+  const {signMessageAsync: signMsg, signMessage: signMsgNonAsync} =
+    useSignMessage({
+      message: msg,
 
-    onSuccess(sigMessage) {
-      //reset error if previous error
-      if (error) setError(undefined)
-      async function getInfo() {
-        const pubKey = await recoverPublicKey({
-          hash: hashMessage(msg),
-          signature: sigMessage,
-        })
-        const compressed = computePublicKey(pubKey, true)
-        const rAddress = convertEthToVerusAddress(compressed)
-        localStorage.setItem(
-          'refundAddresses',
-          JSON.stringify({...refundAddresses, [address!]: rAddress})
-        )
-        setRefundAddresses({...refundAddresses, [address!]: rAddress})
-      }
-      getInfo()
-      // For historical reasons, you must submit the message to sign in hex-encoded UTF-8.
-      // This uses a Node.js-style buffer shim in the browser.
+      onSuccess(sigMessage) {
+        //reset error if previous error
+        if (error) setError(undefined)
+        async function getInfo() {
+          const pubKey = await recoverPublicKey({
+            hash: hashMessage(msg),
+            signature: sigMessage,
+          })
+          const cKey = {
+            x1: pubKey.slice(4, 68),
+            x2: pubKey.slice(68, 132),
+          }
+          const compressed = computePublicKey(pubKey, true)
+          const rAddress = convertEthToVerusAddress(compressed)
+          localStorage.setItem(
+            'refundcKeys',
+            JSON.stringify({...refundcKey, [address!]: cKey})
+          )
+          localStorage.setItem(
+            'refundAddresses',
+            JSON.stringify({...refundAddresses, [address!]: rAddress})
+          )
+          setRefundAddresses({...refundAddresses, [address!]: rAddress})
+          setRefundcKey({...refundcKey, [address!]: cKey})
+        }
+        getInfo()
+        // For historical reasons, you must submit the message to sign in hex-encoded UTF-8.
+        // This uses a Node.js-style buffer shim in the browser.
 
-      // const publicKey = SigningKey.recoverPublicKey(id(msg), sigMessage)
+        // const publicKey = SigningKey.recoverPublicKey(id(msg), sigMessage)
 
-      // Compress key
-      // const compressed = SigningKey.computePublicKey(publicKey, true)
+        // Compress key
+        // const compressed = SigningKey.computePublicKey(publicKey, true)
 
-      // const rAddress = convertEthToVerusAddress(compressed)
-      // localStorage.setItem(
-      //   'refundAddresses',
-      //   JSON.stringify({...refundAddresses, [address!]: rAddress})
-      // )
-      // setRefundAddresses({...refundAddresses, [address!]: rAddress})
-    },
-    onError(error) {
-      setError(error)
-    },
-  })
+        // const rAddress = convertEthToVerusAddress(compressed)
+        // localStorage.setItem(
+        //   'refundAddresses',
+        //   JSON.stringify({...refundAddresses, [address!]: rAddress})
+        // )
+        // setRefundAddresses({...refundAddresses, [address!]: rAddress})
+      },
+      onError(error) {
+        setError(error)
+      },
+    })
 
   useEffect(() => {
     if (address) {
-      const keys = localStorage.getItem('refundAddresses')
+      let keys = localStorage.getItem('refundAddresses')
       if (keys) {
         const publicKeyList = JSON.parse(keys)
         setRefundAddresses(publicKeyList)
       }
+      keys = localStorage.getItem('refundcKeys')
+      if (keys) {
+        const publicKeyList = JSON.parse(keys)
+        setRefundcKey(publicKeyList)
+      }
     }
   }, [address])
 
-  return {refundAddresses, error, signMsg}
+  return {refundAddresses, refundcKey, error, signMsg, signMsgNonAsync}
 }

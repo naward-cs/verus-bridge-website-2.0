@@ -2,16 +2,15 @@
 
 import React from 'react'
 
+
 import {AddressContext} from './addressContext'
 import AddressField from './addressField'
 import AddressTypeField from './addressType'
 import AvailableClaims from './availableClaims'
-import PubkeyFees from './pubkeyFees'
-import VerusFees from './verusFees'
-import VerusRefunds from './verusRefunds'
 
 import type {AddressTypes} from './addressContext'
 
+// const PubkeyFees = dynamic(() => import('./pubkeyFees'), {ssr: false})
 // import ClaimTypeField from './claimTypeField'
 
 //NOTE: Refunds can only be Verus address (Cannot use public Key)
@@ -30,8 +29,6 @@ const ClaimForm = () => {
         <AddressTypeField />
         <AddressField />
         <AvailableClaims />
-        {addressInfo.addressType === 'pubkey' ? <PubkeyFees /> : <VerusFees />}
-        {addressInfo.addressType === 'verus' && <VerusRefunds />}
       </div>
     </AddressContext.Provider>
   )

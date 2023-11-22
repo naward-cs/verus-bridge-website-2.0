@@ -2,18 +2,19 @@
 
 import { delegatorABI } from '@/generated';
 import { useQuery } from '@tanstack/react-query';
-import { useContractRead } from 'wagmi';
+import { useContractRead, useContractReads } from 'wagmi';
 import { readContract } from 'wagmi/actions';
 
 
 
-// import {abi} from '@/config/abi/DelegatorAbi'
+// import { abi } from '@/config/abi/DelegatorAbi';
 import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json';
 import { FLAGS } from '@/config/constants';
 import { toBase58Check } from '@/lib/utils/convert';
 
 
 
+import { formatHexAddress } from '../utils/claimUtil';
 import { DelegatorAddress, NetworkChain } from './network';
 
 
@@ -129,5 +130,26 @@ export const useIsPoolActive = () => {
     chainId: chainId,
     watch: true,
     staleTime: 6_000,
+  })
+}
+
+export const useGetAllRefunds = (address: string, tokenList: TokenList[]) => {
+  const chainId = NetworkChain()
+  const delegatorAddr = DelegatorAddress()
+  const formattedAddress = formatHexAddress(
+    address,
+    'REFUND_CHECK'
+  ) as `0x${string}`
+  const contracts = tokenList.map((t) => ({
+    address: delegatorAddr,
+    abi: delegatorABI,
+    functionName: 'refunds',
+    chainId: chainId,
+    args: [formattedAddress, t.iaddress],
+  }))
+
+  return useContractReads({
+    contracts,
+    enabled: !!tokenList,
   })
 }
