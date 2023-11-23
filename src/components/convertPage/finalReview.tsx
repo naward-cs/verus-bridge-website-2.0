@@ -14,6 +14,7 @@ import {Icons} from '@/components/shared/icons'
 
 import ConvertTimeWarn from './fields/convertTimeWarn'
 import FinalConvertWarn from './fields/finalconvertWarn'
+import FinalReviewInfo from './finalReviewInfo'
 
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
@@ -169,7 +170,6 @@ const FinalReview = (props: FinalProps) => {
   }
   return (
     <>
-      {' '}
       <ModalHeader className="text-sm font-normal">
         Confirm conversion
       </ModalHeader>
@@ -229,23 +229,7 @@ const FinalReview = (props: FinalProps) => {
               )}
             </span>
           </div>
-          {/* {!formValues.sendOnly && (
-        <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-          <div className="flex flex-col items-center justify-between gap-1 ">
-            <p className="w-full text-[#808080] ">
-              Current {qFetch.destination} Information
-            </p>
-            <div className=" flex w-full items-center justify-between pr-3">
-              <p>ETH in reserves</p>
-              <p>X ETH</p>
-            </div>
-            <div className=" flex w-full items-center justify-between pr-3">
-              <p>{qFetch.destination} supply</p>
-              <p>200,xxx</p>
-            </div>
-          </div> 
-        </div>
-      )} */}
+          {!formValues.sendOnly && <FinalReviewInfo {...formValues} />}
           <div className="flex flex-col py-2">
             <p className="my-1 text-xs text-[#686868] ">Receiving address</p>
             <div className=" flex items-center justify-between rounded-lg border border-gray-600 px-5 py-4 text-sm md:text-base">

@@ -1,18 +1,21 @@
-'use client'
+'use client';
 
-import {useQuery} from '@tanstack/react-query'
-import {useFormContext} from 'react-hook-form'
+import { useQuery } from '@tanstack/react-query';
+import { useFormContext } from 'react-hook-form';
 
-import {
-  getBlockHeight,
-  getConversionRate,
-  getDestinationList,
-} from '@/lib/server/verusQueries'
 
-import {NetworkChain} from './network'
-import {useGetTokens} from './tokens'
 
-import type {primitives} from 'verusid-ts-client'
+import { getBlockHeight, getConversionRate, getDestinationList } from '@/lib/server/verusQueries';
+
+
+
+import { NetworkChain } from './network';
+import { useGetTokens } from './tokens';
+
+
+
+import type { primitives } from 'verusid-ts-client';
+
 
 export const useGetBLockHeight = () => {
   const chainId = NetworkChain()
@@ -91,10 +94,17 @@ export const useGetCurrencyRate = (
   })
 }
 
-export const useBridgeInfo = () => {
+export const useBridgeInfo = (MarketInfo = false) => {
+  const chainID = NetworkChain()
+  const {bridge} = useGetTokens()
+  const chain = MarketInfo ? 1 : chainID
+  //TODO determine if there is a way to get bridge from useGetTokens forcing chain 1 to make this dynamic
+  const bridgeAddress = MarketInfo
+    ? 'i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx'
+    : bridge
   const {data: bridgeInfo} = useQuery({
-    queryKey: ['mainBridgeInfo'],
-    queryFn: () => getDestinationList(1, 'i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx'),
+    queryKey: ['mainBridgeInfo', chain, bridgeAddress],
+    queryFn: () => getDestinationList(chain, bridgeAddress!),
     staleTime: 60_000, //stale for a minute
     refetchInterval: 300_000, //every 5 minutes
     select(data) {

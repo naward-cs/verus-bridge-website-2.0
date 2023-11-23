@@ -15,7 +15,7 @@ import {useGetTokens} from '@/lib/hooks/tokens'
 import SearchInput from '@/components/formFields/searchField'
 import {Icons} from '@/components/shared/icons'
 
-//TODO: need to add chain watcher
+
 const FromTokenField = () => {
   const {control, resetField} = useFormContext()
   const etherScan = EtherScan()

@@ -1,13 +1,21 @@
-'use client'
+'use client';
 
-import React, {Suspense} from 'react'
-import {Tooltip} from '@nextui-org/tooltip'
+import React, { Suspense } from 'react';
+import { Tooltip } from '@nextui-org/tooltip';
 
-import {useBridgeInfo} from '@/lib/hooks/verus'
 
-import {Icons} from '../shared/icons'
-import PriceRow from './priceRow'
-import PriceRowSkeleton from './priceRowSkeleton'
+
+import { useBridgeInfo } from '@/lib/hooks/verus';
+
+
+
+import { Icons } from '../shared/icons';
+import PriceRow from './priceRow';
+import PriceRowSkeleton from './priceRowSkeleton';
+
+
+
+
 
 const DaiTooltip = () => {
   return (
@@ -54,7 +62,7 @@ const MarketTip = () => {
 }
 
 const PriceTable = () => {
-  const {bridgeInfo} = useBridgeInfo()
+  const {bridgeInfo} = useBridgeInfo(true)
 
   return (
     <div className="flex flex-col space-y-14 md:basis-7/12">
