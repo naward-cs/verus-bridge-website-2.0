@@ -24,7 +24,7 @@ const Navbar = () => {
       classNames={{base: 'bg-[#f5f5f5] fixed'}}
       isBlurred={false}
     >
-      <NavbarContent className="sm:hidden" justify="start">
+      <NavbarContent className="md:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         />
@@ -34,7 +34,7 @@ const Navbar = () => {
           <Logo height={28} className="text-bluePrimary" /> <Network />
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden gap-4 font-medium sm:flex" justify="end">
+      <NavbarContent className="hidden gap-4 lg:gap-8 font-medium md:flex" justify="end">
         {menuList.map((menu, index) => (
           <NavbarItem key={`${index}-${menu.title}-top`}>
             <Link

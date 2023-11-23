@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react';
 import {formatEther} from '@ethersproject/units'
+import {Tooltip} from '@nextui-org/react'
 import BigNumber from 'bignumber.js'
 import {useFormContext} from 'react-hook-form'
 
@@ -16,7 +17,7 @@ const ConvertRate = () => {
   const {data: conversionRate} = useGetCurrencyRate(fromToken, toToken)
   const {data: gas} = useGasRate()
   const {data: marketInfo} = useMarketData()
-
+  const [reverse, setReverse] = useState(false)
   useEffect(() => {
     if (gas && marketInfo) {
       setGasPrice(
@@ -33,25 +34,41 @@ const ConvertRate = () => {
   if (!toToken) return null
   return (
     <div className=" flex items-center justify-between rounded-lg border border-gray-600 px-5 py-4 text-sm md:text-base">
-      <span>
-        {conversionRate && (
-          <>
-            1 {conversionRate?.destination} ≈{' '}
-            {Number(conversionRate?.value).toFixed(4)} {fromToken.value}
-          </>
-        )}
+      <span onClick={() => setReverse(!reverse)} className="cursor-pointer">
+        {conversionRate &&
+          (reverse ? (
+            <>
+              1 {conversionRate?.destination} ≈{' '}
+              {(1 / Number(conversionRate?.value)).toFixed(4)} {fromToken.value}
+            </>
+          ) : (
+            <>
+              1 {fromToken.value} ≈ {Number(conversionRate?.value).toFixed(4)}{' '}
+              {conversionRate?.destination}
+            </>
+          ))}
       </span>
-      <span className="flex">
-        {gas && (
-          <>
-            <Icons.gas className="mr-1.5 h-6 w-6 text-[#A5A5A5]" />≈{' '}
-            {Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(Number(gasPrice))}
-          </>
-        )}
-      </span>
+      <Tooltip
+        placement="bottom-end"
+        content={
+          <div className="max-w-xs p-1.5">
+            These are the gas fees: how much ETH it costs to interact with the
+            Verus-Ethereum Bridge smart contract.
+          </div>
+        }
+      >
+        <span className="flex">
+          {gas && (
+            <>
+              <Icons.gas className="mr-1.5 h-5 text-[#A5A5A5]  md:h-6" />≈{' '}
+              {Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(Number(gasPrice))}
+            </>
+          )}
+        </span>
+      </Tooltip>
     </div>
   )
 }

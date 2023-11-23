@@ -1,19 +1,18 @@
-import React, {useState} from 'react'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  Tooltip,
-  useDisclosure,
-} from '@nextui-org/react'
+import React, { useState } from 'react';
+import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import {useAccount, useConnect} from 'wagmi'
+import { useAccount, useConnect } from 'wagmi';
 
-import {useFormValues} from '@/lib/hooks/formValues'
-import {useIsMounted} from '@/lib/hooks/mounted'
-import {Icons} from '@/components/shared/icons'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
+import { useIsMounted } from '@/lib/hooks/mounted';
+import { Icons } from '@/components/shared/icons';
+
+
+
+
 
 export const WarnContent = () => {
   return (
@@ -65,6 +64,7 @@ const FormSubmitButton = () => {
   return (
     <>
       <button
+        disabled={!toAddress}
         className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
@@ -114,7 +114,7 @@ const ConnectSubmitButton = () => {
         type="button"
         className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
       >
-        Connect Wallet
+        Connect wallet
       </button>
       <Modal
         isOpen={isOpen}

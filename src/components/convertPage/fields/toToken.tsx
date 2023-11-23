@@ -60,7 +60,7 @@ const ToTokenField = () => {
         className={cn(
           'flex h-fit min-w-fit items-center justify-center rounded-lg border p-3 text-xl font-medium',
           field.value
-            ? 'border-black bg-[#F1F1F1] px-3  text-black'
+            ? 'bg-[#F1F1F1] px-3  text-black'
             : 'bg-bluePrimary px-4 py-3  text-white'
         )}
         onClick={(e) => {
