@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {toast} from 'sonner'
-import {useAccount} from 'wagmi'
+import {useAccount, useWaitForTransaction} from 'wagmi'
 
 import {useClaimableFees} from '@/lib/hooks/claims'
 import {useDelgatorContract} from '@/lib/hooks/contract'
@@ -18,6 +18,23 @@ const VerusFees = () => {
   )
 
   const contract = useDelgatorContract()
+  const [tx, setTx] = useState<`0x${string}` | undefined>(undefined)
+  useWaitForTransaction({
+    hash: tx,
+    enabled: !!tx,
+    timeout: 240_000, //4 minutes
+    onReplaced(data) {
+      toast(`Transaction change of ${data.reason}`)
+    },
+    onSuccess(data) {
+      toast.success(`Transaction successful ${data.transactionHash}`)
+      setTx(undefined)
+    },
+    onError: () => {
+      toast.error('Something went wrong with transaction')
+    },
+  })
+
   const onSubmit = async () => {
     //NOTE: Only works for i-address
     try {
@@ -32,7 +49,7 @@ const VerusFees = () => {
       )
       if (txResult) {
         await txResult.wait()
-        //TODO: add watch txhash
+        setTx(txResult.hash)
       }
     } catch (error) {
       toast.error('unable to claim fees')

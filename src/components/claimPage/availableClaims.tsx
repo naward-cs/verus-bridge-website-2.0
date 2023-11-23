@@ -10,7 +10,6 @@ import VerusFees from './verusFees'
 
 const AvailableClaims = () => {
   const {addressInfo} = useAddressContext()
-  //TODO: need to make this auto generate
 
   return (
     <>

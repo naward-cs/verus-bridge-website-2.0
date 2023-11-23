@@ -1,8 +1,8 @@
 'use client'
 
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {toast} from 'sonner'
-import {useAccount} from 'wagmi'
+import {useAccount, useWaitForTransaction} from 'wagmi'
 
 import {useClaimableFees} from '@/lib/hooks/claims'
 import {useDelgatorContract} from '@/lib/hooks/contract'
@@ -27,6 +27,23 @@ const PubkeyFees = () => {
       toast.error(signError.message) //Propably could move this to within hook
     }
   }, [signError])
+
+  const [tx, setTx] = useState<`0x${string}` | undefined>(undefined)
+  useWaitForTransaction({
+    hash: tx,
+    enabled: !!tx,
+    timeout: 240_000, //4 minutes
+    onReplaced(data) {
+      toast(`Transaction change of ${data.reason}`)
+    },
+    onSuccess(data) {
+      toast.success(`Transaction successful ${data.transactionHash}`)
+      setTx(undefined)
+    },
+    onError: () => {
+      toast.error('Something went wrong with transaction')
+    },
+  })
   const onSubmit = async () => {
     if (refundcKey) {
       const {x1, x2} = refundcKey[account!]
@@ -37,7 +54,7 @@ const PubkeyFees = () => {
         })
         if (txResult) {
           await txResult.wait()
-          //TODO: add watch tx hash
+          setTx(txResult.hash)
         }
       } catch (error) {
         toast.error('Unable to claim fees')
@@ -57,7 +74,6 @@ const PubkeyFees = () => {
       </>
     )
   }
-  //TODO: need to finish claim fees button
 
   return (
     <>
