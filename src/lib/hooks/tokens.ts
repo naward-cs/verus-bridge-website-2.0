@@ -9,8 +9,10 @@ import {createConvertOptionsList} from './verus'
 
 export const useGetTokens = () => {
   const chainID = NetworkChain()
+
   const {data: tokenList} = useGetTokenFromList()
   // console.log(tokenList)
+
   const bridge = tokenList?.filter(
     (t) => t.label.toUpperCase() === BridgeName
   )[0].id
@@ -28,6 +30,13 @@ export const useGetTokens = () => {
     },
     enabled: !!bridge,
   })
+  // const tList = tokenList?.map((t) => t.erc20address)
+  // const {address: account} = useAccount()
+  // // const {data: erc20Balances} = useGetAllERC20balances(account, tList)
+  // // const {data: ethBalance} = useBalance({
+  // //   address: account,
+  // //   enabled: !!account,
+  // // })
   return {tokenList, bridgeList, bridge}
 }
 

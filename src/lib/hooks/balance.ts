@@ -1,15 +1,11 @@
 'use client';
 
-import { useAccount, useBalance } from 'wagmi';
+import {AddressZero} from '@ethersproject/constants'
+import {erc20ABI, useAccount, useBalance, useContractReads} from 'wagmi'
 
+import {useFormValues} from './formValues'
 
-
-import { useFormValues } from './formValues';
-
-
-
-import type { FetchBalanceResult } from 'wagmi/actions';
-
+import type {FetchBalanceResult} from 'wagmi/actions'
 
 export const useBalances = () => {
   const {fromToken} = useFormValues()
@@ -65,4 +61,36 @@ export const ValidateAmount = (
   } else {
     return true
   }
+}
+
+export const useGetAllERC20balances = (
+  account?: `0x${string}`,
+  tokens?: `0x${string}`[]
+) => {
+  const contracts = tokens
+    ?.filter((t) => t !== AddressZero)
+    .map((t) => {
+      return {
+        address: t,
+        abi: erc20ABI,
+        functionName: 'balanceOf',
+        args: [account!],
+      }
+    })
+  return useContractReads({
+    contracts,
+    enabled: !!tokens && !!account,
+    staleTime: 4_000,
+    watch: true,
+    select: (data) => {
+      try {
+        const list = contracts?.map((t, i) => {
+          return {[t.address]: data[i].result}
+        })
+        return list
+      } catch (error) {
+        throw new Error('unable to get balances')
+      }
+    },
+  })
 }

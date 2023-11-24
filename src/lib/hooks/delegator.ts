@@ -1,21 +1,17 @@
 'use client';
 
-import { delegatorABI } from '@/generated';
-import { useQuery } from '@tanstack/react-query';
-import { useContractRead, useContractReads } from 'wagmi';
-import { readContract } from 'wagmi/actions';
-
-
+import {delegatorABI} from '@/generated'
+import {useQuery} from '@tanstack/react-query'
+import {useContractRead, useContractReads} from 'wagmi'
+import {readContract} from 'wagmi/actions'
 
 // import { abi } from '@/config/abi/DelegatorAbi';
-import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json';
-import { FLAGS } from '@/config/constants';
-import { toBase58Check } from '@/lib/utils/convert';
+import DELEGATORABI from '@/config/abi/DelegatorAbiJson.json'
+import {FLAGS} from '@/config/constants'
+import {toBase58Check} from '@/lib/utils/convert'
 
-
-
-import { formatHexAddress } from '../utils/claimUtil';
-import { DelegatorAddress, NetworkChain } from './network';
+import {formatHexAddress} from '../utils/claimUtil'
+import {DelegatorAddress, NetworkChain} from './network'
 
 
 

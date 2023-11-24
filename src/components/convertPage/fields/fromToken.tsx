@@ -1,22 +1,71 @@
-import React, { useCallback, useState } from 'react';
-import { AddressZero } from '@ethersproject/constants';
-import { Link, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
-import { useController, useFormContext } from 'react-hook-form';
+import React, {useCallback, useState} from 'react'
+import {AddressZero} from '@ethersproject/constants'
+import {
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/react'
+import {useController, useFormContext} from 'react-hook-form'
+import {useAccount, useBalance} from 'wagmi'
 
-
-
-import { EtherScan } from '@/lib/hooks/etherScan';
-import { useIsMounted } from '@/lib/hooks/mounted';
-import { useGetTokens } from '@/lib/hooks/tokens';
-import SearchInput from '@/components/formFields/searchField';
+import {EtherScan} from '@/lib/hooks/etherScan'
+import {useIsMounted} from '@/lib/hooks/mounted'
+import {useGetTokens} from '@/lib/hooks/tokens'
+import SearchInput from '@/components/formFields/searchField'
 import {Icons} from '@/components/shared/icons'
+
+const Token = (token: TokenList) => {
+  const etherScan = EtherScan()
+  const {address: account} = useAccount()
+
+  const {data: balance} = useBalance({
+    address: account,
+    token: token.erc20address !== AddressZero ? token.erc20address : undefined,
+    enabled: !!account,
+  })
+  // useEffect(() => {
+  //   console.log(balance)
+  // }, [balance])
+
+  return (
+    <>
+      <div className="flex">
+        <p>{token.label}</p>
+        <p className="ml-4">
+          {balance &&
+            Intl.NumberFormat('en-US', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 8,
+            }).format(parseFloat(balance?.formatted))}
+        </p>
+      </div>
+      <div>
+        {token.erc20address !== AddressZero && (
+          <Link
+            isExternal
+            className="underline"
+            href={etherScan + 'address/' + token.erc20address}
+          >
+            {token.erc20address.slice(0, 5)}...
+            {token.erc20address.slice(-3)}
+          </Link>
+        )}
+      </div>
+    </>
+  )
+}
 
 const FromTokenField = () => {
   const {control, resetField} = useFormContext()
-  const etherScan = EtherScan()
+
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {tokenList} = useGetTokens()
+
   const [tokens, setTokens] = useState(tokenList)
   //search filter controller
   const handleSearch = useCallback(
@@ -95,20 +144,7 @@ const FromTokenField = () => {
                     key={token.iaddress}
                     className="flex cursor-pointer justify-between hover:bg-[#f3f3f3]"
                   >
-                    <div>{token.label}</div>
-                    <div className="flex w-2/5 justify-between">
-                      <div>{/* {balance?.formatted} {token.value} */}</div>
-                      {token.erc20address !== AddressZero && (
-                        <Link
-                          isExternal
-                          className="underline"
-                          href={etherScan + 'address/' + token.erc20address}
-                        >
-                          {token.erc20address.slice(0, 5)}...
-                          {token.erc20address.slice(-3)}
-                        </Link>
-                      )}
-                    </div>
+                    <Token {...token} />
                   </li>
                 ))}
               </ul>
@@ -121,3 +157,22 @@ const FromTokenField = () => {
 }
 
 export default FromTokenField
+
+//  <div className="flex">
+//                       <p>{token.label}</p>
+//                       <p>{token.label}</p>
+//                     </div>
+//                     <div className="flex justify-between">
+//                       <div>test</div>
+//                       <div>{/* {balance?.formatted} {token.value} */}</div>
+//                       {token.erc20address !== AddressZero && (
+//                         <Link
+//                           isExternal
+//                           className="underline"
+//                           href={etherScan + 'address/' + token.erc20address}
+//                         >
+//                           {token.erc20address.slice(0, 5)}...
+//                           {token.erc20address.slice(-3)}
+//                         </Link>
+//                       )}
+//                     </div>
