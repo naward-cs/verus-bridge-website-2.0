@@ -1,25 +1,24 @@
-import React, {useCallback, useEffect, useState} from 'react'
-import Image from 'next/image'
-import CoinLogoList from '@/data/coinLogoList.json'
-import {AddressZero} from '@ethersproject/constants'
-import {
-  Link,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from '@nextui-org/react'
-import {useController, useFormContext} from 'react-hook-form'
-import {useAccount, useBalance} from 'wagmi'
+import React, { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
+import CoinLogoList from '@/data/coinLogoList.json';
+import { AddressZero } from '@ethersproject/constants';
+import { Link, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
+import { useController, useFormContext } from 'react-hook-form';
+import { useAccount, useBalance } from 'wagmi';
 
-import {EtherScan} from '@/lib/hooks/etherScan'
-import {useIsMounted} from '@/lib/hooks/mounted'
-import {useGetLogo, useGetTokenRef} from '@/lib/hooks/tokenLogos'
-import {useGetTokens} from '@/lib/hooks/tokens'
-import SearchInput from '@/components/formFields/searchField'
-import RenderPbassCurrencyLogo from '@/components/shared/altLogos'
-import {Icons} from '@/components/shared/icons'
+
+
+import { EtherScan } from '@/lib/hooks/etherScan';
+import { useIsMounted } from '@/lib/hooks/mounted';
+import { useGetLogo, useGetTokenRef } from '@/lib/hooks/tokenLogos';
+import { useGetTokens } from '@/lib/hooks/tokens';
+import SearchInput from '@/components/formFields/searchField';
+import RenderPbassCurrencyLogo from '@/components/shared/altLogos';
+import { Icons } from '@/components/shared/icons';
+
+
+
+
 
 const Token = (token: TokenList & {logoRef: string}) => {
   const etherScan = EtherScan()
@@ -152,7 +151,7 @@ const FromTokenField = () => {
         )
       }
     }
-  }, [isMounted, tokenList])
+  }, [isMounted, setValue, tokenList])
 
   const [tokens, setTokens] = useState(tokenList)
   //search filter controller
