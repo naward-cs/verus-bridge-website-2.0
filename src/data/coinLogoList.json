@@ -1,0 +1,22 @@
+[
+  {
+    "symbol": "dai",
+    "image": "/logos/dai.png"
+  },
+  {
+    "symbol": "eth",
+    "image": "/logos/eth.png"
+  },
+  {
+    "symbol": "mkr",
+    "image": "/logos/mkr.png"
+  },
+  {
+    "symbol": "usdc",
+    "image": "/logos/usdc.png"
+  },
+  {
+    "symbol": "vrsc",
+    "image": "/logos/vrsc.png"
+  }
+]

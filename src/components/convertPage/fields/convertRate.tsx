@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import {formatEther} from '@ethersproject/units'
-import {Tooltip} from '@nextui-org/react'
-import BigNumber from 'bignumber.js'
+import { formatEther } from '@ethersproject/units';
+import { Tooltip } from '@nextui-org/react';
+import BigNumber from 'bignumber.js';
 import {useFormContext} from 'react-hook-form'
 
+import {ETH_FEES} from '@/config/constants'
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useGasRate} from '@/lib/hooks/gasRate'
 import {useMarketData} from '@/lib/hooks/marketInfo'
 import {useGetCurrencyRate} from '@/lib/hooks/verus'
+import {isETHAddress} from '@/lib/utils/rules'
 import {Icons} from '@/components/shared/icons'
 
 const ConvertRate = () => {
   const {setValue} = useFormContext()
-  const {fromToken, toToken} = useFormValues()
+  const {fromToken, toToken, toAddress} = useFormValues()
   const [gasPrice, setGasPrice] = useState<string>('0')
   const {data: conversionRate} = useGetCurrencyRate(fromToken, toToken)
   const {data: gas} = useGasRate()
@@ -20,17 +22,35 @@ const ConvertRate = () => {
   const [reverse, setReverse] = useState(false)
   useEffect(() => {
     if (gas && marketInfo) {
-      setGasPrice(
-        new BigNumber(formatEther(gas.WEICOST))
-          .times(new BigNumber(marketInfo.toString()))
-          .decimalPlaces(2)
-          .toString()
-      )
+      if (toAddress) {
+        if (isETHAddress(toAddress)) {
+          setGasPrice(
+            new BigNumber(formatEther(gas.WEICOST))
+              .times(new BigNumber(marketInfo.toString()))
+              .decimalPlaces(2)
+              .toString()
+          )
+        } else {
+          setGasPrice(
+            new BigNumber(ETH_FEES.ETH)
+              .times(new BigNumber(marketInfo.toString()))
+              .decimalPlaces(2)
+              .toString()
+          )
+        }
+      } else {
+        setGasPrice(
+          new BigNumber(ETH_FEES.ETH)
+            .times(new BigNumber(marketInfo.toString()))
+            .decimalPlaces(2)
+            .toString()
+        )
+      }
     }
     if (gas) {
       setValue('gasPrice', gas)
     }
-  }, [marketInfo, gas, setValue])
+  }, [marketInfo, gas, setValue, toAddress])
   if (!toToken) return null
   return (
     <div className=" flex items-center justify-between rounded-lg border border-gray-600 px-5 py-4 text-sm md:text-base">
