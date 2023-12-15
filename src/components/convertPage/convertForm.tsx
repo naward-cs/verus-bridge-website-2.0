@@ -148,8 +148,8 @@ const ConvertForm = () => {
               <ConvertAmount />
               <ToTokenField />
             </div>
-            <ConvertWarn />
           </div>
+          <ConvertWarn />
           <ConvertRate />
           {isConnected && <Address />}
           <SubmitButton />
