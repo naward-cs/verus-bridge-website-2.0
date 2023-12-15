@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
+import { useFormContext } from 'react-hook-form';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import { useAccount, useConnect } from 'wagmi';
+import {useAccount, useConnect} from 'wagmi'
 
-
-
-import { useFormValues } from '@/lib/hooks/formValues';
-import { useIsMounted } from '@/lib/hooks/mounted';
+import {useFormValues} from '@/lib/hooks/formValues'
+import {useIsMounted} from '@/lib/hooks/mounted'
 import {Icons} from '@/components/shared/icons'
-
-
-
-
 
 export const WarnContent = () => {
   return (
@@ -58,30 +53,45 @@ const SubmitWarn = () => {
   )
 }
 const FormSubmitButton = () => {
-  const {toToken, sendOnly, toAddress} = useFormValues()
+  const {toToken, sendOnly, toAddress, fromAmount} = useFormValues()
+  const {
+    formState: {errors},
+  } = useFormContext()
   //if not connected to wallet, connect to wallet
 
   return (
     <>
       <button
-        disabled={!toAddress}
+        disabled={
+          !toAddress ||
+          Object.keys(errors).length > 0 ||
+          fromAmount === '' ||
+          parseFloat(fromAmount) === 0
+        }
         className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
         {toToken ? (
           toAddress ? (
-            <>
-              {sendOnly ? 'Send' : 'Convert'}
-              <span className="ml-2 text-xs md:text-sm">
-                (Can take up to 45 mins to complete)
-              </span>
-            </>
+            Object.keys(errors).length > 0 ? (
+              Object.keys(errors).includes('fromAmount') ? (
+                'Insuffencent funds'
+              ) : Object.keys(errors).includes('toAddress') ? (
+                'Invalid address'
+              ) : (
+                'Invalid form entry'
+              )
+            ) : fromAmount === '' || parseFloat(fromAmount) === 0 ? (
+              'Enter from amount'
+            ) : (
+              <>Confirm {sendOnly ? 'send' : 'conversion'}</>
+            )
           ) : (
-            'Enter Destination Address'
+            'Fill in receiving address'
           )
         ) : (
-          'Select to convert or send currency'
+          'Select a currency to receive'
         )}
       </button>
       <SubmitWarn />
