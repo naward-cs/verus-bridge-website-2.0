@@ -46,7 +46,7 @@ const NetworkDisconnectButton = () => {
     <>
       <button
         onClick={onOpen}
-        className="min-w-[232px] rounded-xl bg-bluePrimary p-2.5 pr-0 text-right text-white"
+        className="min-w-[232px] rounded-xl bg-bluePrimary p-2.5 pr-0 text-right text-white hover:bg-[#417DFF] group"
       >
         {isOpen ? (
           <Spinner className="w-full" size="sm" color="white" />
@@ -57,7 +57,7 @@ const NetworkDisconnectButton = () => {
               maximumFractionDigits: 3,
             }).format(parseFloat(balance?.formatted || '0'))}{' '}
             ETH
-            <span className=" ml-6 mr-0  rounded-xl border-2 border-bluePrimary bg-[#417DFF] p-2">
+            <span className=" ml-6 mr-0  rounded-xl border-2 border-bluePrimary bg-[#417DFF] p-2 group-hover:bg-bluePrimary">
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </span>
           </>

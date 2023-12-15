@@ -8,7 +8,7 @@ import { useAccount, useConnect } from 'wagmi';
 
 import { useFormValues } from '@/lib/hooks/formValues';
 import { useIsMounted } from '@/lib/hooks/mounted';
-import { Icons } from '@/components/shared/icons';
+import {Icons} from '@/components/shared/icons'
 
 
 
@@ -65,7 +65,7 @@ const FormSubmitButton = () => {
     <>
       <button
         disabled={!toAddress}
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
@@ -112,7 +112,7 @@ const ConnectSubmitButton = () => {
         onClick={onOpen}
         disabled={isConnecting}
         type="button"
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center hover:bg-[#417DFF] justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
       >
         Connect wallet
       </button>
