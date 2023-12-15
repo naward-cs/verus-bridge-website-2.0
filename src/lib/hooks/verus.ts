@@ -9,13 +9,11 @@ import { getBlockHeight, getConversionRate, getDestinationList } from '@/lib/ser
 
 
 
-import { NetworkChain } from './network';
-import { useGetTokens } from './tokens';
+import {isETHAddress} from '../utils/rules'
+import {NetworkChain} from './network'
+import {useGetTokens} from './tokens'
 
-
-
-import type { primitives } from 'verusid-ts-client';
-
+import type {primitives} from 'verusid-ts-client'
 
 export const useGetBLockHeight = () => {
   const chainId = NetworkChain()
@@ -62,7 +60,8 @@ export const useGetCurrencyRate = (
 ) => {
   const chainId = NetworkChain()
   const {bridge, bridgeList} = useGetTokens()
-  const {setValue} = useFormContext()
+  const {setValue, getValues} = useFormContext()
+
   return useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: [
@@ -89,6 +88,10 @@ export const useGetCurrencyRate = (
         setValue('sendOnly', false)
       } else {
         setValue('sendOnly', true)
+        const toAddress = getValues('toAddress')
+        if (isETHAddress(toAddress)) {
+          setValue('toAddress', '')
+        }
       }
     },
   })

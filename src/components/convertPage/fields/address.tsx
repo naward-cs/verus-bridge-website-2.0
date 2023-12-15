@@ -10,7 +10,7 @@ import {Icons} from '@/components/shared/icons'
 
 const Address = () => {
   const {address, isConnected} = useAccount()
-  const {control, setValue, clearErrors} = useFormContext()
+  const {control, setValue, setError, clearErrors} = useFormContext()
   const {sendOnly} = useFormValues()
   // const [isSelected, setIsSelected] = useState(false)
 
@@ -38,7 +38,7 @@ const Address = () => {
                 'border-small rounded-lg border-[#BBB] data-[hover=true]:border-[#8B8B8B] group-data-[focus=true]:border-bluePrimary bg-[#F5F5F5] pl-4 h-unit-13',
               errorMessage: 'font-medium',
             }}
-            onChange={onChange}
+            onValueChange={onChange}
             labelPlacement="outside"
             label="Use Verus (VerusID@, R-,i-address) or Ethereum address."
             value={value}
@@ -47,6 +47,7 @@ const Address = () => {
               <div className="flex items-center space-x-1">
                 {value && (
                   <button
+                    type="button"
                     className="text-[#BBB] hover:text-bluePrimary"
                     onClick={() => {
                       setValue('toAddress', '')
@@ -57,9 +58,17 @@ const Address = () => {
                   </button>
                 )}
                 <button
-                  disabled={!isConnected}
+                  disabled={!isConnected || sendOnly}
+                  type="button"
                   className="text-sm font-medium disabled:hidden"
-                  onClick={() => setValue('toAddress', address)}
+                  onClick={() => {
+                    setValue('toAddress', address)
+                    const x = validateAddress(address!, sendOnly)
+                    clearErrors('toAddress')
+                    if (typeof x !== 'boolean') {
+                      setError('toAddress', {type: 'manual', message: x})
+                    }
+                  }}
                 >
                   SELF
                 </button>
