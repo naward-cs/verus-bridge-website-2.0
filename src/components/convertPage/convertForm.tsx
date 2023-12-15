@@ -3,34 +3,38 @@
 import React, { useState } from 'react';
 import { useDelegatorBridgeConverterActive } from '@/generated';
 import { AddressZero } from '@ethersproject/constants';
-import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
-import {FormProvider, useForm} from 'react-hook-form'
-import {toast} from 'sonner'
-import {useAccount, useNetwork} from 'wagmi'
+import { Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { useAccount, useNetwork } from 'wagmi';
 
-import {useEthers} from '@/lib/hooks/ethers'
-import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
-import {useGetTokens} from '@/lib/hooks/tokens'
-import {isValidVerusID} from '@/lib/server/verusQueries'
-import {AuthorizeTokenAmount} from '@/lib/utils/authorizeERC20'
-import {isETHAddress, isRAddress} from '@/lib/utils/rules'
-import {getConfigOptions} from '@/lib/utils/txConfig'
-import {Icons} from '@/components/shared/icons'
 
-import warnToast from '../shared/warnToast'
-import Address from './fields/address'
-import Amount from './fields/amount'
-import ConvertAmount from './fields/convertAmount'
-import ConvertRate from './fields/convertRate'
-import ConvertWarn from './fields/convertWarn'
-import FromTokenField from './fields/fromToken'
-import MaxAmountButton from './fields/maxButton'
-import SubmitButton from './fields/submit'
-import ToTokenField from './fields/toToken'
+
+import { useEthers } from '@/lib/hooks/ethers';
+import { DelegatorAddress, NetworkChain } from '@/lib/hooks/network';
+import { useGetTokens } from '@/lib/hooks/tokens';
+import { isValidVerusID } from '@/lib/server/verusQueries';
+import { AuthorizeTokenAmount } from '@/lib/utils/authorizeERC20';
+import { isETHAddress, isRAddress } from '@/lib/utils/rules';
+import { getConfigOptions } from '@/lib/utils/txConfig';
+import { Icons } from '@/components/shared/icons';
+
+
+
+import warnToast from '../shared/warnToast';
+import Address from './fields/address';
+import Amount from './fields/amount';
+import ConvertAmount from './fields/convertAmount';
+import ConvertRate from './fields/convertRate';
+import ConvertWarn from './fields/convertWarn';
+import FromTokenField from './fields/fromToken';
+import MaxAmountButton from './fields/maxButton';
+import SubmitButton from './fields/submit';
+import ToTokenField from './fields/toToken';
 import FinalReview from './finalReview'
 
 const ConvertForm = () => {
-  const {address: account, isConnected} = useAccount()
+  const {address: account} = useAccount()
   const chainId = NetworkChain()
   const {chain} = useNetwork()
   const {refundAddresses, error: signError, signMsg} = useEthers()
@@ -131,7 +135,7 @@ const ConvertForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4 hover:border-[#b6b6b6] border border-transparent">
+          <div className="flex-col space-y-2 rounded-lg border border-transparent bg-[#DDD] p-4 hover:border-[#b6b6b6]">
             <div className="flex flex-col gap-1 md:flex-row">
               <Amount />
               <FromTokenField />
@@ -143,15 +147,16 @@ const ConvertForm = () => {
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
             </div>
           </div>
-          <div className="flex  flex-col justify-center  space-y-2 rounded-lg bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6] border border-transparent">
+          <div className="flex  flex-col justify-center  space-y-2 rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <ConvertAmount />
               <ToTokenField />
             </div>
           </div>
-          <ConvertWarn />
           <ConvertRate />
-          {isConnected && <Address />}
+          <ConvertWarn />
+
+          <Address />
           <SubmitButton />
         </form>
       </FormProvider>

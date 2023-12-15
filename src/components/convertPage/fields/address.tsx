@@ -1,28 +1,20 @@
-;
 // import React, {useState} from 'react'
-import { Input } from '@nextui-org/react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { useAccount } from 'wagmi';
-
-
+import {Input} from '@nextui-org/react'
+import {Controller, useFormContext} from 'react-hook-form'
+import {useAccount} from 'wagmi'
 
 // import {useAccount} from 'wagmi'
-
-import { useFormValues } from '@/lib/hooks/formValues';
-import { validateAddress } from '@/lib/utils/rules';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import {useFormValues} from '@/lib/hooks/formValues'
+import {validateAddress} from '@/lib/utils/rules'
+import {Icons} from '@/components/shared/icons'
 
 const Address = () => {
-  const {address} = useAccount()
+  const {address, isConnected} = useAccount()
   const {control, setValue, clearErrors} = useFormContext()
-  const {sendOnly, toToken} = useFormValues()
+  const {sendOnly} = useFormValues()
   // const [isSelected, setIsSelected] = useState(false)
 
-  if (!toToken) return null
+  // if (!toToken) return null
   //TODO: add switch to use self address
   return (
     <div className="flex flex-col py-4 text-lg">
@@ -39,12 +31,11 @@ const Address = () => {
             autoComplete="on"
             variant="bordered"
             classNames={{
-              label: 'font-medium',
+              label: 'font-normal',
               input:
-                'text-black/90 placeholder:text-default-700/50 text-base placeholder:font-medium',
-              
+                'text-black/90 placeholder:text-default-700/50 text-base placeholder:font-medium py-5',
               inputWrapper:
-                'border-small rounded-lg border-[#BBB] data-[hover=true]:border-[#8B8B8B] group-data-[focus=true]:border-bluePrimary bg-[#F5F5F5]',
+                'border-small rounded-lg border-[#BBB] data-[hover=true]:border-[#8B8B8B] group-data-[focus=true]:border-bluePrimary bg-[#F5F5F5] pl-4 h-unit-13',
               errorMessage: 'font-medium',
             }}
             onChange={onChange}
@@ -66,7 +57,8 @@ const Address = () => {
                   </button>
                 )}
                 <button
-                  className="text-sm font-medium"
+                  disabled={!isConnected}
+                  className="text-sm font-medium disabled:hidden"
                   onClick={() => setValue('toAddress', address)}
                 >
                   SELF
