@@ -3,15 +3,18 @@ import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } f
 import { useFormContext } from 'react-hook-form';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import {useAccount, useConnect} from 'wagmi'
+import { useAccount, useConnect } from 'wagmi';
+
+
 
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
+import {isETHAddress} from '@/lib/utils/rules'
 import {Icons} from '@/components/shared/icons'
 
 export const WarnContent = () => {
   return (
-    <div className="max-w-xs space-y-3 py-2 text-xs">
+    <div className="max-w-[280px] space-y-3 py-2 text-xs">
       <p>
         The Verus-Ethereum Bridge is truly trustless, non-custodial and proven
         by consensus. The Ethereum smart contract and Verus blockchain need to
@@ -31,12 +34,15 @@ const SubmitWarn = () => {
   const {toAddress} = useFormValues()
   if (!toAddress) return null
   return (
-    <div className="flex items-center justify-center space-x-2.5 pt-2.5">
-      <Icons.alertTriangle className="h-full w-6" />
-      <p className=" text-xs text-[#686868]">
-        This conversion can take up to 45 minutes.{' '}
+    <div className="flex w-fit items-center space-x-2.5 rounded-2xl bg-[#F4EEEE] px-2 py-1 text-[#C58484]">
+      <Icons.iInfo className="h-full w-4 text-[#D95757] " />
+      <p className=" text-xs">
+        It can take up to
+        {isETHAddress(toAddress) ? ' 2 hours ' : ' 60 mins '}
+        before you receive the currency.{' '}
         <Tooltip
           showArrow
+          placement="bottom"
           content={WarnContent()}
           isOpen={isOpen}
           onOpenChange={(open) => setIsOpen(open)}
