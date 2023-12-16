@@ -12,9 +12,10 @@ import {useDelgatorContract} from '@/lib/hooks/contract'
 import {EtherScan} from '@/lib/hooks/etherScan'
 import {Icons} from '@/components/shared/icons'
 
-import ConvertTimeWarn from './fields/convertTimeWarn'
-import FinalConvertWarn from './fields/finalconvertWarn'
+import CoinLogos from '../shared/coinLogos'
+import ConvertWarn from './fields/convertWarn'
 import FinalReviewInfo from './finalReviewInfo'
+import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
 
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
@@ -27,6 +28,7 @@ const FinalReview = (props: FinalProps) => {
   const [pending, setPending] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [txError, setTxError] = useState(false)
+
   const [tx, setTx] = useState<`0x${string}` | undefined>(undefined)
   let cRate = '0'
   const qQuery = useQueryClient().getQueryCache()
@@ -95,6 +97,7 @@ const FinalReview = (props: FinalProps) => {
     }
     setCompleted(true)
   }
+
   if (!completed && pending) {
     return (
       <ModalBody>
@@ -171,16 +174,27 @@ const FinalReview = (props: FinalProps) => {
   return (
     <>
       <ModalHeader className="text-sm font-normal">
-        Confirm conversion
+        Confirm {formValues.sendOnly ? 'send' : 'conversion'}
       </ModalHeader>
       <ModalBody>
         <div className="flex flex-col space-y-1">
           <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
             <div className="flex  items-center justify-between gap-1 ">
-              <p className=" px-3 text-2xl">
-                {formValues.fromAmount.toString()}
-              </p>
-              <p className=" px-3 text-2xl">{formValues.fromToken.value}</p>
+              <div className="flex flex-col">
+                <p className="text-sm">You send</p>
+                <p className="text-3xl font-medium">
+                  {formValues.fromAmount.toString()}
+                </p>
+              </div>
+              <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
+                <CoinLogos
+                  symbol={formValues.fromToken.value}
+                  iAddr={formValues.fromToken.iaddress}
+                />
+                <p className=" text-xl font-medium">
+                  {formValues.fromToken.value}
+                </p>
+              </div>
             </div>
           </div>
           <div className="relative">
@@ -190,22 +204,23 @@ const FinalReview = (props: FinalProps) => {
           </div>
           <div className=" flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
             <div className="flex  items-center justify-between gap-1">
-              {formValues.sendOnly ? (
-                <>
-                  <p className=" px-3 text-2xl">Sending</p>
-                  <p className=" px-3 text-2xl">
-                    {formValues.fromAmount.toString()}{' '}
-                    {formValues.toToken.currency}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className=" px-3 text-2xl">{cRate}</p>
-                  <p className=" px-3 text-2xl">
-                    {formValues.toToken.currency}
-                  </p>
-                </>
-              )}
+              <div className="flex flex-col">
+                <p className="text-sm">You receive</p>
+                <p className="text-3xl font-medium">
+                  {formValues.sendOnly
+                    ? formValues.fromAmount.toString()
+                    : cRate}
+                </p>
+              </div>
+              <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
+                <CoinLogos
+                  symbol={formValues.toToken.currency}
+                  iAddr={formValues.toToken.iaddress}
+                />
+                <p className=" text-xl font-medium">
+                  {formValues.toToken.currency}
+                </p>
+              </div>
             </div>
           </div>
           <div className="flex items-center justify-between rounded-lg border border-gray-600 px-5 py-4 text-sm md:text-base">
@@ -229,23 +244,31 @@ const FinalReview = (props: FinalProps) => {
               )}
             </span>
           </div>
-          {!formValues.sendOnly && <FinalReviewInfo {...formValues} />}
-          <div className="flex flex-col py-2">
-            <p className="my-1 text-xs text-[#686868] ">Receiving address</p>
-            <div className=" flex items-center justify-between rounded-lg border border-gray-600 px-5 py-4 text-sm md:text-base">
-              <p className="break-all px-3 text-2xl">{formValues.toAddress}</p>
+          <ConvertWarn />
+          <div className="pb-4 pt-2">
+            {formValues.sendOnly ? (
+              <FinalReviewInfoSendOnly />
+            ) : (
+              <FinalReviewInfo {...formValues} />
+            )}
+          </div>
+          <div className="flex flex-col">
+            <p className="my-1 pl-0.5 text-xs text-[#686868] ">
+              Receiving address
+            </p>
+            <div className=" flex  rounded-lg border border-[#999] bg-[#ddd] py-4 text-sm md:text-base">
+              <p className="break-all px-3 text-sm font-medium">
+                {formValues.toAddress}
+              </p>
             </div>
           </div>
-          <div className=" space-y-2 ">
-            <FinalConvertWarn />
-            <ConvertTimeWarn />
-          </div>
-          <div className="py-4">
+
+          <div className="pb-4">
             <button
               onClick={() => confirmSubmit()}
               className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
             >
-              {formValues.sendOnly ? 'Confirm Send' : 'Confirm conversion'}
+              {formValues.sendOnly ? 'Send' : 'Convert'}
             </button>
           </div>
         </div>

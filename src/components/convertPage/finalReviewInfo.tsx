@@ -1,8 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, {useState} from 'react'
+import {Tooltip} from '@nextui-org/react'
 
 import {useBridgeInfo} from '@/lib/hooks/verus'
+import {isETHAddress} from '@/lib/utils/rules'
+
+import {Icons} from '../shared/icons'
+import {WarnContent} from './fields/submit'
 
 const ConvertTokenToBridgeToken = (token: string, bridgeList?: CoinList[]) => {
   switch (token) {
@@ -22,138 +27,132 @@ const ConvertTokenToBridgeToken = (token: string, bridgeList?: CoinList[]) => {
 }
 
 const FinalReviewInfo = (formValues: ConvertFormData) => {
+  const [isOpen, setIsOpen] = useState(false)
   const {bridgeInfo} = useBridgeInfo()
-
+  let fromTokenAmount: number | undefined
+  let toTokenAmount: number | undefined
+  let toFromBridge: 'to' | 'from' | 'neither' = 'neither'
   //two different ways to Bridge.vETH or from Bridge.vETH format
   if (formValues.fromToken.label.toLowerCase() === 'bridge.veth') {
-    const tokenAmount = ConvertTokenToBridgeToken(
+    toFromBridge = 'from'
+    toTokenAmount = ConvertTokenToBridgeToken(
       formValues.toToken.currency.toLowerCase(),
       bridgeInfo?.list
     )?.amount
-    return (
-      <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-        <div className="flex flex-col items-center justify-between gap-1 ">
-          <p className="w-full text-[#808080] ">Current Bridge Information</p>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>{formValues.toToken.currency} in reserves</p>
-            <p>
-              {(tokenAmount && (
-                <>
-                  {Intl.NumberFormat('en-US', {
-                    style: 'decimal',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 3,
-                  }).format(tokenAmount)}{' '}
-                  {formValues.toToken.currency}
-                </>
-              )) ||
-                'Loading...'}
-            </p>
-          </div>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>Bridge.vETH supply</p>
-            <p>
-              {(bridgeInfo &&
-                Intl.NumberFormat('en-US', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 3,
-                }).format(bridgeInfo.bridge.amount)) ||
-                'Error'}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
   } else if (formValues.toToken.value === 'bridgeBridge') {
-    const tokenAmount = ConvertTokenToBridgeToken(
+    toFromBridge = 'to'
+    fromTokenAmount = ConvertTokenToBridgeToken(
       formValues.fromToken.value.toLowerCase(),
       bridgeInfo?.list
     )?.amount
-    return (
-      <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-        <div className="flex flex-col items-center justify-between gap-1 ">
-          <p className="w-full text-[#808080] ">Current Bridge Information</p>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>{formValues.fromToken.value} in reserves</p>
-            <p>
-              {(tokenAmount && (
-                <>
-                  {Intl.NumberFormat('en-US', {
-                    style: 'decimal',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 3,
-                  }).format(tokenAmount)}{' '}
-                  {formValues.fromToken.value}
-                </>
-              )) ||
-                'Loading...'}
-            </p>
-          </div>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>Bridge.vETH supply</p>
-            <p>
-              {(bridgeInfo &&
-                Intl.NumberFormat('en-US', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 3,
-                }).format(bridgeInfo.bridge.amount)) ||
-                'Loading...'}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
   } else {
-    const fromTokenAmount = ConvertTokenToBridgeToken(
+    fromTokenAmount = ConvertTokenToBridgeToken(
       formValues.fromToken.value.toLowerCase(),
       bridgeInfo?.list
     )?.amount
-    const toTokenAmount = ConvertTokenToBridgeToken(
+    toTokenAmount = ConvertTokenToBridgeToken(
       formValues.toToken.currency.toLowerCase(),
       bridgeInfo?.list
     )?.amount
-    return (
-      <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-        <div className="flex flex-col items-center justify-between gap-1 ">
-          <p className="w-full text-[#808080] ">Current Bridge Information</p>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>{formValues.fromToken.value} in reserves</p>
-            <p>
-              {(fromTokenAmount && (
-                <>
-                  {Intl.NumberFormat('en-US', {
+  }
+
+  return (
+    <div className="rounded-lg border border-[#999] ">
+      <div className="flex-col space-y-2 p-4">
+        <p className="text-xs font-medium text-[#808080]">
+          Current Bridge.vETH (liquidity pool) information
+        </p>
+        <div className="flex items-center justify-between">
+          <p>
+            <span className="font-medium">
+              {toFromBridge === 'from'
+                ? 'Bridge.vETH'
+                : formValues.fromToken.value}
+            </span>{' '}
+            in reserves
+          </p>
+          <p className="font-medium">
+            {toFromBridge === 'from'
+              ? bridgeInfo?.bridge.amount
+                ? Intl.NumberFormat('en-US', {
                     style: 'decimal',
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 3,
-                  }).format(fromTokenAmount)}{' '}
-                  {formValues.fromToken.value}
-                </>
-              )) ||
-                'Loading...'}
-            </p>
-          </div>
-          <div className=" flex w-full items-center justify-between pr-3">
-            <p>{formValues.toToken.currency} in reserves</p>
-            <p>
-              {(toTokenAmount && (
-                <>
-                  {Intl.NumberFormat('en-US', {
+                  }).format(bridgeInfo.bridge.amount)
+                : 'Error'
+              : fromTokenAmount
+              ? Intl.NumberFormat('en-US', {
+                  style: 'decimal',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 3,
+                }).format(fromTokenAmount)
+              : 'Loading...'}
+          </p>
+        </div>
+        <div className="flex items-center justify-between">
+          <p>
+            <span className="font-medium">
+              {toFromBridge === 'to'
+                ? 'Bridge.vETH'
+                : formValues.toToken.currency}
+            </span>{' '}
+            in reserves
+          </p>
+          <p className="font-medium">
+            {toFromBridge === 'to'
+              ? bridgeInfo?.bridge.amount
+                ? Intl.NumberFormat('en-US', {
                     style: 'decimal',
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 3,
-                  }).format(toTokenAmount)}{' '}
-                  {formValues.toToken.currency}
-                </>
-              )) ||
-                'Loading...'}
-            </p>
-          </div>
+                  }).format(bridgeInfo.bridge.amount)
+                : 'Error'
+              : toTokenAmount
+              ? Intl.NumberFormat('en-US', {
+                  style: 'decimal',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 3,
+                }).format(toTokenAmount)
+              : 'Loading...'}
+          </p>
         </div>
       </div>
-    )
-  }
+      <div className="flex items-center justify-between border-t-1 border-[#999] p-4 text-xs">
+        <div className="flex items-center space-x-1 ">
+          <Icons.clock height={24} opacity="37%" />
+          <p>Ethereum</p>
+          <Icons.rightArrow width={8} />
+          <p>Verus</p>
+          {isETHAddress(formValues.toAddress) && (
+            <>
+              <Icons.rightArrow width={8} />
+              <p>Ethereum</p>
+            </>
+          )}
+        </div>
+
+        <p>
+          <span className="font-medium">
+            up to {isETHAddress(formValues.toAddress) ? ' 120 ' : ' 60 '} mins
+          </span>{' '}
+          <Tooltip
+            showArrow
+            placement="left"
+            content={WarnContent()}
+            isOpen={isOpen}
+            onOpenChange={(open) => setIsOpen(open)}
+          >
+            <span
+              onClick={() => setIsOpen(!isOpen)}
+              className="font-medium text-bluePrimary"
+            >
+              Why?
+            </span>
+          </Tooltip>
+        </p>
+      </div>
+    </div>
+  )
 }
 
 export default FinalReviewInfo
