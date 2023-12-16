@@ -81,6 +81,7 @@ export const Icons = {
       <path d="m9 12 2 2 4-4" />
     </svg>
   ),
+
   clock: ({...props}: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

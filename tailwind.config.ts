@@ -22,6 +22,9 @@ const config: Config = {
         robo: ['var(--font-robo)'],
         geo: ['var(--font-geo)'],
       },
+      listStyleImage: {
+        checkmark: 'url("/images/check-mark-button.png")',
+      },
     },
   },
   darkMode: 'class',
