@@ -4,21 +4,17 @@ import CoinLogoList from '@/data/coinLogoList.json';
 import { AddressZero } from '@ethersproject/constants';
 import { Link, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
 import { useController, useFormContext } from 'react-hook-form';
-import { useAccount, useBalance } from 'wagmi';
+import {useAccount, useBalance} from 'wagmi'
 
+import {EtherScan} from '@/lib/hooks/etherScan'
+import {useIsMounted} from '@/lib/hooks/mounted'
+import {useGetLogo, useGetTokenRef} from '@/lib/hooks/tokenLogos'
+import {useGetTokens} from '@/lib/hooks/tokens'
+import SearchInput from '@/components/formFields/searchField'
+import RenderPbassCurrencyLogo from '@/components/shared/altLogos'
+import {Icons} from '@/components/shared/icons'
 
-
-import { EtherScan } from '@/lib/hooks/etherScan';
-import { useIsMounted } from '@/lib/hooks/mounted';
-import { useGetLogo, useGetTokenRef } from '@/lib/hooks/tokenLogos';
-import { useGetTokens } from '@/lib/hooks/tokens';
-import SearchInput from '@/components/formFields/searchField';
-import RenderPbassCurrencyLogo from '@/components/shared/altLogos';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import ButtonText from './toFromTokenButtonText'
 
 const Token = (token: TokenList & {logoRef: string}) => {
   const etherScan = EtherScan()
@@ -85,52 +81,6 @@ const Token = (token: TokenList & {logoRef: string}) => {
             }).format(parseFloat(balance?.formatted))}
         </p>
       </div>
-    </>
-  )
-}
-
-const ButtonText = (info: {
-  label?: string
-  logoRef?: string
-  symbol?: string
-  iAddr?: string
-}) => {
-  const {data: logo} = useGetLogo(info?.logoRef)
-  const isCommon =
-    info.symbol &&
-    CoinLogoList.filter((t) => t.symbol === info.symbol!.toLowerCase())[0]
-      ?.image
-  if (info.label) {
-    return (
-      <>
-        {isCommon ? (
-          <Image
-            src={isCommon}
-            alt={info.label}
-            height={26}
-            width={26}
-            className="mr-1.5 rounded-full bg-[#DCDEEA]"
-          />
-        ) : logo ? (
-          <Image
-            src={logo}
-            alt={info.label}
-            height={26}
-            width={26}
-            className="mr-1.5 rounded-full bg-[#DCDEEA]"
-          />
-        ) : (
-          <RenderPbassCurrencyLogo iAddr={info.iAddr!} small />
-        )}
-        {info.label}
-        <Icons.chevronDown className="ml-2 h-4" />
-      </>
-    )
-  }
-  return (
-    <>
-      Select currency
-      <Icons.chevronDown className="ml-2 h-4" />
     </>
   )
 }
@@ -217,7 +167,7 @@ const FromTokenField = () => {
       >
         <ModalContent>
           <ModalHeader className="text-sm font-normal">
-            Select a token to convert from
+            Select a currency to convert/send
           </ModalHeader>
           <ModalBody>
             <SearchInput

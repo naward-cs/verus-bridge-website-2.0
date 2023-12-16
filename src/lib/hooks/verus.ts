@@ -15,6 +15,7 @@ import {useGetTokens} from './tokens'
 
 import type {primitives} from 'verusid-ts-client'
 
+
 export const useGetBLockHeight = () => {
   const chainId = NetworkChain()
   return useQuery({
@@ -33,7 +34,7 @@ export const createConvertOptionsList = (
     currencyList.currencies.map((k) => {
       const token = tokenList.filter((t) => t.id === k)[0]
       const value = `bridge${token.value}`
-      const label = `Convert to ${token.value}`
+      const label = `${token.value}`
       const currency = token.value
       return [k, {id: k, value, label, iaddress: token.iaddress, currency}]
     })
@@ -45,7 +46,7 @@ export const createConvertOptionsList = (
   list[currencyList.currencyid] = {
     id: currencyList.currencyid,
     value: 'bridgeBridge',
-    label: 'Convert to Bridge.vETH',
+    label: 'Bridge.vETH',
     iaddress: bridgeToken.iaddress,
     currency: 'BETH',
   }
