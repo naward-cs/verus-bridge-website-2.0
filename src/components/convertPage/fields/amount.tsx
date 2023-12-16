@@ -14,24 +14,22 @@ const Amount = () => {
         control={control}
         name="fromAmount"
         rules={{
-          required: 'need info',
+          required: 'Insert amount',
           validate: (value) =>
             ValidateAmount(value, isEth, isConnected, EthBalance, ErcBalance),
         }}
-        render={({field: {value, onChange}, fieldState: {error}}) => (
+        render={({field: {value, onChange}}) => (
           <InputField
             aria-label="From Amount"
             color="transparent"
             isClearable
-            onChange={onChange}
+           onValueChange={onChange}
             onClear={() => {
               setValue('fromAmount', '')
               clearErrors('fromAmount')
             }}
             value={value}
             placeholder="0.00"
-            errorMessage={error?.message}
-            validationState={error ? 'invalid' : 'valid'}
           />
         )}
       />

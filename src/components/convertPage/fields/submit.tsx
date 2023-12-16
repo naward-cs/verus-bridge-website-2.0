@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
 import { useFormContext } from 'react-hook-form';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import { useAccount, useConnect } from 'wagmi';
-
-
+import {useAccount, useConnect} from 'wagmi'
 
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
@@ -78,26 +76,20 @@ const FormSubmitButton = () => {
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
-        {toToken ? (
-          toAddress ? (
-            Object.keys(errors).length > 0 ? (
-              Object.keys(errors).includes('fromAmount') ? (
-                'Insuffencent funds'
-              ) : Object.keys(errors).includes('toAddress') ? (
-                'Invalid address'
-              ) : (
-                'Invalid form entry'
-              )
-            ) : fromAmount === '' || parseFloat(fromAmount) === 0 ? (
-              'Enter from amount'
-            ) : (
+        {!Object.entries(errors).length ? (
+          fromAmount === '' || parseFloat(fromAmount) === 0 ? (
+            'Insert amount'
+          ) : toToken ? (
+            toAddress ? (
               <>Confirm {sendOnly ? 'send' : 'conversion'}</>
+            ) : (
+              'Fill in receiving address'
             )
           ) : (
-            'Fill in receiving address'
+            'Select a currency to receive'
           )
         ) : (
-          'Select a currency to receive'
+          (Object.entries(errors)?.[0]?.[1]?.message as string)
         )}
       </button>
       <SubmitWarn />
@@ -128,7 +120,7 @@ const ConnectSubmitButton = () => {
         onClick={onOpen}
         disabled={isConnecting}
         type="button"
-        className="flex w-full items-center hover:bg-[#417DFF] justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
       >
         Connect wallet
       </button>

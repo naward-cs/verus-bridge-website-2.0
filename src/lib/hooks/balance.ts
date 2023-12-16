@@ -43,18 +43,18 @@ export const ValidateAmount = (
     return 'max 8 decimals'
 
   if (Number(amount) > 100000000)
-    return 'Amount too large. Try a smaller amount.'
-  if (Number(amount) < 0) return 'Amount is not valid.'
+    return 'Amount too large'
+  if (Number(amount) < 0) return 'Insert amount'
 
   if (isConnected) {
     if (isEth) {
       if (Number(EthBalance?.formatted) < Number(amount)) {
-        return `Amount is not available in your wallet. ${EthBalance?.formatted} ${EthBalance?.symbol}`
+        return `Insuffencent balance`
       }
       return true
     } else {
       if (Number(ErcBalance?.formatted) < Number(amount)) {
-        return `Amount is not available in your wallet. ${ErcBalance?.formatted} ${ErcBalance?.symbol}`
+        return `Insuffencent balance`
       }
       return true
     }

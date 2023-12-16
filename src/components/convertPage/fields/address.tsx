@@ -25,7 +25,7 @@ const Address = () => {
           required: true,
           validate: (value) => validateAddress(value, sendOnly),
         }}
-        render={({field: {value, onChange}, fieldState: {error}}) => (
+        render={({field: {value, onChange}}) => (
           <Input
             aria-label="Send to Address"
             autoComplete="on"
@@ -74,8 +74,7 @@ const Address = () => {
                 </button>
               </div>
             }
-            errorMessage={error?.message}
-            isInvalid={error ? true : false}
+            
           />
         )}
       />
