@@ -1,23 +1,21 @@
 import { Inter, Roboto } from 'next/font/google';
-import localFont from 'next/font/local';
+import localFont from 'next/font/local'
 
+import type {Metadata} from 'next'
 
+import './_styles/globals.css'
 
-import type { Metadata } from 'next';
-
-
-
-import './_styles/globals.css';
-
-
-
-import { Next13NProgress } from 'nextjs13-progress';
+import {Next13NProgress} from 'nextjs13-progress'
 
 
 
 import { cn } from '@/lib/utils/tailwindUtil';
-import Navbar from '@/components/navbar/navbar'
-import {Providers} from '@/components/providers'
+import Navbar from '@/components/navbar/navbar';
+import { Providers } from '@/components/providers';
+
+
+
+
 
 const inter = Inter({
   subsets: ['latin'],

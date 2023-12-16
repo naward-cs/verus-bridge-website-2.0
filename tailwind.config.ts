@@ -1,6 +1,9 @@
-import {nextui} from '@nextui-org/react'
+import { nextui } from '@nextui-org/react';
 
-import type {Config} from 'tailwindcss'
+
+
+import type { Config } from 'tailwindcss';
+
 
 const config: Config = {
   content: [
@@ -21,9 +24,6 @@ const config: Config = {
         sans: ['var(--font-sans)'],
         robo: ['var(--font-robo)'],
         geo: ['var(--font-geo)'],
-      },
-      listStyleImage: {
-        checkmark: 'url("/images/check-mark-button.png")',
       },
     },
   },
