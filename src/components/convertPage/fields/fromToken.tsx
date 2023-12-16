@@ -1,58 +1,40 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
-import CoinLogoList from '@/data/coinLogoList.json';
-import { AddressZero } from '@ethersproject/constants';
-import { Link, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
-import { useController, useFormContext } from 'react-hook-form';
+import React, {useCallback, useEffect, useState} from 'react'
+import {AddressZero} from '@ethersproject/constants'
+import {
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/react'
+import {useController, useFormContext} from 'react-hook-form'
 import {useAccount, useBalance} from 'wagmi'
 
 import {EtherScan} from '@/lib/hooks/etherScan'
 import {useIsMounted} from '@/lib/hooks/mounted'
-import {useGetLogo, useGetTokenRef} from '@/lib/hooks/tokenLogos'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import SearchInput from '@/components/formFields/searchField'
-import RenderPbassCurrencyLogo from '@/components/shared/altLogos'
+import CoinLogos from '@/components/shared/coinLogos'
 import {Icons} from '@/components/shared/icons'
 
 import ButtonText from './toFromTokenButtonText'
 
-const Token = (token: TokenList & {logoRef: string}) => {
+const Token = (token: TokenList) => {
   const etherScan = EtherScan()
   const {address: account} = useAccount()
 
-  const {data: logo} = useGetLogo(token.logoRef)
   const {data: balance} = useBalance({
     address: account,
     token: token.erc20address !== AddressZero ? token.erc20address : undefined,
     enabled: !!account,
   })
 
-  const isCommon = CoinLogoList.filter(
-    (t) => t.symbol === token.value.toLowerCase()
-  )[0]?.image
-
   return (
     <>
       <div className="flex items-center space-x-2 ">
-        {isCommon ? (
-          <Image
-            src={isCommon}
-            alt={token.label}
-            height={36}
-            width={36}
-            className="rounded-full bg-[#DCDEEA] "
-          />
-        ) : logo ? (
-          <Image
-            src={logo}
-            alt={token.label}
-            height={36}
-            width={36}
-            className="rounded-full bg-[#DCDEEA] "
-          />
-        ) : (
-          <RenderPbassCurrencyLogo iAddr={token.iaddress} />
-        )}
+        <CoinLogos symbol={token.value} iAddr={token.iaddress} />
+
         <div className="flex flex-col">
           <p className=" text-base font-medium leading-none ">{token.label}</p>
 
@@ -87,8 +69,6 @@ const Token = (token: TokenList & {logoRef: string}) => {
 
 const FromTokenField = () => {
   const {control, resetField, setValue} = useFormContext()
-  const {data: logoList} = useGetTokenRef()
-
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {tokenList} = useGetTokens()
@@ -145,12 +125,6 @@ const FromTokenField = () => {
       >
         <ButtonText
           label={field.value?.label}
-          logoRef={
-            logoList?.filter(
-              (t: {id: string; symbol: string; name: string}) =>
-                t.symbol === field.value?.value.toUpperCase()
-            )[0]?.id || ''
-          }
           symbol={field.value?.value}
           iAddr={field.value?.iaddress}
         />
@@ -190,15 +164,7 @@ const FromTokenField = () => {
                     key={token.iaddress}
                     className="group flex cursor-pointer items-center justify-between py-2 pl-2 text-[#818181] hover:bg-[#f3f3f3] hover:text-black"
                   >
-                    <Token
-                      {...token}
-                      logoRef={
-                        logoList?.filter(
-                          (t: {id: string; symbol: string; name: string}) =>
-                            t.symbol === token.value.toUpperCase()
-                        )[0]?.id || ''
-                      }
-                    />
+                    <Token {...token} />
                   </li>
                 ))}
               </ul>

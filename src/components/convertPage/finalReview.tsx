@@ -1,21 +1,29 @@
 'use client';
 
-import {useState} from 'react'
-import {Link, ModalBody, ModalHeader, Spinner} from '@nextui-org/react'
-import {useQueryClient} from '@tanstack/react-query'
-import BigNumber from 'bignumber.js'
-import {toast} from 'sonner'
-import {formatEther} from 'viem'
-import {useWaitForTransaction} from 'wagmi'
+import { useState } from 'react';
+import { Link, ModalBody, ModalHeader, Spinner } from '@nextui-org/react';
+import { useQueryClient } from '@tanstack/react-query';
+import BigNumber from 'bignumber.js';
+import { toast } from 'sonner';
+import { formatEther } from 'viem';
+import { useWaitForTransaction } from 'wagmi';
 
-import {useDelgatorContract} from '@/lib/hooks/contract'
-import {EtherScan} from '@/lib/hooks/etherScan'
+
+
+import { useDelgatorContract } from '@/lib/hooks/contract';
+import { EtherScan } from '@/lib/hooks/etherScan';
+import CoinLogos from '@/components/shared/coinLogos'
 import {Icons} from '@/components/shared/icons'
 
-import CoinLogos from '../shared/coinLogos'
-import ConvertWarn from './fields/convertWarn'
-import FinalReviewInfo from './finalReviewInfo'
-import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
+
+
+import ConvertWarn from './fields/convertWarn';
+import FinalReviewInfo from './finalReviewInfo';
+import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly';
+
+
+
+
 
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
