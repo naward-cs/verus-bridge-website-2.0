@@ -72,7 +72,7 @@ const FormSubmitButton = () => {
           fromAmount === '' ||
           parseFloat(fromAmount) === 0
         }
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-[1.375rem] leading-none"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
