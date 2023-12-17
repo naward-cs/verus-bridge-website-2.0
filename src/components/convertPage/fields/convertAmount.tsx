@@ -1,11 +1,17 @@
-import React, {useEffect, useState} from 'react'
-import BigNumber from 'bignumber.js'
+import React, { useEffect, useState } from 'react';
+import BigNumber from 'bignumber.js';
 
-import {useFormValues} from '@/lib/hooks/formValues'
-import {useGetCurrencyRate} from '@/lib/hooks/verus'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
+import { useGetCurrencyRate } from '@/lib/hooks/verus';
+
+
+
+
 
 const ConvertAmount = () => {
-  const {fromToken, toToken, fromAmount} = useFormValues()
+  const {fromToken, toToken, fromAmount, sendOnly} = useFormValues()
 
   const [conversion, setConversion] = useState('0.00')
   const {data} = useGetCurrencyRate(fromToken, toToken)
@@ -20,7 +26,11 @@ const ConvertAmount = () => {
     }
   }, [data, fromAmount, toToken])
 
-  return <p className="pr-3 leading-none text-[2rem] font-medium">{conversion}</p>
+  return (
+    <p className="pr-3 text-[2rem] font-medium leading-none">
+      {sendOnly ? fromAmount : conversion}
+    </p>
+  )
 }
 
 export default ConvertAmount

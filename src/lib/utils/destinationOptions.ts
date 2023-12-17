@@ -21,7 +21,7 @@ export const DestinationOptions = ({
   const destinationList = {
     id: from.id,
     value: BLOCKCHAIN_NAME(chain),
-    label: `Send ${from.label} to ${BLOCKCHAIN_NAME(chain)}`,
+    label: from.label,
     iaddress: from.iaddress,
     currency: from.value,
   }
