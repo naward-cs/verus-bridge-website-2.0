@@ -20,7 +20,7 @@ const ConvertAmount = () => {
     }
   }, [data, fromAmount, toToken])
 
-  return <p className="px-3 text-2xl">{conversion}</p>
+  return <p className="pr-3 leading-none text-[2rem] font-medium">{conversion}</p>
 }
 
 export default ConvertAmount

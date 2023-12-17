@@ -135,19 +135,23 @@ const ConvertForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <div className="flex-col space-y-2 rounded-lg border border-transparent bg-[#DDD] p-4 hover:border-[#b6b6b6]">
+          <div className="flex-col rounded-lg border border-transparent bg-[#DDD] p-4 hover:border-[#b6b6b6]">
+            <p className="text-sm">You send</p>
+            <div className='flex flex-col space-y-2'>
             <div className="flex flex-col gap-1 md:flex-row">
               <Amount />
               <FromTokenField />
             </div>
             <MaxAmountButton />
+            </div>
           </div>
           <div className="relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-[#ddd] p-[3px] text-center align-middle">
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
             </div>
           </div>
-          <div className="flex  flex-col justify-center  space-y-2 rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+          <div className="flex flex-col justify-center rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+            <p className="text-sm">You receive</p>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <ConvertAmount />
               <ToTokenField />

@@ -32,7 +32,8 @@ export const InputField = extendVariants(Input, {
           'bg-transparent',
           'text-black/90',
           'placeholder:text-default-700/50',
-          'text-2xl',
+          'text-[2rem]',
+          'font-medium',
         ],
         innerWrapper: 'bg-transparent',
         inputWrapper: [
@@ -42,8 +43,8 @@ export const InputField = extendVariants(Input, {
           'group-data-[focus=true]:bg-tranparent',
           'data-[hover=true]:bg-transparent',
           '!cursor-text',
+          'pl-0',
         ],
-        errorMessage: 'font-medium',
       },
       background: {
         inputWrapper: [

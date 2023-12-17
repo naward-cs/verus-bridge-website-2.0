@@ -106,7 +106,7 @@ const FromTokenField = () => {
   if (!isMounted)
     return (
       <button
-        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-3 text-xl font-medium"
+        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white px-3 py-1 text-xl font-medium"
         disabled
       >
         Select currency
@@ -116,7 +116,7 @@ const FromTokenField = () => {
   return (
     <>
       <button
-        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-3 text-xl font-medium hover:bg-[#EFEFEF]"
+        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white pr-3 p-1 text-xl font-medium hover:bg-[#EFEFEF]"
         onClick={(e) => {
           e.preventDefault()
           setTokens(tokenList)
