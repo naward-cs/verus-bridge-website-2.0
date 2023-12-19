@@ -5,7 +5,7 @@ import {useBalances, ValidateAmount} from '@/lib/hooks/balance'
 import {InputField} from '@/components/formFields/inputField'
 
 const Amount = () => {
-  const {control, setValue, clearErrors} = useFormContext()
+  const {control} = useFormContext()
   const {isEth, isConnected, EthBalance, ErcBalance} = useBalances()
 
   return (
@@ -22,12 +22,7 @@ const Amount = () => {
           <InputField
             aria-label="From Amount"
             color="transparent"
-            isClearable
-           onValueChange={onChange}
-            onClear={() => {
-              setValue('fromAmount', '')
-              clearErrors('fromAmount')
-            }}
+            onValueChange={onChange}
             value={value}
             placeholder="0.00"
           />
