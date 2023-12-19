@@ -6,20 +6,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import { toast } from 'sonner';
 import { formatEther } from 'viem';
-import { useWaitForTransaction } from 'wagmi';
+import {useWaitForTransaction} from 'wagmi'
 
-
-
-import { useDelgatorContract } from '@/lib/hooks/contract';
-import { EtherScan } from '@/lib/hooks/etherScan';
+import {useDelgatorContract} from '@/lib/hooks/contract'
+import {EtherScan} from '@/lib/hooks/etherScan'
 import CoinLogos from '@/components/shared/coinLogos'
 import {Icons} from '@/components/shared/icons'
 
-
-
-import ConvertWarn from './fields/convertWarn';
-import FinalReviewInfo from './finalReviewInfo';
-import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly';
+import ConvertWarn from './fields/convertWarn'
+import FinalReviewInfo from './finalReviewInfo'
+import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
 
 
 
@@ -187,21 +183,22 @@ const FinalReview = (props: FinalProps) => {
       <ModalBody>
         <div className="flex flex-col space-y-1">
           <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-            <div className="flex  items-center justify-between gap-1 ">
-              <div className="flex flex-col">
-                <p className="text-sm">You send</p>
+            <div className="flex flex-col     ">
+              <p className="text-sm">You send</p>
+              <div className="flex items-center justify-between  gap-1">
                 <p className="text-3xl font-medium">
                   {formValues.fromAmount.toString()}
                 </p>
-              </div>
-              <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
-                <CoinLogos
-                  symbol={formValues.fromToken.value}
-                  iAddr={formValues.fromToken.iaddress}
-                />
-                <p className=" text-xl font-medium">
-                  {formValues.fromToken.value}
-                </p>
+
+                <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
+                  <CoinLogos
+                    symbol={formValues.fromToken.value}
+                    iAddr={formValues.fromToken.iaddress}
+                  />
+                  <p className=" text-xl font-medium">
+                    {formValues.fromToken.value}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -211,23 +208,24 @@ const FinalReview = (props: FinalProps) => {
             </div>
           </div>
           <div className=" flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-            <div className="flex  items-center justify-between gap-1">
-              <div className="flex flex-col">
-                <p className="text-sm">You receive</p>
+            <div className="flex flex-col  ">
+              <p className="text-sm">You receive</p>
+              <div className="flex items-center justify-between gap-1">
                 <p className="text-3xl font-medium">
                   {formValues.sendOnly
                     ? formValues.fromAmount.toString()
                     : cRate}
                 </p>
-              </div>
-              <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
-                <CoinLogos
-                  symbol={formValues.toToken.currency}
-                  iAddr={formValues.toToken.iaddress}
-                />
-                <p className=" text-xl font-medium">
-                  {formValues.toToken.currency}
-                </p>
+
+                <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
+                  <CoinLogos
+                    symbol={formValues.toToken.currency}
+                    iAddr={formValues.toToken.iaddress}
+                  />
+                  <p className=" text-xl font-medium">
+                    {formValues.toToken.currency}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -274,7 +272,7 @@ const FinalReview = (props: FinalProps) => {
           <div className="pb-4">
             <button
               onClick={() => confirmSubmit()}
-              className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+              className="flex w-full items-center justify-center rounded-lg bg-bluePrimary h-[60px] text-center text-base font-medium text-white disabled:bg-[#969696] md:text-lg"
             >
               {formValues.sendOnly ? 'Send' : 'Convert'}
             </button>
