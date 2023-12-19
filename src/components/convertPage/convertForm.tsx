@@ -135,10 +135,9 @@ const ConvertForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <div className="flex-col rounded-lg border border-transparent bg-[#DDD] p-4 hover:border-[#b6b6b6]">
+          <div className="flex flex-col justify-center rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
             <p className="text-sm">You send</p>
-            <div className='flex flex-col space-y-2'>
-            <div className="flex flex-col gap-1 md:flex-row">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <Amount />
               <FromTokenField />
             </div>
