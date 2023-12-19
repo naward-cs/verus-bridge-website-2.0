@@ -5,10 +5,7 @@ import BigNumber from 'bignumber.js';
 
 import { useFormValues } from '@/lib/hooks/formValues';
 import { useGetCurrencyRate } from '@/lib/hooks/verus';
-
-
-
-
+import {cn} from '@/lib/utils/tailwindUtil'
 
 const ConvertAmount = () => {
   const {fromToken, toToken, fromAmount, sendOnly} = useFormValues()
@@ -27,7 +24,12 @@ const ConvertAmount = () => {
   }, [data, fromAmount, toToken])
 
   return (
-    <p className="pr-3 text-[2rem] font-medium leading-none">
+    <p
+      className={cn(
+        'pr-3 text-[2rem] font-medium leading-none',
+        conversion === '0.00' && 'text-default-700/50'
+      )}
+    >
       {sendOnly ? fromAmount : conversion}
     </p>
   )
