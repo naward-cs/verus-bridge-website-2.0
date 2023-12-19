@@ -21,6 +21,7 @@ const Amount = () => {
         render={({field: {value, onChange}}) => (
           <InputField
             aria-label="From Amount"
+            type="number"
             color="transparent"
             onValueChange={onChange}
             value={value}
