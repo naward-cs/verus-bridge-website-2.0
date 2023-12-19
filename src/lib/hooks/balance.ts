@@ -49,12 +49,12 @@ export const ValidateAmount = (
   if (isConnected) {
     if (isEth) {
       if (Number(EthBalance?.formatted) < Number(amount)) {
-        return `Insuffencent balance`
+        return `Insufficient balance`
       }
       return true
     } else {
       if (Number(ErcBalance?.formatted) < Number(amount)) {
-        return `Insuffencent balance`
+        return `Insufficient balance`
       }
       return true
     }
