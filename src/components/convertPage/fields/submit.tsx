@@ -1,14 +1,20 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
 import { useFormContext } from 'react-hook-form';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import {useAccount, useConnect} from 'wagmi'
+import { useAccount, useConnect } from 'wagmi';
 
-import {useFormValues} from '@/lib/hooks/formValues'
-import {useIsMounted} from '@/lib/hooks/mounted'
-import {isETHAddress} from '@/lib/utils/rules'
-import {Icons} from '@/components/shared/icons'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
+import { useIsMounted } from '@/lib/hooks/mounted';
+import { isETHAddress } from '@/lib/utils/rules';
+import { Icons } from '@/components/shared/icons';
+
+
+
+
 
 export const WarnContent = () => {
   return (
@@ -72,7 +78,7 @@ const FormSubmitButton = () => {
           fromAmount === '' ||
           parseFloat(fromAmount) === 0
         }
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-[1.375rem] leading-none"
+        className="flex h-[60px] w-full items-center justify-center rounded-lg bg-bluePrimary text-center text-base font-medium  leading-none text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-[1.375rem]"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
@@ -120,7 +126,7 @@ const ConnectSubmitButton = () => {
         onClick={onOpen}
         disabled={isConnecting}
         type="button"
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center text-base font-medium text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
       >
         Connect wallet
       </button>
