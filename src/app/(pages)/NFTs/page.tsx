@@ -20,7 +20,7 @@ export default function NFTsPage() {
   const con = true
   if (!con) {
     return (
-      <main className="container flex flex-col items-center justify-center ">
+      <main className="container flex flex-col items-center justify-center mt-20 ">
         <div className="flex flex-col space-y-4">
           <h1 className="text-center text-2xl font-medium">
             Tranfer your NFTs
