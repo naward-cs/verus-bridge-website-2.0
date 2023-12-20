@@ -36,13 +36,13 @@ const SubmitWarn = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {toAddress} = useFormValues()
-  if (!toAddress) return null
+  
   return (
     <div className="flex w-fit items-center space-x-2.5 rounded-2xl bg-[#F4EEEE] px-2 py-1 text-[#C58484]">
       <Icons.iInfo className="h-full w-4 text-[#D95757] " />
       <p className=" text-xs">
         It can take up to
-        {isETHAddress(toAddress) ? ' 2 hours ' : ' 60 mins '}
+        {(toAddress && isETHAddress(toAddress)) ? ' 2 hours ' : ' 60 mins '}
         before you receive the currency.{' '}
         <Tooltip
           showArrow
