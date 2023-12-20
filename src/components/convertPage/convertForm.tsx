@@ -143,7 +143,7 @@ const ConvertForm = () => {
             </div>
             <MaxAmountButton />
             </div>
-          </div>
+          
           <div className="relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-[#ddd] p-[3px] text-center align-middle">
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
