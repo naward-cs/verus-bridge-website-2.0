@@ -24,7 +24,7 @@ export default function ClaimsPage() {
           interest (Dai Savings Rate) are added to the reserves without there
           being new Bridge.vETH minted.
         </p>
-        <Link isExternal href="">
+        <Link isExternal href="https://docs.verus.io/eth-bridge/#bridge-veth-currency">
           What are the fees Bridge.vETH accrues?
         </Link>
       </div>
