@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {AddressZero} from '@ethersproject/constants'
 import {
   Link,
@@ -68,20 +68,11 @@ const Token = (token: TokenList) => {
 }
 
 const FromTokenField = () => {
-  const {control, resetField, setValue} = useFormContext()
+  const {control, resetField} = useFormContext()
+
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {tokenList} = useGetTokens()
-  useEffect(() => {
-    if (isMounted) {
-      if (tokenList) {
-        setValue(
-          'fromToken',
-          tokenList.find((token) => token.value === 'ETH')
-        )
-      }
-    }
-  }, [isMounted, setValue, tokenList])
 
   const [tokens, setTokens] = useState(tokenList)
   //search filter controller
@@ -116,7 +107,7 @@ const FromTokenField = () => {
   return (
     <>
       <button
-        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white pr-3 p-1 text-xl font-medium hover:bg-[#EFEFEF]"
+        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-1 pr-3 text-xl font-medium hover:bg-[#EFEFEF]"
         onClick={(e) => {
           e.preventDefault()
           setTokens(tokenList)

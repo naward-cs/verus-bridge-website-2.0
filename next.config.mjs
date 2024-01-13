@@ -13,6 +13,10 @@ const nextConfig = {
       allowedOrigins: ['localhost:3020', 'betabridge.verustest.net'],
     },
   },
+  webpack: (config) => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding')
+    return config
+  },
 }
 
 export default nextConfig
