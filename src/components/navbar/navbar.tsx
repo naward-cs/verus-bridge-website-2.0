@@ -53,10 +53,10 @@ const Navbar = () => {
           <Web3Button />
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu className="bg-[#f5f5f5] ">
+      <NavbarMenu className="bg-[#f5f5f5] font-medium ">
         {menuList.map((menu, index) => (
           <NavbarMenuItem key={`${index}-${menu.title}-mobile`}>
-            <Link className="w-full" href={menu.link} as={Next13Link} size="lg">
+            <Link className="w-full text-bluePrimary" href={menu.link} as={Next13Link} onClick={()=>setIsMenuOpen(false)} size="lg">
               {menu.title}
             </Link>
           </NavbarMenuItem>
