@@ -29,7 +29,7 @@ const ConnectButton = () => {
         {isOpen ? (
           <Spinner className="w-full" size="sm" color="white" />
         ) : (
-          'Connect Wallet'
+          'Connect wallet'
         )}
       </button>
       <Modal
