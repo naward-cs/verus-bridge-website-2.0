@@ -135,7 +135,7 @@ const ConvertForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <div className="flex flex-col justify-center rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+          <div className="flex min-h-[120px] flex-col justify-start rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
             <p className="text-sm">You send</p>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <Amount />
@@ -149,7 +149,7 @@ const ConvertForm = () => {
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
             </div>
           </div>
-          <div className="flex flex-col justify-center rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+          <div className="flex min-h-[120px] flex-col justify-start rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
             <p className="text-sm">You receive</p>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <ConvertAmount />
