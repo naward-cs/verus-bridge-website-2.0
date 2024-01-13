@@ -8,15 +8,35 @@
     "image": "/logos/eth.svg"
   },
   {
+    "symbol": "eurc",
+    "image": "/logos/eurc.svg"
+  },
+  {
+    "symbol": "link",
+    "image": "/logos/link.svg"
+  },
+  {
     "symbol": "mkr",
     "image": "/logos/mkr.png"
   },
   {
+    "symbol": "tbtc",
+    "image": "/logos/tbtc.svg"
+  },
+  {
+    "symbol": "trac",
+    "image": "/logos/trac.svg"
+  },
+  {
     "symbol": "usdc",
-    "image": "/logos/usdc.png"
+    "image": "/logos/usdc.svg"
   },
   {
     "symbol": "vrsc",
     "image": "/logos/vrsc.png"
+  },
+  {
+    "symbol": "wbtc",
+    "image": "/logos/wbtc.svg"
   }
 ]
