@@ -31,7 +31,11 @@ import FromTokenField from './fields/fromToken';
 import MaxAmountButton from './fields/maxButton';
 import SubmitButton from './fields/submit';
 import ToTokenField from './fields/toToken';
-import FinalReview from './finalReview'
+import FinalReview from './finalReview';
+
+
+
+
 
 const ConvertForm = () => {
   const {address: account} = useAccount()
@@ -55,6 +59,7 @@ const ConvertForm = () => {
       fromAmount: '',
       toToken: undefined,
       toAddress: '',
+      sendOnly: false,
     },
     mode: 'onChange',
     reValidateMode: 'onSubmit',
@@ -142,8 +147,8 @@ const ConvertForm = () => {
               <FromTokenField />
             </div>
             <MaxAmountButton />
-            </div>
-          
+          </div>
+
           <div className="relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-[#ddd] p-[3px] text-center align-middle">
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
@@ -157,7 +162,7 @@ const ConvertForm = () => {
             </div>
           </div>
           <ConvertRate />
-          <ConvertWarn />
+          {!formMethods.getValues('sendOnly') && <ConvertWarn />}
 
           <Address />
           <SubmitButton />

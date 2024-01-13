@@ -250,7 +250,8 @@ const FinalReview = (props: FinalProps) => {
               )}
             </span>
           </div>
-          <ConvertWarn />
+          {!formValues.sendOnly && 
+          <ConvertWarn />}
           <div className="pb-4 pt-2">
             {formValues.sendOnly ? (
               <FinalReviewInfoSendOnly />
