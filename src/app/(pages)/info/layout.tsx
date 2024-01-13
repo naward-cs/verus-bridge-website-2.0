@@ -7,7 +7,7 @@ const InfoLayout = (props: {
   pricetable: React.ReactNode
 }) => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between space-y-16 pt-16 transition-[padding] ease-in-out md:pt-20 lg:pt-40">
+    <main className="flex min-h-screen flex-col items-center mb-28 justify-between space-y-16 pt-16 transition-[padding] ease-in-out md:pt-20 lg:pt-40">
       <div className="flex w-full max-w-5xl flex-col items-stretch justify-center space-y-10 text-sm md:p-4 lg:p-0">
         <PageTop />
       </div>

@@ -139,7 +139,7 @@ const PriceTable = () => {
           ))}
       </div>
       <div className="grid grid-cols-4 items-center rounded-lg border border-bluePrimary bg-bluePrimary/5 p-5  text-base  font-medium text-bluePrimary md:text-xl">
-        <p className="col-span-2 text-left ">Total Value of Liquidity</p>
+        <p className="col-span-2 text-left ">Total value of liquidity</p>
         <p className="col-span-2 text-right ">
           {Intl.NumberFormat('en-US', {
             style: 'decimal',

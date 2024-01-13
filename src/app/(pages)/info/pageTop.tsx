@@ -35,8 +35,7 @@ const PageTop = () => {
           <p>
             It’s trustless and non-custodial, meaning it doesn’t require users
             to trust a third party with their funds, and no single entity has
-            control over the assets being transferred. Learn more on
-            docs.verus.io/eth-bridge
+            control over the assets being transferred.
           </p>
           <br />
           <Link href="https://docs.verus.io/eth-bridge" isExternal>
