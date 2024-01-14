@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {AddressZero} from '@ethersproject/constants'
 import {
   Link,
@@ -12,6 +12,7 @@ import {useController, useFormContext} from 'react-hook-form'
 import {useAccount, useBalance} from 'wagmi'
 
 import {EtherScan} from '@/lib/hooks/etherScan'
+import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import SearchInput from '@/components/formFields/searchField'
@@ -68,7 +69,7 @@ const Token = (token: TokenList) => {
 }
 
 const FromTokenField = () => {
-  const {control, resetField} = useFormContext()
+  const {control, resetField, setValue} = useFormContext()
 
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
@@ -94,6 +95,19 @@ const FromTokenField = () => {
     defaultValue: tokenList?.find((token) => token.value === 'ETH'),
   })
 
+  const {fromToken} = useFormValues()
+  useEffect(() => {
+    if (isMounted && tokenList) {
+      if (!fromToken) {
+        // console.log('loadeding')
+        setValue(
+          'fromToken',
+          tokenList.find((token) => token.value === 'ETH')
+        )
+      }
+    }
+  }, [fromToken, isMounted, setValue, tokenList])
+
   if (!isMounted)
     return (
       <button
@@ -104,6 +118,7 @@ const FromTokenField = () => {
         <Icons.chevronDown className="ml-2 h-4" />
       </button>
     )
+
   return (
     <>
       <button
