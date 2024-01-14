@@ -26,16 +26,13 @@ import Address from './fields/address';
 import Amount from './fields/amount';
 import ConvertAmount from './fields/convertAmount';
 import ConvertRate from './fields/convertRate';
-import ConvertWarn from './fields/convertWarn';
+// import ConvertWarn from './fields/convertWarn';
+import ConvertWarnForm from './fields/convertWarnForm';
 import FromTokenField from './fields/fromToken';
 import MaxAmountButton from './fields/maxButton';
 import SubmitButton from './fields/submit';
 import ToTokenField from './fields/toToken';
 import FinalReview from './finalReview';
-
-
-
-
 
 const ConvertForm = () => {
   const {address: account} = useAccount()
@@ -162,7 +159,7 @@ const ConvertForm = () => {
             </div>
           </div>
           <ConvertRate />
-          {!formMethods.getValues('sendOnly') && <ConvertWarn />}
+          <ConvertWarnForm />
 
           <Address />
           <SubmitButton />
