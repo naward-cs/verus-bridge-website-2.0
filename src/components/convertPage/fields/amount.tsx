@@ -22,6 +22,7 @@ const Amount = () => {
           <InputField
             aria-label="From Amount"
             type="number"
+            lang='en-US'
             color="transparent"
             onValueChange={onChange}
             value={value}
