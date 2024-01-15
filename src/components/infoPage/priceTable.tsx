@@ -1,21 +1,16 @@
 'use client';
 
 import React, { Suspense } from 'react';
+import Image from 'next/image'
 import { Tooltip } from '@nextui-org/tooltip';
 
 
 
 import { useBridgeInfo } from '@/lib/hooks/verus';
 
-
-
-import { Icons } from '../shared/icons';
-import PriceRow from './priceRow';
-import PriceRowSkeleton from './priceRowSkeleton';
-
-
-
-
+import {Icons} from '../shared/icons'
+import PriceRow from './priceRow'
+import PriceRowSkeleton from './priceRowSkeleton'
 
 const DaiTooltip = () => {
   return (
@@ -73,7 +68,7 @@ const PriceTable = () => {
             Supply
             <Tooltip content={SupplyToolTip()}>
               <span>
-                <Icons.info className="ml-1 " height={12} />
+                <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
           </p>
@@ -81,14 +76,23 @@ const PriceTable = () => {
             Price in DAI
             <Tooltip radius="sm" content={DaiTooltip()}>
               <span>
-                <Icons.info className="ml-1 " height={12} />
+                <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
           </p>
         </div>
-        <div className="grid grid-cols-4 rounded-lg border border-bluePrimary p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
-          <p className="col-span-2 text-left">Bridge.vETH</p>
-          <p className="text-right opacity-[.54]">
+        <div className="grid grid-cols-4 rounded-lg border border-bluePrimary bg-bluePrimary bg-opacity-[0.08] p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
+          <p className="col-span-2 flex items-center text-left text-black">
+            <Image
+              src="/logos/bridge-logo.svg"
+              alt="bridge logo"
+              height={26}
+              width={26}
+              className="mr-1.5 rounded-full"
+            />
+            Bridge.vETH
+          </p>
+          <p className="text-right text-xs opacity-[.54] md:text-sm">
             {Intl.NumberFormat('en-US', {
               style: 'decimal',
               maximumFractionDigits: 0,
@@ -115,7 +119,7 @@ const PriceTable = () => {
             Price in DAI
             <Tooltip content={ReserveDaiTip()}>
               <span>
-                <Icons.info className="ml-1 " height={12} />
+                <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
           </p>
@@ -125,7 +129,7 @@ const PriceTable = () => {
             Coinpaprika
             <Tooltip radius="sm" size="sm" content={MarketTip()}>
               <span>
-                <Icons.info className="mb-0.5" height={12} />
+                <Icons.info className="mb-0.5 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
           </p>

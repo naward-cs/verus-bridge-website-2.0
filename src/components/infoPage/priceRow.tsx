@@ -1,19 +1,12 @@
 'use client';
 
 import React, { Suspense } from 'react';
+import Image from 'next/image'
 
+import {useCaprikaMarketInfo} from '@/lib/hooks/marketInfo'
+import {cn} from '@/lib/utils/tailwindUtil'
 
-
-import { useCaprikaMarketInfo } from '@/lib/hooks/marketInfo';
-import { cn } from '@/lib/utils/tailwindUtil';
-
-
-
-import { Icons } from '../shared/icons';
-
-
-
-
+import {Icons} from '../shared/icons'
 
 type Mlist = {
   [key: string]: string
@@ -36,7 +29,7 @@ const Ticker = (coin: CoinList) => {
   return (
     <p
       className={cn(
-        'flex items-center justify-end text-[#939393]',
+        'flex items-center justify-end text-xs text-[#939393] md:text-sm',
         rate === 'less' && 'text-red-600',
         rate === 'greater' && 'text-green-600'
       )}
@@ -60,15 +53,52 @@ const Ticker = (coin: CoinList) => {
 }
 
 const DaiTicker = () => {
-  return <p className="flex items-center justify-end text-[#939393]">0.00%</p>
+  return (
+    <p className="flex items-center justify-end text-xs text-[#939393] md:text-sm">
+      0.00%
+    </p>
+  )
 }
 
 const PriceRow = (coin: CoinList) => {
-  
+  let coinLogo
+  let coinName
+
+  switch (coin.name) {
+    case 'VRSC':
+      coinLogo = '/logos/vrsc.png'
+      coinName = 'VRSC'
+      break
+    case 'DAI.vETH':
+      coinLogo = '/logos/dai.png'
+      coinName = 'DAI'
+      break
+    case 'MKR.vETH':
+      coinLogo = '/logos/mkr.png'
+      coinName = 'MKR'
+      break
+    case 'vETH':
+      coinLogo = '/logos/eth.svg'
+      coinName = 'ETH'
+      break
+    default:
+      coinLogo = ''
+      coinName = ''
+  }
+
   return (
     <div className="grid grid-cols-4 rounded-lg border border-bluePrimary p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
-      <p className="text-left">{coin.name}</p>
-      <p className="text-right opacity-[.54]">
+      <p className="flex items-center text-left text-black">
+        <Image
+          src={coinLogo}
+          alt="coin logo"
+          height={26}
+          width={26}
+          className="mr-1.5 rounded-full"
+        />
+        {coinName}
+      </p>
+      <p className="text-right text-xs opacity-[.54] md:text-sm">
         {Intl.NumberFormat('en-US', {
           style: 'decimal',
           maximumFractionDigits: 3,
@@ -76,7 +106,7 @@ const PriceRow = (coin: CoinList) => {
         }).format(coin.amount || 0)}
       </p>
 
-      <p className=" text-right">
+      <p className=" text-right ">
         {Intl.NumberFormat('en-US', {
           style: 'decimal',
           maximumFractionDigits: 2,
