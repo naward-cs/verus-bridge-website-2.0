@@ -34,6 +34,10 @@ import SubmitButton from './fields/submit';
 import ToTokenField from './fields/toToken';
 import FinalReview from './finalReview';
 
+
+
+
+
 const ConvertForm = () => {
   const {address: account} = useAccount()
   const chainId = NetworkChain()
@@ -46,7 +50,7 @@ const ConvertForm = () => {
     staleTime: 2_000,
   })
   const delegatorAddr = DelegatorAddress()
-  const {isOpen, onOpen, onOpenChange} = useDisclosure()
+  const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
@@ -177,7 +181,7 @@ const ConvertForm = () => {
         isDismissable={false}
       >
         <ModalContent>
-          {txConfig && <FinalReview account={account!} {...txConfig} />}
+          {txConfig && <FinalReview account={account!} onClose={onClose} {...txConfig} />}
         </ModalContent>
       </Modal>
     </>

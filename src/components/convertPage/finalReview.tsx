@@ -17,22 +17,19 @@ import ConvertWarn from './fields/convertWarn'
 import FinalReviewInfo from './finalReviewInfo'
 import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
 
-
-
-
-
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
+  onClose: () => void
 }
 
 const maxGas = 1000000
 const FinalReview = (props: FinalProps) => {
-  const {formValues, CReserveTransfer: cr, fee, account} = props
+  const {formValues, CReserveTransfer: cr, fee, account, onClose} = props
   const etherScan = EtherScan()
   const [pending, setPending] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [txError, setTxError] = useState(false)
-
+  const [pendingTx, setPendingTx] = useState(false)
   const [tx, setTx] = useState<`0x${string}` | undefined>(undefined)
   let cRate = '0'
   const qQuery = useQueryClient().getQueryCache()
@@ -60,7 +57,11 @@ const FinalReview = (props: FinalProps) => {
     },
     onSuccess(data) {
       toast.success(`Transaction successful ${data.transactionHash}`)
-      setTx(undefined)
+
+      setTimeout(() => {
+        // setTx(undefined)
+        onClose()
+      }, 10_000)
     },
     onError: () => {
       setTxError(true)
@@ -88,10 +89,17 @@ const FinalReview = (props: FinalProps) => {
         gasLimit: maxGas.toString(),
         value: fee,
       })
+
       if (txResult) {
+        setPendingTx(true)
         await txResult.wait()
+
         setTx(txResult.hash)
+        setPendingTx(false)
       }
+      // setTx(
+      //   '0xee6a66a92f75436d19956fd7a20b7cdff5ff4b6ca0f96c645886615b8040b4a9'
+      // )
       setPending(false)
     } catch (e) {
       // console.log(error as BaseError)
@@ -120,7 +128,9 @@ const FinalReview = (props: FinalProps) => {
             </p>
           )}
           <p className="text-sm text-[686868]">
-            Confirm this transaction in your wallet
+            {pendingTx
+              ? 'Processing transaction'
+              : 'Confirm this transaction in your wallet'}
           </p>
         </div>
       </ModalBody>
@@ -151,7 +161,7 @@ const FinalReview = (props: FinalProps) => {
       </ModalBody>
     )
   }
-  if (completed && tx) {
+  if (tx) {
     return (
       <ModalBody>
         <div className="mb-6 flex flex-col items-center justify-center space-y-2 py-4">
@@ -250,8 +260,7 @@ const FinalReview = (props: FinalProps) => {
               )}
             </span>
           </div>
-          {!formValues.sendOnly && 
-          <ConvertWarn />}
+          {!formValues.sendOnly && <ConvertWarn />}
           <div className="pb-4 pt-2">
             {formValues.sendOnly ? (
               <FinalReviewInfoSendOnly />
@@ -273,7 +282,7 @@ const FinalReview = (props: FinalProps) => {
           <div className="pb-4">
             <button
               onClick={() => confirmSubmit()}
-              className="flex w-full items-center justify-center rounded-lg bg-bluePrimary h-[60px] text-center text-base font-medium text-white disabled:bg-[#969696] md:text-lg"
+              className="flex h-[60px] w-full items-center justify-center rounded-lg bg-bluePrimary text-center text-base font-medium text-white disabled:bg-[#969696] md:text-lg"
             >
               {formValues.sendOnly ? 'Send' : 'Convert'}
             </button>
