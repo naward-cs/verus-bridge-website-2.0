@@ -30,7 +30,7 @@ const ConvertAmount = () => {
         conversion === '0.00' && 'text-default-700/50'
       )}
     >
-      {sendOnly ? fromAmount : conversion}
+      {sendOnly ? fromAmount ? fromAmount : '0.00' : conversion}
     </p>
   )
 }
