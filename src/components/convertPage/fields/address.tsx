@@ -1,12 +1,66 @@
+;
 // import React, {useState} from 'react'
-import {Input} from '@nextui-org/react'
-import {Controller, useFormContext} from 'react-hook-form'
-import {useAccount} from 'wagmi'
+import { useState } from 'react';
+import { Input, Link, Tooltip } from '@nextui-org/react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { useAccount } from 'wagmi';
+
+
 
 // import {useAccount} from 'wagmi'
-import {useFormValues} from '@/lib/hooks/formValues'
-import {validateAddress} from '@/lib/utils/rules'
-import {Icons} from '@/components/shared/icons'
+import { useFormValues } from '@/lib/hooks/formValues';
+import { validateAddress } from '@/lib/utils/rules';
+import { Icons } from '@/components/shared/icons';
+
+
+
+
+
+const ToolTipText = () => {
+  return (
+    <div className="max-w-[280px] space-y-3 py-2 text-xs">
+      <p>
+        Use a Verus address to receive the currency on the Verus blockchain.{' '}
+        <Link
+          className="text-xs underline-offset-1 text-bluePrimary"
+          isExternal
+          underline="always"
+          href="https://docs.verus.io"
+        >
+          Get a Verus address
+        </Link>
+      </p>
+      <p>
+        Use an Ethereum address to receive the currency on the Ethereum
+        blockchain (as ETH or ERC-20). You pay for two transfers: from Ethereum
+        to Verus & from Verus back to Ethereum. This can take up to two hours.
+      </p>
+    </div>
+  )
+}
+
+const AddressLabel = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <>
+      Use Verus (VerusID@, R-,i-address) or Ethereum address.{' '}
+      <Tooltip
+        showArrow
+        placement="bottom"
+        content={ToolTipText()}
+        isOpen={isOpen}
+        onOpenChange={(open) => setIsOpen(open)}
+      >
+        <span
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-xs font-medium text-bluePrimary underline"
+        >
+          How it works
+        </span>
+      </Tooltip>
+    </>
+  )
+}
 
 const Address = () => {
   const {address, isConnected} = useAccount()
@@ -16,6 +70,7 @@ const Address = () => {
 
   // if (!toToken) return null
   //TODO: add switch to use self address
+
   return (
     <div className="flex flex-col py-4 text-lg">
       <Controller
@@ -40,7 +95,8 @@ const Address = () => {
             }}
             onValueChange={onChange}
             labelPlacement="outside"
-            label="Use Verus (VerusID@, R-,i-address) or Ethereum address."
+            // label="Use Verus (VerusID@, R-,i-address) or Ethereum address."
+            label={AddressLabel()}
             value={value}
             placeholder="Enter receiving address"
             endContent={
@@ -74,7 +130,6 @@ const Address = () => {
                 </button>
               </div>
             }
-            
           />
         )}
       />
