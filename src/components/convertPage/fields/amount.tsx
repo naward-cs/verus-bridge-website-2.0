@@ -7,7 +7,7 @@ import {InputField} from '@/components/formFields/inputField'
 const Amount = () => {
   const {control} = useFormContext()
   const {isEth, isConnected, EthBalance, ErcBalance} = useBalances()
-
+  
   return (
     <div className="max-w-xs">
       <Controller
@@ -22,7 +22,7 @@ const Amount = () => {
           <InputField
             aria-label="From Amount"
             type="number"
-            lang='en-US'
+            lang="en-US"
             color="transparent"
             onValueChange={onChange}
             value={value}

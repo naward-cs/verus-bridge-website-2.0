@@ -2,14 +2,29 @@
 
 import React from 'react'
 import {useFormContext} from 'react-hook-form'
+import {formatEther, parseEther} from 'viem'
 
+import {ETH_FEES} from '@/config/constants'
 import {useBalances} from '@/lib/hooks/balance'
+import {useFormValues} from '@/lib/hooks/formValues'
+import {useGasRate} from '@/lib/hooks/gasRate'
 import {useIsMounted} from '@/lib/hooks/mounted'
+import {isETHAddress} from '@/lib/utils/rules'
 
 const MaxAmountButton = () => {
   const {setValue} = useFormContext()
   const isMounted = useIsMounted()
   const {isEth, isConnected, EthBalance, ErcBalance} = useBalances()
+  const {toAddress} = useFormValues()
+  const {data: txGas} = useGasRate()
+  let maxEthValue = EthBalance?.value || 0n
+  if (toAddress) {
+    if (isETHAddress(toAddress)) {
+      maxEthValue = maxEthValue - BigInt(txGas?.WEICOST || 0n)
+    } else {
+      maxEthValue = maxEthValue - parseEther(ETH_FEES.ETH)
+    }
+  }
 
   //trying to prevent NaN displays
   if (!isConnected || !isMounted || !EthBalance) return null
@@ -23,7 +38,9 @@ const MaxAmountButton = () => {
           minimumFractionDigits: 2,
           maximumFractionDigits: 8,
         }).format(
-          isEth ? Number(EthBalance?.formatted) : Number(ErcBalance?.formatted)
+          isEth
+            ? Number(formatEther(maxEthValue))
+            : Number(ErcBalance?.formatted)
         )}{' '}
         {isEth ? EthBalance?.symbol : ErcBalance?.symbol}
       </p>
@@ -34,12 +51,8 @@ const MaxAmountButton = () => {
           setValue(
             'fromAmount',
             isEth
-              ? Number(EthBalance?.formatted)
-                  .toFixed(8)
-                  .toString()
-              : Number(ErcBalance?.formatted)
-                  .toFixed(8)
-                  .toString()
+              ? Number(formatEther(maxEthValue)).toFixed(8).toString()
+              : Number(ErcBalance?.formatted).toFixed(8).toString()
           )
         }}
         className="rounded-md border border-black bg-[#CECECE] p-1 text-xs"
