@@ -14,7 +14,7 @@ export const convertVerustoEthAddress = (vAddress: string): `0x${string}` => {
 
 export const convertEthToVerusAddress = (ethAddress: string) => {
   const raddress = crypto.hash160(Buffer.from(ethAddress.slice(2), 'hex'))
-
+  // console.log('crpto', crypto.hash160(Buffer.from(ethAddress.slice(2), 'hex')))
   return primitives.toBase58Check(raddress, 60)
   // return ECPair.fromPublicKeyBuffer(
   //   Buffer.from(ethAddress.slice(2), 'hex'),
@@ -30,4 +30,17 @@ export const coinsToSats = (amount: string) => {
   BigNumber.set({EXPONENTIAL_AT: 1000000, ROUNDING_MODE: BigNumber.ROUND_FLOOR})
   const input = BigNumber(amount)
   return BigNumber(coinsToUnits(input, 8).toFixed(0)).toString()
+}
+
+export const unit64ToVerusFloat = (amount: bigint) => {
+  let inter = `${amount / BigInt('100000000')}.`
+  let decimalp = `${amount % BigInt('100000000')}`
+  if (amount < 0n) {
+    inter = `-${inter}`
+    decimalp = decimalp.slice(1)
+  }
+  while (decimalp.length < 8) {
+    decimalp = `0${decimalp}`
+  }
+  return inter + decimalp
 }

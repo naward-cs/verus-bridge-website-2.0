@@ -1,38 +1,39 @@
 import React, { useState } from 'react';
-import { Tooltip } from '@nextui-org/react';
+import {Link, Tooltip} from '@nextui-org/react'
 
-
-
-import { useFormValues } from '@/lib/hooks/formValues';
 import {Icons} from '@/components/shared/icons'
 
 export const WarnContent = () => {
   return (
-    <div className="max-w-xs space-y-3 py-2 text-xs">
+    <div className="max-w-[280px] space-y-3 py-2 text-xs">
       <p>
-        This estimation is based on the Verus mempool. The amount can vary since
-        new conversions can enter into the mempool.
+        All conversions in one or more blocks are solved simultaneously. All
+        conversions in those blocks get the same, fair protocol price. What you
+        receive can be different based on new conversions entering the mempool.
       </p>
       <p>
-        But rest assured, once a block with conversions is solved, everyone gets
-        the same price!
+        Verus DeFi is MEV-resistant because of its protocol design.{' '}
+        <Link
+          className="text-xs underline-offset-1"
+          isExternal
+          underline="always"
+          href="https://docs.verus.io/sendcurrency/"
+        >
+          Learn more
+        </Link>
       </p>
-      {/* <Link className="text-xs" isExternal underline="always" href="/">
-        Learn more
-      </Link> */}
     </div>
   )
 }
 export const ConvertWarn = () => {
   //TODO: fix tooltip for mobile unclick
   const [isOpen, setIsOpen] = useState(false)
-  const {toToken} = useFormValues()
-  if (!toToken) return null
+
   return (
-    <div className="flex items-center space-x-2.5 ">
-      <Icons.alertTriangle className="h-full w-6" />
-      <p className=" text-xs text-[#686868]">
-        Estimation based on mempool. Can vary based on actual price.{' '}
+    <div className="flex w-fit items-center space-x-2.5 rounded-2xl bg-[#F4EEEE] px-2 py-1 text-[#C58484] ">
+      <Icons.iInfo className="h-full w-4 text-[#D95757] " />
+      <p className=" text-xs ">
+        What you receive (always for the fair price) can be different.{' '}
         <Tooltip
           showArrow
           placement="bottom"

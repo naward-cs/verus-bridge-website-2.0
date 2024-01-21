@@ -24,12 +24,12 @@ const ConnectButton = () => {
     <>
       <button
         onClick={onOpen}
-        className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white "
+        className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white hover:bg-[#417DFF] "
       >
         {isOpen ? (
           <Spinner className="w-full" size="sm" color="white" />
         ) : (
-          'Connect Wallet'
+          'Connect wallet'
         )}
       </button>
       <Modal
@@ -50,7 +50,7 @@ const ConnectButton = () => {
                   connect({connector})
                   onClose()
                 }}
-                className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white "
+                className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white hover:bg-[#417DFF]"
               >
                 {connector.name}
               </button>

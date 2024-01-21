@@ -1,23 +1,24 @@
-import React, {useState} from 'react'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  Tooltip,
-  useDisclosure,
-} from '@nextui-org/react'
+import React, { useState } from 'react';
+import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
+import { useFormContext } from 'react-hook-form';
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
 // import { useFormContext } from 'react-hook-form';
-import {useAccount, useConnect} from 'wagmi'
+import { useAccount, useConnect } from 'wagmi';
 
-import {useFormValues} from '@/lib/hooks/formValues'
-import {useIsMounted} from '@/lib/hooks/mounted'
-import {Icons} from '@/components/shared/icons'
+
+
+import { useFormValues } from '@/lib/hooks/formValues';
+import { useIsMounted } from '@/lib/hooks/mounted';
+import { isETHAddress } from '@/lib/utils/rules';
+import { Icons } from '@/components/shared/icons';
+
+
+
+
 
 export const WarnContent = () => {
   return (
-    <div className="max-w-xs space-y-3 py-2 text-xs">
+    <div className="max-w-[280px] space-y-3 py-2 text-xs">
       <p>
         The Verus-Ethereum Bridge is truly trustless, non-custodial and proven
         by consensus. The Ethereum smart contract and Verus blockchain need to
@@ -35,14 +36,17 @@ const SubmitWarn = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {toAddress} = useFormValues()
-  if (!toAddress) return null
+  
   return (
-    <div className="flex items-center justify-center space-x-2.5 pt-2.5">
-      <Icons.alertTriangle className="h-full w-6" />
-      <p className=" text-xs text-[#686868]">
-        This conversion can take up to 45 minutes.{' '}
+    <div className="flex w-fit items-center space-x-2.5 rounded-2xl bg-[#F4EEEE] px-2 py-1 text-[#C58484]">
+      <Icons.iInfo className="h-full w-4 text-[#D95757] " />
+      <p className=" text-xs">
+        It can take up to
+        {(toAddress && isETHAddress(toAddress)) ? ' 2 hours ' : ' 60 mins '}
+        before you receive the currency.{' '}
         <Tooltip
           showArrow
+          placement="bottom"
           content={WarnContent()}
           isOpen={isOpen}
           onOpenChange={(open) => setIsOpen(open)}
@@ -59,29 +63,39 @@ const SubmitWarn = () => {
   )
 }
 const FormSubmitButton = () => {
-  const {toToken, sendOnly, toAddress} = useFormValues()
+  const {toToken, sendOnly, toAddress, fromAmount} = useFormValues()
+  const {
+    formState: {errors},
+  } = useFormContext()
   //if not connected to wallet, connect to wallet
 
   return (
     <>
       <button
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+        disabled={
+          !toAddress ||
+          Object.keys(errors).length > 0 ||
+          fromAmount === '' ||
+          parseFloat(fromAmount) === 0
+        }
+        className="flex h-[60px] w-full items-center justify-center rounded-lg bg-bluePrimary text-center text-base font-medium  leading-none text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-[1.375rem]"
         type="submit"
         // disabled={(!toToken && !toAddress) || isSubmitting || pending}
       >
-        {toToken ? (
-          toAddress ? (
-            <>
-              {sendOnly ? 'Send' : 'Convert'}
-              <span className="ml-2 text-xs md:text-sm">
-                (Can take up to 45 mins to complete)
-              </span>
-            </>
+        {!Object.entries(errors).length ? (
+          fromAmount === '' || parseFloat(fromAmount) === 0 ? (
+            'Insert amount'
+          ) : toToken ? (
+            toAddress ? (
+              <>Confirm {sendOnly ? 'send' : 'conversion'}</>
+            ) : (
+              'Fill in receiving address'
+            )
           ) : (
-            'Enter Destination Address'
+            'Select a currency to receive'
           )
         ) : (
-          'Select to convert or send currency'
+          (Object.entries(errors)?.[0]?.[1]?.message as string)
         )}
       </button>
       <SubmitWarn />
@@ -112,9 +126,9 @@ const ConnectSubmitButton = () => {
         onClick={onOpen}
         disabled={isConnecting}
         type="button"
-        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center font-geo text-base font-normal text-white disabled:bg-[#969696] md:text-lg"
+        className="flex w-full items-center justify-center rounded-lg bg-bluePrimary px-4 py-3 text-center text-base font-medium text-white hover:bg-[#417DFF] disabled:bg-[#969696] md:text-lg"
       >
-        Connect Wallet
+        Connect wallet
       </button>
       <Modal
         isOpen={isOpen}

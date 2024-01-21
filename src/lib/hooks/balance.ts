@@ -1,15 +1,11 @@
 'use client';
 
-import { useAccount, useBalance } from 'wagmi';
+import {AddressZero} from '@ethersproject/constants'
+import {erc20ABI, useAccount, useBalance, useContractReads} from 'wagmi'
 
+import {useFormValues} from './formValues'
 
-
-import { useFormValues } from './formValues';
-
-
-
-import type { FetchBalanceResult } from 'wagmi/actions';
-
+import type {FetchBalanceResult} from 'wagmi/actions'
 
 export const useBalances = () => {
   const {fromToken} = useFormValues()
@@ -47,22 +43,54 @@ export const ValidateAmount = (
     return 'max 8 decimals'
 
   if (Number(amount) > 100000000)
-    return 'Amount too large. Try a smaller amount.'
-  if (Number(amount) < 0) return 'Amount is not valid.'
+    return 'Amount too large'
+  if (Number(amount) < 0) return 'Insert amount'
 
   if (isConnected) {
     if (isEth) {
       if (Number(EthBalance?.formatted) < Number(amount)) {
-        return `Amount is not available in your wallet. ${EthBalance?.formatted} ${EthBalance?.symbol}`
+        return `Insufficient balance`
       }
       return true
     } else {
       if (Number(ErcBalance?.formatted) < Number(amount)) {
-        return `Amount is not available in your wallet. ${ErcBalance?.formatted} ${ErcBalance?.symbol}`
+        return `Insufficient balance`
       }
       return true
     }
   } else {
     return true
   }
+}
+
+export const useGetAllERC20balances = (
+  account?: `0x${string}`,
+  tokens?: `0x${string}`[]
+) => {
+  const contracts = tokens
+    ?.filter((t) => t !== AddressZero)
+    .map((t) => {
+      return {
+        address: t,
+        abi: erc20ABI,
+        functionName: 'balanceOf',
+        args: [account!],
+      }
+    })
+  return useContractReads({
+    contracts,
+    enabled: !!tokens && !!account,
+    staleTime: 4_000,
+    watch: true,
+    select: (data) => {
+      try {
+        const list = contracts?.map((t, i) => {
+          return {[t.address]: data[i].result}
+        })
+        return list
+      } catch (error) {
+        throw new Error('unable to get balances')
+      }
+    },
+  })
 }

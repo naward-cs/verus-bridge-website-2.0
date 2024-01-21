@@ -1,24 +1,16 @@
-'use client'
+'use client';
 
-import React, {useState} from 'react'
-import NextLink from 'next/link'
-import {usePathname} from 'next/navigation'
-import menuList from '@/data/navbar.json'
-import {
-  Link,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-  Navbar as NextUINavbar,
-
-} from '@nextui-org/react'
+import React, { useState } from 'react';
+// import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
+import menuList from '@/data/navbar.json';
+import { Link, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Navbar as NextUINavbar } from '@nextui-org/react';
+import { Link as Next13Link } from 'nextjs13-progress';
 
 import {cn} from '@/lib/utils/tailwindUtil'
 import {Logo} from '@/components/shared/icons'
 
+import Network from './network'
 import Web3Button from './web3Button'
 
 const Navbar = () => {
@@ -32,22 +24,22 @@ const Navbar = () => {
       classNames={{base: 'bg-[#f5f5f5] fixed'}}
       isBlurred={false}
     >
-      <NavbarContent className="sm:hidden" justify="start">
+      <NavbarContent className="md:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         />
       </NavbarContent>
       <NavbarContent>
         <NavbarBrand>
-          <Logo height={28} className="text-bluePrimary" />
+          <Logo height={28} className="text-bluePrimary" /> <Network />
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden gap-4 font-medium sm:flex" justify="end">
+      <NavbarContent className="hidden gap-4 lg:gap-8 font-medium md:flex" justify="end">
         {menuList.map((menu, index) => (
           <NavbarItem key={`${index}-${menu.title}-top`}>
             <Link
               href={menu.link}
-              as={NextLink}
+              as={Next13Link}
               className={cn(
                 'text-bluePrimary hover:text-blue-700 hover:underline hover:opacity-100',
                 pathname === menu.link && 'underline underline-offset-2'
@@ -61,10 +53,10 @@ const Navbar = () => {
           <Web3Button />
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu className="bg-[#f5f5f5] ">
+      <NavbarMenu className="bg-[#f5f5f5] font-medium ">
         {menuList.map((menu, index) => (
           <NavbarMenuItem key={`${index}-${menu.title}-mobile`}>
-            <Link className="w-full" href={menu.link} as={NextLink} size="lg">
+            <Link className="w-full text-bluePrimary" href={menu.link} as={Next13Link} onClick={()=>setIsMenuOpen(false)} size="lg">
               {menu.title}
             </Link>
           </NavbarMenuItem>

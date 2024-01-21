@@ -1,46 +1,45 @@
 'use client';
 
 import React, { useState } from 'react';
-import {useDelegatorBridgeConverterActive} from '@/generated'
-import {AddressZero} from '@ethersproject/constants'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from '@nextui-org/react'
-import {FormProvider, useForm} from 'react-hook-form'
-import {toast} from 'sonner'
-import {useAccount, useNetwork, useWaitForTransaction} from 'wagmi'
+import { useDelegatorBridgeConverterActive } from '@/generated';
+import { AddressZero } from '@ethersproject/constants';
+import { Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { useAccount, useNetwork } from 'wagmi';
 
-import {useEthers} from '@/lib/hooks/ethers'
-import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
-import {useGetTokens} from '@/lib/hooks/tokens'
-import {isValidVerusID} from '@/lib/server/verusQueries'
-import {AuthorizeTokenAmount} from '@/lib/utils/authorizeERC20'
-import {isETHAddress, isRAddress} from '@/lib/utils/rules'
-import {getConfigOptions} from '@/lib/utils/txConfig'
-import {Icons} from '@/components/shared/icons'
 
-import warnToast from '../shared/warnToast'
-import Address from './fields/address'
-import Amount from './fields/amount'
-import ConvertAmount from './fields/convertAmount'
-import ConvertRate from './fields/convertRate'
-import ConvertWarn from './fields/convertWarn'
-import FromTokenField from './fields/fromToken'
-import MaxAmountButton from './fields/maxButton'
-import SubmitButton from './fields/submit'
-import ToTokenField from './fields/toToken'
-import FinalReview from './finalReview'
+
+import { useEthers } from '@/lib/hooks/ethers';
+import { DelegatorAddress, NetworkChain } from '@/lib/hooks/network';
+import { useGetTokens } from '@/lib/hooks/tokens';
+import { isValidVerusID } from '@/lib/server/verusQueries';
+import { AuthorizeTokenAmount } from '@/lib/utils/authorizeERC20';
+import { isETHAddress, isRAddress } from '@/lib/utils/rules';
+import { getConfigOptions } from '@/lib/utils/txConfig';
+import { Icons } from '@/components/shared/icons';
+
+
+
+import warnToast from '../shared/warnToast';
+import Address from './fields/address';
+import Amount from './fields/amount';
+import ConvertAmount from './fields/convertAmount';
+import ConvertRate from './fields/convertRate';
+// import ConvertWarn from './fields/convertWarn';
+import ConvertWarnForm from './fields/convertWarnForm';
+import FromTokenField from './fields/fromToken';
+import MaxAmountButton from './fields/maxButton';
+import SubmitButton from './fields/submit';
+import ToTokenField from './fields/toToken';
+import FinalReview from './finalReview';
 
 
 
 
 
 const ConvertForm = () => {
-  const {address: account, isConnected} = useAccount()
+  const {address: account} = useAccount()
   const chainId = NetworkChain()
   const {chain} = useNetwork()
   const {refundAddresses, error: signError, signMsg} = useEthers()
@@ -51,16 +50,17 @@ const ConvertForm = () => {
     staleTime: 2_000,
   })
   const delegatorAddr = DelegatorAddress()
-  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
+  const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>()
+
   const formMethods = useForm<ConvertFormData>({
     defaultValues: {
       fromAmount: '',
       toToken: undefined,
       toAddress: '',
+      sendOnly: false,
     },
     mode: 'onChange',
     reValidateMode: 'onSubmit',
@@ -134,23 +134,6 @@ const ConvertForm = () => {
     }
   }
 
-  useWaitForTransaction({
-    hash: txHash,
-    enabled: !!txHash,
-    timeout: 240_000, //4 minutes
-    onReplaced(data) {
-      toast(`Transaction change of ${data.reason}`)
-    },
-    onSuccess(data) {
-      toast.success(`Transaction successful ${data.transactionHash}`)
-      setTxHash(undefined)
-    },
-    onError(err) {
-      console.error('Transaction Error', err)
-      toast.error('Something went wrong with transaction')
-    },
-  })
-
   return (
     <>
       <FormProvider {...formMethods}>
@@ -158,27 +141,31 @@ const ConvertForm = () => {
           className="flex flex-col space-y-1"
           onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          <div className="flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
-            <div className="flex flex-col gap-1 md:flex-row">
+          <div className="flex min-h-[120px] flex-col justify-start rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+            <p className="text-sm">You send</p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <Amount />
               <FromTokenField />
             </div>
             <MaxAmountButton />
           </div>
+
           <div className="relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-[#F1F1F1] bg-[#ddd] p-[3px] text-center align-middle">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-[#ddd] p-[3px] text-center align-middle">
               <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
             </div>
           </div>
-          <div className="flex  flex-col justify-center  space-y-2 rounded-lg bg-[#DDD] p-4 py-5">
+          <div className="flex min-h-[120px] flex-col justify-start rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">
+            <p className="text-sm">You receive</p>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <ConvertAmount />
               <ToTokenField />
             </div>
-            <ConvertWarn />
           </div>
           <ConvertRate />
-          {isConnected && <Address />}
+          <ConvertWarnForm />
+
+          <Address />
           <SubmitButton />
         </form>
       </FormProvider>
@@ -191,21 +178,10 @@ const ConvertForm = () => {
         onOpenChange={() => {
           onOpenChange()
         }}
+        isDismissable={false}
       >
         <ModalContent>
-          <ModalHeader className="text-sm font-normal">
-            Confirm conversion
-          </ModalHeader>
-          <ModalBody>
-            {txConfig && (
-              <FinalReview
-                setHash={setTxHash}
-                closeModal={onClose}
-                account={account!}
-                {...txConfig}
-              />
-            )}
-          </ModalBody>
+          {txConfig && <FinalReview account={account!} onClose={onClose} {...txConfig} />}
         </ModalContent>
       </Modal>
     </>

@@ -1,9 +1,13 @@
-import {extendVariants, Input} from '@nextui-org/react'
+import { extendVariants, Input } from '@nextui-org/react';
+
+
+
+
 
 export const InputField = extendVariants(Input, {
   variants: {
-    color: {
-      transparent: {
+    variant: {
+      form: {
         input: [
           'bg-transparent',
           'text-black/90',
@@ -21,6 +25,27 @@ export const InputField = extendVariants(Input, {
         ],
         errorMessage: 'font-medium',
       },
+    },
+    color: {
+      transparent: {
+        input: [
+          'bg-transparent',
+          'text-black/90',
+          'placeholder:text-default-700/50',
+          'text-[2rem]',
+          'font-medium',
+        ],
+        innerWrapper: 'bg-transparent',
+        inputWrapper: [
+          'shadow-none',
+          'bg-transparent',
+          'h-full',
+          'group-data-[focus=true]:bg-tranparent',
+          'data-[hover=true]:bg-transparent',
+          '!cursor-text',
+          'pl-0',
+        ],
+      },
       background: {
         inputWrapper: [
           'border-[#787878]',
@@ -28,6 +53,7 @@ export const InputField = extendVariants(Input, {
           'rounded-lg',
           'bg-[#F3F3F3]',
         ],
+        label: ['font-normal'],
       },
     },
   },

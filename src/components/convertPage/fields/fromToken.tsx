@@ -1,4 +1,5 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
+import {AddressZero} from '@ethersproject/constants'
 import {
   Link,
   Modal,
@@ -8,20 +9,72 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import {useController, useFormContext} from 'react-hook-form'
+import {useAccount, useBalance} from 'wagmi'
 
 import {EtherScan} from '@/lib/hooks/etherScan'
+import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import SearchInput from '@/components/formFields/searchField'
+import CoinLogos from '@/components/shared/coinLogos'
 import {Icons} from '@/components/shared/icons'
 
-//TODO: need to add chain watcher
-const FromTokenField = () => {
-  const {control, resetField} = useFormContext()
+import ButtonText from './toFromTokenButtonText'
+
+const Token = (token: TokenList) => {
   const etherScan = EtherScan()
+  const {address: account} = useAccount()
+
+  const {data: balance} = useBalance({
+    address: account,
+    token: token.erc20address !== AddressZero ? token.erc20address : undefined,
+    enabled: !!account,
+  })
+
+  return (
+    <>
+      <div className="flex items-center space-x-2 ">
+        <CoinLogos symbol={token.value} iAddr={token.iaddress} />
+
+        <div className="flex flex-col">
+          <p className=" text-base font-medium leading-none ">{token.label}</p>
+
+          <div className="flex w-28 items-center justify-between">
+            <p className="text-xs text-[#818181]">{token.value}</p>
+            {token.erc20address !== AddressZero && (
+              <Link
+                isExternal
+                className="text-xs underline"
+                href={etherScan + 'address/' + token.erc20address}
+              >
+                {token.erc20address.slice(0, 5)}...
+                {token.erc20address.slice(-3)}
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+      <div>
+        <p className="ml-4">
+          {balance &&
+            Intl.NumberFormat('en-US', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 8,
+            }).format(parseFloat(balance?.formatted))}
+        </p>
+      </div>
+    </>
+  )
+}
+
+const FromTokenField = () => {
+  const {control, resetField, setValue} = useFormContext()
+
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {tokenList} = useGetTokens()
+
   const [tokens, setTokens] = useState(tokenList)
   //search filter controller
   const handleSearch = useCallback(
@@ -42,28 +95,45 @@ const FromTokenField = () => {
     defaultValue: tokenList?.find((token) => token.value === 'ETH'),
   })
 
+  const {fromToken} = useFormValues()
+  useEffect(() => {
+    if (isMounted && tokenList) {
+      if (!fromToken) {
+        // console.log('loadeding')
+        setValue(
+          'fromToken',
+          tokenList.find((token) => token.value === 'ETH')
+        )
+      }
+    }
+  }, [fromToken, isMounted, setValue, tokenList])
+
   if (!isMounted)
     return (
       <button
-        className="flex h-fit min-w-fit items-center justify-center rounded-lg border border-black  bg-[#F1F1F1] p-3 text-xl font-medium"
+        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white px-3 py-1 text-xl font-medium"
         disabled
       >
-        Select Coin
+        Select currency
         <Icons.chevronDown className="ml-2 h-4" />
       </button>
     )
+
   return (
     <>
       <button
-        className="flex h-fit min-w-fit items-center justify-center rounded-lg border border-black  bg-[#F1F1F1] p-3 text-xl font-medium"
+        className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-1 pr-3 text-xl font-medium hover:bg-[#EFEFEF]"
         onClick={(e) => {
           e.preventDefault()
           setTokens(tokenList)
           onOpen()
         }}
       >
-        {field.value?.label || 'Select Coin'}{' '}
-        <Icons.chevronDown className="ml-2 h-4" />
+        <ButtonText
+          label={field.value?.label}
+          symbol={field.value?.value}
+          iAddr={field.value?.iaddress}
+        />
       </button>
       <Modal
         isOpen={isOpen}
@@ -77,43 +147,34 @@ const FromTokenField = () => {
       >
         <ModalContent>
           <ModalHeader className="text-sm font-normal">
-            Select a token to convert from
+            Select a currency to convert/send
           </ModalHeader>
           <ModalBody>
             <SearchInput
               onChange={handleSearch}
               searchTitle="Search name or paste contract address"
             />
-            <ul>
-              {tokens?.map((token) => (
-                <li
-                  onClick={() => {
-                    if (field.value.id !== token.id) {
-                      field.onChange(token)
-                      resetField('toToken')
-                      resetField('fromAmount')
-                    }
-                    setTokens(tokenList)
-                    onClose()
-                  }}
-                  key={token.iaddress}
-                  className="flex cursor-pointer justify-between hover:font-bold"
-                >
-                  <div>{token.label}</div>
-                  <div className="flex w-2/5 justify-between">
-                    <div>{/* {balance?.formatted} {token.value} */}</div>
-
-                    <Link
-                      isExternal
-                      className="underline"
-                      href={etherScan + 'address/' + token.erc20address}
-                    >
-                      contract
-                    </Link>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="max-h-[410px] overflow-y-auto">
+              <ul className="mr-1 space-y-1">
+                {tokens?.map((token) => (
+                  <li
+                    onClick={() => {
+                      if (field.value.id !== token.id) {
+                        field.onChange(token)
+                        resetField('toToken')
+                        resetField('fromAmount')
+                      }
+                      setTokens(tokenList)
+                      onClose()
+                    }}
+                    key={token.iaddress}
+                    className="group flex cursor-pointer items-center justify-between py-2 pl-2 text-[#818181] hover:bg-[#f3f3f3] hover:text-black"
+                  >
+                    <Token {...token} />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </ModalBody>
         </ModalContent>
       </Modal>

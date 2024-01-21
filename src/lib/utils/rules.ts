@@ -29,7 +29,7 @@ export const validateAddress = (address: string, sendOnly?: boolean) => {
       return 'Address must be an I-address or R-address to send'
     }
   } else {
-    if (isVerus || isRAddress(address) || isETHAddress(address)) {
+    if (isETHAddress(address) || isRAddress(address) || isVerus) {
       return true
     } else {
       return 'Address is not valid'

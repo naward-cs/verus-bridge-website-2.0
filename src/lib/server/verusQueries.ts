@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import {VerusRPC} from './verusRPC'
 
@@ -66,8 +66,19 @@ export const getConversionRate = async (
 }
 
 export const isValidVerusID = async (chain: number, address: string) => {
-  //TODO: need to verify if receiving a I-address or VerusID and not a R-address
+  //NOTE: This is only works as long as the address being sent is not of ETH or R-Address, ensure safeties, before using
+
   const result = await VerusRPC(chain).interface.getIdentity(address)
 
   return {result: result.result?.identity, error: result.error}
+}
+
+export const getIdentityInfo = async (chain: number, address: string) => {
+  const result = await VerusRPC(chain).interface.getIdentity(address)
+  return result
+}
+
+export const getVdxfId = async (chain: number, vdxf: string) => {
+  const result = await VerusRPC(chain).interface.getVdxfId(vdxf)
+  return result
 }

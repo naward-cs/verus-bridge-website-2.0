@@ -6,8 +6,6 @@ import {useGetTransactionHeight} from '@/lib/hooks/delegator'
 import {NetworkChain} from '@/lib/hooks/network'
 import {useGetBLockHeight} from '@/lib/hooks/verus'
 
-//TODO: fix text input hydration
-
 const Blockheights = () => {
   const chainID = NetworkChain()
   const {data: blockHeight} = useGetBLockHeight()
