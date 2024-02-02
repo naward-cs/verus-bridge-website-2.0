@@ -223,7 +223,7 @@ const FinalReview = (props: FinalProps) => {
           </div>
           <div className="relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-[#FFF] bg-[#ddd] p-[3px] text-center align-middle">
-              <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
+              <Icons.arrowDown className="size-4 text-[#969696]" />
             </div>
           </div>
           <div className=" flex-col space-y-2 rounded-lg bg-[#DDD] p-4">
@@ -260,7 +260,7 @@ const FinalReview = (props: FinalProps) => {
             <span className="flex">
               {formValues.gasPrice && (
                 <>
-                  <Icons.gas className="mr-1.5 h-6 w-6 text-[#A5A5A5]" />≈{' '}
+                  <Icons.gas className="mr-1.5 size-6 text-[#A5A5A5]" />≈{' '}
                   {Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'USD',
