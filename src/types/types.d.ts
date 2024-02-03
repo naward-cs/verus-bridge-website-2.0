@@ -26,8 +26,11 @@ type TokenList = {
   flags: number
 }
 
+type FromList = Omit<TokenList, 'iaddress' | 'id'>
+
 type ConvertFormData = {
   fromAmount: number | string | bigint
+  selectedFromToken: FromList
   fromToken: TokenList
   toToken: DestinationOption
   toAddress: string
