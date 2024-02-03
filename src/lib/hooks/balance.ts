@@ -3,14 +3,17 @@
 import {AddressZero} from '@ethersproject/constants'
 import {erc20ABI, useAccount, useBalance, useContractReads} from 'wagmi'
 
+
+
 import {useFormValues} from './formValues'
 
 import type {FetchBalanceResult} from 'wagmi/actions'
 
+
 export const useBalances = () => {
-  const {fromToken} = useFormValues()
+  const {selectedFromToken} = useFormValues()
   const {address: account, isConnected} = useAccount()
-  const isEth = /^(0x)?[0]{40}$/.test(fromToken?.erc20address)
+  const isEth = /^(0x)?[0]{40}$/.test(selectedFromToken?.erc20address)
   const {data: EthBalance} = useBalance({
     address: account,
     formatUnits: 'ether',
@@ -20,10 +23,10 @@ export const useBalances = () => {
   })
   const {data: ErcBalance} = useBalance({
     address: account,
-    token: fromToken?.erc20address,
+    token: selectedFromToken?.erc20address,
     watch: true,
     staleTime: 60_000,
-    enabled: isConnected && fromToken && !isEth,
+    enabled: isConnected && selectedFromToken && !isEth,
   })
   return {isEth, isConnected, EthBalance, ErcBalance}
 }

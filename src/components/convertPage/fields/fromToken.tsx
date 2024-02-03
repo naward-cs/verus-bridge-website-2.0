@@ -21,7 +21,7 @@ import {Icons} from '@/components/shared/icons'
 
 import ButtonText from './toFromTokenButtonText'
 
-const Token = (token: TokenList) => {
+const Token = (token: FromList) => {
   const etherScan = EtherScan()
   const {address: account} = useAccount()
 
@@ -34,7 +34,7 @@ const Token = (token: TokenList) => {
   return (
     <>
       <div className="flex items-center space-x-2 ">
-        <CoinLogos symbol={token.value} iAddr={token.iaddress} />
+        <CoinLogos symbol={token.value} iAddr={token.erc20address.slice(2)} />
 
         <div className="flex flex-col">
           <p className=" text-base font-medium leading-none ">{token.label}</p>
@@ -55,7 +55,7 @@ const Token = (token: TokenList) => {
         </div>
       </div>
       <div>
-        <p className="ml-4">
+        <p className="ml-4 font-medium ">
           {balance &&
             Intl.NumberFormat('en-US', {
               style: 'decimal',
@@ -73,40 +73,40 @@ const FromTokenField = () => {
 
   const isMounted = useIsMounted()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
-  const {tokenList} = useGetTokens()
+  const {fromList} = useGetTokens()
 
-  const [tokens, setTokens] = useState(tokenList)
+  const [tokens, setTokens] = useState(fromList)
   //search filter controller
   const handleSearch = useCallback(
     (text: string) => {
-      const filteredToken = tokenList?.filter(
+      const filteredToken = fromList?.filter(
         (token) =>
           token.label.toLowerCase().includes(text.toLowerCase()) ||
           token.erc20address.toLowerCase().includes(text.toLowerCase())
       )
       setTokens(filteredToken)
     },
-    [tokenList]
+    [fromList]
   )
 
   const {field} = useController({
     control,
-    name: 'fromToken',
-    defaultValue: tokenList?.find((token) => token.value === 'ETH'),
+    name: 'selectedFromToken',
+    defaultValue: fromList?.find((token) => token.value === 'ETH'),
   })
 
-  const {fromToken} = useFormValues()
+  const {selectedFromToken} = useFormValues()
   useEffect(() => {
-    if (isMounted && tokenList) {
-      if (!fromToken) {
+    if (isMounted && fromList) {
+      if (!selectedFromToken) {
         // console.log('loadeding')
         setValue(
-          'fromToken',
-          tokenList.find((token) => token.value === 'ETH')
+          'selectedFromToken',
+          fromList.find((token) => token.value === 'ETH')
         )
       }
     }
-  }, [fromToken, isMounted, setValue, tokenList])
+  }, [selectedFromToken, isMounted, setValue, fromList])
 
   if (!isMounted)
     return (
@@ -125,7 +125,7 @@ const FromTokenField = () => {
         className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-1 pr-3 text-xl font-medium hover:bg-[#EFEFEF]"
         onClick={(e) => {
           e.preventDefault()
-          setTokens(tokenList)
+          setTokens(fromList)
           onOpen()
         }}
       >
@@ -154,23 +154,25 @@ const FromTokenField = () => {
               onChange={handleSearch}
               searchTitle="Search name or paste contract address"
             />
-            <div className="max-h-[410px] overflow-y-auto">
-              <ul className="mr-1 space-y-1">
+            <div className="-mx-6 max-h-[410px] overflow-y-auto">
+              <ul className="space-y-1 pb-2">
                 {tokens?.map((token) => (
                   <li
                     onClick={() => {
-                      if (field.value.id !== token.id) {
+                      if (field.value.erc20address !== token.erc20address) {
                         field.onChange(token)
                         resetField('toToken')
                         resetField('fromAmount')
                       }
-                      setTokens(tokenList)
+                      setTokens(fromList)
                       onClose()
                     }}
-                    key={token.iaddress}
-                    className="group flex cursor-pointer items-center justify-between py-2 pl-2 text-[#818181] hover:bg-[#f3f3f3] hover:text-black"
+                    key={token.erc20address}
+                    className="text-[#818181] hover:bg-[#f3f3f3] hover:text-black"
                   >
-                    <Token {...token} />
+                    <div className="group mx-6 flex cursor-pointer items-center justify-between p-2">
+                      <Token {...token} />
+                    </div>
                   </li>
                 ))}
               </ul>
