@@ -5,6 +5,8 @@ import {useAccount} from 'wagmi'
 import {BridgeName} from '@/config/constants'
 import {getDestinationList} from '@/lib/server/verusQueries'
 
+import SplitTokenList from '../utils/splitTokenList'
+// import {BLOCKCHAIN_NAME} from '../server/verusChains'
 import {useGetAllERC20balances} from './balance'
 import {useGetTokenFromList} from './delegator'
 import {NetworkChain} from './network'
@@ -14,12 +16,15 @@ export const useGetTokens = () => {
   const chainID = NetworkChain()
 
   const {data: originalTokenList} = useGetTokenFromList()
+
   // console.log(tokenList)
 
   const bridge = originalTokenList?.filter(
     (t) => t.label.toUpperCase() === BridgeName
   )[0].id
-
+  const splitList = SplitTokenList(originalTokenList!, chainID)
+  let fromList = splitList.fromList
+  const sendList = splitList.sendList
   const {data: bridgeList} = useQuery({
     queryKey: ['destinationList', chainID, bridge],
     queryFn: () => getDestinationList(chainID, bridge!),
@@ -33,10 +38,11 @@ export const useGetTokens = () => {
     },
     enabled: !!bridge,
   })
-  const {address:account, isConnected} = useAccount()
-  let tokenList = originalTokenList
-  const tList = originalTokenList?.map((t) => t.erc20address)
-  const {data: ethBalance} = useGetAllERC20balances(account,tList)
+  const {address: account, isConnected} = useAccount()
+  const tokenList = originalTokenList
+  const tList = fromList?.map((t) => t.erc20address) as `0x${string}`[]
+
+  const {data: ethBalance} = useGetAllERC20balances(account, tList)
   const hasEthBalance: string[] = []
   if (isConnected) {
     if (ethBalance) {
@@ -49,19 +55,17 @@ export const useGetTokens = () => {
       })
     }
     if (!!hasEthBalance.length) {
-      tokenList = originalTokenList?.filter(
+      fromList = fromList?.filter(
         (t) =>
           t.erc20address === AddressZero ||
           hasEthBalance.includes(t.erc20address)
       )
     } else {
-      tokenList = originalTokenList?.filter(
-        (t) => t.erc20address === AddressZero
-      )
+      fromList = fromList?.filter((t) => t.erc20address === AddressZero)
     }
   }
 
-  return {tokenList, bridgeList, bridge}
+  return {tokenList, fromList, sendList, bridgeList, bridge}
 }
 
 export const useGetBridgeInfo = () => {

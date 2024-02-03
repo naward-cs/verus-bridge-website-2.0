@@ -28,6 +28,7 @@ export const DEST_ID = 4
 export const DEST_ETH = 9
 export const FLAG_DEST_AUX = 64
 export const FLAG_DEST_GATEWAY = 128
+export const FLAG_MAP_TYPE = 33
 export const VALID = 1
 export const CONVERT = 2
 export const PRECONVERT = 4
