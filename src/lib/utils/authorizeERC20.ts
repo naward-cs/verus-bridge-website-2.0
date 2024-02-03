@@ -17,7 +17,7 @@ export const AuthorizeTokenAmount = async ({
   delegatorAddr,
   account,
 }: {
-  token: TokenList
+  token: FromList
   amount: string
   chain: Chain
   delegatorAddr: `0x${string}`
