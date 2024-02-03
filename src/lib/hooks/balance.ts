@@ -1,13 +1,15 @@
 'use client';
 
-import {AddressZero} from '@ethersproject/constants'
-import {erc20ABI, useAccount, useBalance, useContractReads} from 'wagmi'
+import { AddressZero } from '@ethersproject/constants';
+import { erc20ABI, useAccount, useBalance, useContractReads } from 'wagmi';
 
 
 
-import {useFormValues} from './formValues'
+import { useFormValues } from './formValues';
 
-import type {FetchBalanceResult} from 'wagmi/actions'
+
+
+import type { FetchBalanceResult } from 'wagmi/actions';
 
 
 export const useBalances = () => {
@@ -40,13 +42,10 @@ export const ValidateAmount = (
   ErcBalance?: FetchBalanceResult
 ) => {
   // lets mark the max 8 decimals
-  //FIXME: prevent non-numeric entries
-  // if (!isNumberic(amount)) return 'Only numbers allowed'
   if (amount.split('.')[1] && amount.split('.')[1].length > 8)
     return 'max 8 decimals'
 
-  if (Number(amount) > 100000000)
-    return 'Amount too large'
+  if (Number(amount) > 100000000) return 'Amount too large'
   if (Number(amount) < 0) return 'Insert amount'
 
   if (isConnected) {

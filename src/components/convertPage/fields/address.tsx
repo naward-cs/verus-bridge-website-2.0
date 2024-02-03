@@ -1,4 +1,5 @@
 ;
+
 // import React, {useState} from 'react'
 import { useState } from 'react';
 import { Input, Link, Tooltip } from '@nextui-org/react';
@@ -11,6 +12,24 @@ import { useAccount } from 'wagmi';
 import { useFormValues } from '@/lib/hooks/formValues';
 import { validateAddress } from '@/lib/utils/rules';
 import { Icons } from '@/components/shared/icons';
+
+
+
+
+
+;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,11 +85,7 @@ const Address = () => {
   const {address, isConnected} = useAccount()
   const {control, setValue, setError, clearErrors} = useFormContext()
   const {sendOnly} = useFormValues()
-  // const [isSelected, setIsSelected] = useState(false)
-
-  // if (!toToken) return null
-  //TODO: add switch to use self address
-
+  
   return (
     <div className="flex flex-col py-4 text-lg">
       <Controller
