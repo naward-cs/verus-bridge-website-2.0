@@ -154,7 +154,7 @@ const ConvertForm = () => {
 
           <div className="relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-[#ddd] p-[3px] text-center align-middle">
-              <Icons.arrowDown className="h-4 w-4 text-[#969696]" />
+              <Icons.arrowDown className="size-4 text-[#969696]" />
             </div>
           </div>
           <div className="flex min-h-[120px] flex-col justify-start rounded-lg border border-transparent bg-[#DDD] p-4 py-5 hover:border-[#b6b6b6]">

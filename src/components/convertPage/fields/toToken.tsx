@@ -1,23 +1,26 @@
-import React, {useCallback, useEffect, useState} from 'react'
-import {
-  cn,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from '@nextui-org/react'
-import {useController, useFormContext} from 'react-hook-form'
+import React, { useCallback, useEffect, useState } from 'react';
+import { cn, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
+import { useController, useFormContext } from 'react-hook-form';
 
-import {useFormValues} from '@/lib/hooks/formValues'
-import {NetworkChain} from '@/lib/hooks/network'
-import {useGetTokens} from '@/lib/hooks/tokens'
-import {DestinationOptions} from '@/lib/utils/destinationOptions'
-import {GetSendList} from '@/lib/utils/splitTokenList'
-import SearchInput from '@/components/formFields/searchField'
 
-import ButtonText from './toFromTokenButtonText'
-import ToTokenList from './toTokenList'
+
+import { useFormValues } from '@/lib/hooks/formValues';
+import { NetworkChain } from '@/lib/hooks/network';
+import { ToTokenName } from '@/lib/hooks/tokenName';
+import { useGetTokens } from '@/lib/hooks/tokens';
+import { DestinationOptions } from '@/lib/utils/destinationOptions';
+import { isETHAddress } from '@/lib/utils/rules';
+import { GetSendList } from '@/lib/utils/splitTokenList';
+import SearchInput from '@/components/formFields/searchField';
+
+
+
+import ButtonText from './toFromTokenButtonText';
+import ToTokenList from './toTokenList';
+
+
+
+
 
 const ToTokenField = () => {
   const {bridgeList, tokenList} = useGetTokens()
@@ -71,11 +74,18 @@ const ToTokenField = () => {
       setEthOptions(eOptions)
     }
   }, [selectedFromToken, bridgeList, tokenList, chain])
+
+  const correctField = ToTokenName(field.value?.label) || undefined
+  const subButtonValue = toAddress
+    ? isETHAddress(toAddress)
+      ? correctField?.ethToken
+      : correctField?.verusToken
+    : correctField?.verusToken
   return (
     <>
       <button
         className={cn(
-          'flex h-fit min-w-fit items-center justify-center rounded-lg border p-1 pr-3 text-xl font-medium',
+          'flex h-fit min-w-fit flex-col rounded-lg border p-1 pr-3 text-xl font-medium',
           field.value
             ? 'bg-white  text-black hover:bg-[#EFEFEF]'
             : 'bg-bluePrimary pl-3 text-white hover:bg-[#417DFF]'
@@ -86,10 +96,14 @@ const ToTokenField = () => {
         }}
       >
         <ButtonText
-          label={field.value?.label}
+          label={correctField?.name}
           symbol={field.value?.currency}
           iAddr={field.value?.iaddress}
         />
+
+        <span className="text-xs text-[#818181]">
+          {subButtonValue}
+        </span>
       </button>
       <Modal
         isOpen={isOpen}

@@ -1,5 +1,9 @@
-import fromTokenList from '@/data/fromTokenCorrection.json'
-import toTokenList from '@/data/toTokenCorrection.json'
+import fromTokenList from '@/data/fromTokenCorrection.json';
+import toTokenList from '@/data/toTokenCorrection.json';
+
+
+
+
 
 export const FromTokenName = (name: string) => {
   let newName = name
@@ -12,6 +16,7 @@ export const FromTokenName = (name: string) => {
 }
 
 export const ToTokenName = (name: string) => {
+  if (!name) return undefined
   let tokenInfo: {
     name: string
     verusToken?: string

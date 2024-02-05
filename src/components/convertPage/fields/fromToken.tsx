@@ -119,7 +119,7 @@ const FromTokenField = () => {
         <Icons.chevronDown className="ml-2 h-4" />
       </button>
     )
-
+  const correctField=FromTokenName(field.value.label)
   return (
     <>
       <button
@@ -131,7 +131,7 @@ const FromTokenField = () => {
         }}
       >
         <ButtonText
-          label={field.value?.label}
+          label={correctField}
           symbol={field.value?.value}
           iAddr={field.value?.erc20address}
         />
