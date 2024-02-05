@@ -1,5 +1,9 @@
 [
   {
+    "symbol": "vbrid",
+    "image": "/logos/bridge-logo.svg"
+  },
+  {
     "symbol": "dai",
     "image": "/logos/dai.png"
   },

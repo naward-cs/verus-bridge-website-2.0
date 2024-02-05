@@ -4,8 +4,8 @@ import {useAccount} from 'wagmi'
 
 import {BridgeName} from '@/config/constants'
 import {getDestinationList} from '@/lib/server/verusQueries'
+import {GetFromList} from '@/lib/utils/splitTokenList'
 
-import SplitTokenList from '../utils/splitTokenList'
 // import {BLOCKCHAIN_NAME} from '../server/verusChains'
 import {useGetAllERC20balances} from './balance'
 import {useGetTokenFromList} from './delegator'
@@ -22,9 +22,7 @@ export const useGetTokens = () => {
   const bridge = originalTokenList?.filter(
     (t) => t.label.toUpperCase() === BridgeName
   )[0].id
-  const splitList = SplitTokenList(originalTokenList!, chainID)
-  let fromList = splitList.fromList
-  const sendList = splitList.sendList
+
   const {data: bridgeList} = useQuery({
     queryKey: ['destinationList', chainID, bridge],
     queryFn: () => getDestinationList(chainID, bridge!),
@@ -40,6 +38,10 @@ export const useGetTokens = () => {
   })
   const {address: account, isConnected} = useAccount()
   const tokenList = originalTokenList
+
+  let fromList
+  if (tokenList) fromList = GetFromList(tokenList)
+
   const tList = fromList?.map((t) => t.erc20address) as `0x${string}`[]
 
   const {data: ethBalance} = useGetAllERC20balances(account, tList)
@@ -65,7 +67,7 @@ export const useGetTokens = () => {
     }
   }
 
-  return {tokenList, fromList, sendList, bridgeList, bridge}
+  return {tokenList, fromList, bridgeList, bridge}
 }
 
 export const useGetBridgeInfo = () => {

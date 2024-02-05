@@ -1,4 +1,4 @@
-import React, {memo} from 'react'
+import React, {memo, useState} from 'react'
 
 import {Icons} from '@/components/shared/icons'
 
@@ -9,13 +9,16 @@ interface SearchProps {
   searchTitle: string
 }
 const SearchField = ({searchTitle, onChange}: SearchProps) => {
+  const [text, setText] = useState('')
   return (
     <InputField
       color="background"
       isClearable
+      value={text}
       placeholder={searchTitle}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => setText(e.target.value)}
       onValueChange={onChange}
+      onClear={() => setText('')}
       startContent={
         <Icons.search className="pointer-events-none shrink-0 text-[#B6B6B6] " />
       }

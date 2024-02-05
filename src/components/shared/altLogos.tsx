@@ -34,8 +34,8 @@ const RenderPbassCurrencyLogo = ({
   return (
     <div
       className={cn(
-        'flex h-9 w-9 flex-wrap items-center justify-center overflow-hidden rounded-full',
-        small && 'mr-1.5 h-[26px] w-[26px]'
+        'flex size-9 flex-wrap items-center justify-center overflow-hidden rounded-full',
+        small && 'mr-1.5 size-[26px]'
       )}
       style={{backgroundColor: _color}}
     >

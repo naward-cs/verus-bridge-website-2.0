@@ -118,6 +118,8 @@ const ConvertForm = () => {
           delegatorAddr: delegatorAddr,
         })
       }
+      //TODO
+      //FIXME: Need to fix this portion based on how the new form values are queried
       const txConfigs = await getConfigOptions({
         formInput: values,
         toAddress: sendAddress,

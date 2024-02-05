@@ -14,6 +14,7 @@ import {useAccount, useBalance} from 'wagmi'
 import {EtherScan} from '@/lib/hooks/etherScan'
 import {useFormValues} from '@/lib/hooks/formValues'
 import {useIsMounted} from '@/lib/hooks/mounted'
+import {FromTokenName} from '@/lib/hooks/tokenName'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import SearchInput from '@/components/formFields/searchField'
 import CoinLogos from '@/components/shared/coinLogos'
@@ -24,7 +25,7 @@ import ButtonText from './toFromTokenButtonText'
 const Token = (token: FromList) => {
   const etherScan = EtherScan()
   const {address: account} = useAccount()
-
+  const tokenLabel = FromTokenName(token.label)
   const {data: balance} = useBalance({
     address: account,
     token: token.erc20address !== AddressZero ? token.erc20address : undefined,
@@ -37,7 +38,7 @@ const Token = (token: FromList) => {
         <CoinLogos symbol={token.value} iAddr={token.erc20address.slice(2)} />
 
         <div className="flex flex-col">
-          <p className=" text-base font-medium leading-none ">{token.label}</p>
+          <p className=" text-base font-medium leading-none ">{tokenLabel}</p>
 
           <div className="flex w-28 items-center justify-between">
             <p className="text-xs text-[#818181]">{token.value}</p>
@@ -132,7 +133,7 @@ const FromTokenField = () => {
         <ButtonText
           label={field.value?.label}
           symbol={field.value?.value}
-          iAddr={field.value?.iaddress}
+          iAddr={field.value?.erc20address}
         />
       </button>
       <Modal
@@ -154,7 +155,7 @@ const FromTokenField = () => {
               onChange={handleSearch}
               searchTitle="Search name or paste contract address"
             />
-            <div className="-mx-6 max-h-[410px] overflow-y-auto">
+            <div className="-mx-6">
               <ul className="space-y-1 pb-2">
                 {tokens?.map((token) => (
                   <li

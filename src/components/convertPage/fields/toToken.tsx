@@ -13,18 +13,21 @@ import {useFormValues} from '@/lib/hooks/formValues'
 import {NetworkChain} from '@/lib/hooks/network'
 import {useGetTokens} from '@/lib/hooks/tokens'
 import {DestinationOptions} from '@/lib/utils/destinationOptions'
+import {GetSendList} from '@/lib/utils/splitTokenList'
 import SearchInput from '@/components/formFields/searchField'
-import CoinLogos from '@/components/shared/coinLogos'
 
 import ButtonText from './toFromTokenButtonText'
+import ToTokenList from './toTokenList'
 
 const ToTokenField = () => {
-  const {bridgeList} = useGetTokens()
+  const {bridgeList, tokenList} = useGetTokens()
   const chain = NetworkChain()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
-  const [list, setList] = useState<DestinationOption[]>()
-  const [options, setOptions] = useState(list)
-  const {fromToken} = useFormValues()
+  const {selectedFromToken, toAddress} = useFormValues()
+  const [verusList, setVerusList] = useState<DestinationOption[]>()
+  const [verusOptions, setVerusOptions] = useState(verusList)
+  const [ethList, setEthList] = useState<DestinationOption[] | undefined>()
+  const [ethOptions, setEthOptions] = useState(ethList)
   const {control} = useFormContext()
   const {field} = useController({
     control,
@@ -34,34 +37,45 @@ const ToTokenField = () => {
 
   const handleSearch = useCallback(
     (text: string) => {
-      const filteredOptions = list!.filter(
+      const filteredVerusOptions = verusList!.filter(
         (option) =>
           option.iaddress.toLowerCase().includes(text.toLowerCase()) ||
           option.label.toLowerCase().includes(text.toLowerCase())
       )
-      setOptions(filteredOptions)
+      let filteredEthOptions
+      if (ethList) {
+        filteredEthOptions = ethList.filter(
+          (option) =>
+            option.iaddress.toLowerCase().includes(text.toLowerCase()) ||
+            option.label.toLowerCase().includes(text.toLowerCase())
+        )
+      }
+
+      setVerusOptions(filteredVerusOptions)
+      setEthOptions(filteredEthOptions)
     },
-    [list]
+    [ethList, verusList]
   )
 
   useEffect(() => {
-    if (fromToken && bridgeList) {
-      const optionslist = DestinationOptions({
-        from: fromToken,
+    if (selectedFromToken && bridgeList) {
+      const sendList = GetSendList(tokenList!, chain)
+      const {vOptions, eOptions} = DestinationOptions({
+        from: selectedFromToken,
+        sendList,
         bridge: bridgeList,
-        chain: chain,
       })
-
-      setList(optionslist)
-      setOptions(optionslist)
+      setVerusList(vOptions)
+      setEthList(eOptions)
+      setVerusOptions(vOptions)
+      setEthOptions(eOptions)
     }
-  }, [fromToken, bridgeList, setList, chain])
-
+  }, [selectedFromToken, bridgeList, tokenList, chain])
   return (
     <>
       <button
         className={cn(
-          'flex h-fit min-w-fit items-center justify-center rounded-lg border pr-3 p-1 text-xl font-medium',
+          'flex h-fit min-w-fit items-center justify-center rounded-lg border p-1 pr-3 text-xl font-medium',
           field.value
             ? 'bg-white  text-black hover:bg-[#EFEFEF]'
             : 'bg-bluePrimary pl-3 text-white hover:bg-[#417DFF]'
@@ -85,7 +99,8 @@ const ToTokenField = () => {
         placement="center"
         onOpenChange={() => {
           onOpenChange()
-          setOptions(list)
+          setVerusOptions(verusList)
+          setEthOptions(ethList)
         }}
       >
         <ModalContent>
@@ -97,33 +112,33 @@ const ToTokenField = () => {
               onChange={handleSearch}
               searchTitle="Search name or paste contract address"
             />
+            <div className="-mx-6 max-h-[410px] overflow-y-auto">
+              {/* this section for verus chain */}
+              <ToTokenList
+                toAddress={toAddress}
+                listType="verus"
+                options={verusOptions}
+                verusList={verusList}
+                ethList={ethList}
+                fieldChange={field.onChange}
+                setVerusOptions={setVerusOptions}
+                setEthOptions={setEthOptions}
+                onClose={onClose}
+              />
 
-            <ul className="mr-1 space-y-1">
-              {options?.map((token) => {
-                return (
-                  <li
-                    onClick={() => {
-                      field.onChange(token)
-                      setOptions(list)
-                      onClose()
-                    }}
-                    key={token.iaddress}
-                    className="group flex cursor-pointer items-center justify-between py-2 pl-2 text-[#818181] hover:bg-[#f3f3f3] hover:text-black"
-                  >
-                    <div className="flex items-center space-x-2 ">
-                      <CoinLogos
-                        symbol={token.currency}
-                        iAddr={token.iaddress}
-                      />
-
-                      <p className=" text-base font-medium leading-none ">
-                        {token.label}
-                      </p>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+              {/* this section for eth chain */}
+              <ToTokenList
+                toAddress={toAddress}
+                listType="eth"
+                options={ethOptions}
+                verusList={verusList}
+                ethList={ethList}
+                fieldChange={field.onChange}
+                setVerusOptions={setVerusOptions}
+                setEthOptions={setEthOptions}
+                onClose={onClose}
+              />
+            </div>
           </ModalBody>
         </ModalContent>
       </Modal>
