@@ -1,39 +1,13 @@
-;
-
 // import React, {useState} from 'react'
-import { useState } from 'react';
-import { Input, Link, Tooltip } from '@nextui-org/react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { useAccount } from 'wagmi';
-
-
+import {useState} from 'react'
+import {Input, Link, Tooltip} from '@nextui-org/react'
+import {Controller, useFormContext} from 'react-hook-form'
+import {useAccount} from 'wagmi'
 
 // import {useAccount} from 'wagmi'
-import { useFormValues } from '@/lib/hooks/formValues';
-import { validateAddress } from '@/lib/utils/rules';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import {useFormValues} from '@/lib/hooks/formValues'
+import {validateAddress} from '@/lib/utils/rules'
+import {Icons} from '@/components/shared/icons'
 
 const ToolTipText = () => {
   return (
@@ -41,7 +15,7 @@ const ToolTipText = () => {
       <p>
         Use a Verus address to receive the currency on the Verus blockchain.{' '}
         <Link
-          className="text-xs underline-offset-1 text-bluePrimary"
+          className="text-xs text-bluePrimary underline-offset-1"
           isExternal
           underline="always"
           href="https://docs.verus.io"
@@ -85,7 +59,7 @@ const Address = () => {
   const {address, isConnected} = useAccount()
   const {control, setValue, setError, clearErrors} = useFormContext()
   const {sendOnly} = useFormValues()
-  
+
   return (
     <div className="flex flex-col py-4 text-lg">
       <Controller
