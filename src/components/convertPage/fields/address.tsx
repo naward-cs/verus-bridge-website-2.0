@@ -1,15 +1,18 @@
+;
 // import React, {useState} from 'react'
-import {useState} from 'react'
-import {Input, Link, Tooltip} from '@nextui-org/react'
-import {Controller, useFormContext} from 'react-hook-form'
-import {useAccount} from 'wagmi'
+import { useState } from 'react';
+import { Input, Link, Tooltip } from '@nextui-org/react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { useAccount } from 'wagmi';
+
+
 
 // import {useAccount} from 'wagmi'
-import {useFormValues} from '@/lib/hooks/formValues'
-import {validateAddress} from '@/lib/utils/rules'
+import { useFormValues } from '@/lib/hooks/formValues';
+import { validateAddress } from '@/lib/utils/rules';
 import {Icons} from '@/components/shared/icons'
 
-const ToolTipText = () => {
+const ToolTipText = (sendOnly: boolean) => {
   return (
     <div className="max-w-[280px] space-y-3 py-2 text-xs">
       <p>
@@ -23,24 +26,28 @@ const ToolTipText = () => {
           Get a Verus address
         </Link>
       </p>
-      <p>
-        Use an Ethereum address to receive the currency on the Ethereum
-        blockchain (as ETH or ERC-20). You pay for two transfers: from Ethereum
-        to Verus & from Verus back to Ethereum. This can take up to two hours.
-      </p>
+      {sendOnly ? null : (
+        <p>
+          Use an Ethereum address to receive the currency on the Ethereum
+          blockchain (as ETH or ERC-20). You pay for two transfers: from
+          Ethereum to Verus & from Verus back to Ethereum. This can take up to
+          two hours.
+        </p>
+      )}
     </div>
   )
 }
 
-const AddressLabel = () => {
+const AddressLabel = (sendOnly: boolean) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      Use Verus (VerusID@, R-,i-address) or Ethereum address.{' '}
+      Use Verus (VerusID@, R-,i-address) {sendOnly ? null : 'or Ethereum '}
+      address.{' '}
       <Tooltip
         showArrow
         placement="bottom"
-        content={ToolTipText()}
+        content={ToolTipText(sendOnly)}
         isOpen={isOpen}
         onOpenChange={(open) => setIsOpen(open)}
       >
@@ -85,7 +92,7 @@ const Address = () => {
             onValueChange={onChange}
             labelPlacement="outside"
             // label="Use Verus (VerusID@, R-,i-address) or Ethereum address."
-            label={AddressLabel()}
+            label={AddressLabel(sendOnly)}
             value={value}
             placeholder="Enter receiving address"
             endContent={
