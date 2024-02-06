@@ -42,7 +42,7 @@ const AddressLabel = (sendOnly: boolean) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      Use Verus (VerusID@, R-,i-address) {sendOnly ? null : 'or Ethereum '}
+      Use Verus (VerusID@, R-, i-address) {sendOnly ? null : 'or Ethereum '}
       address.{' '}
       <Tooltip
         showArrow
