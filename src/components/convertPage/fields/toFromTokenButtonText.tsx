@@ -1,13 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-
-
-import CoinLogos from '@/components/shared/coinLogos';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import CoinLogos from '@/components/shared/coinLogos'
+import {Icons} from '@/components/shared/icons'
 
 const ButtonText = (info: {
   label?: string

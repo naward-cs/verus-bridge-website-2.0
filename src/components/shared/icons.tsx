@@ -1,8 +1,8 @@
-import { LucideProps } from 'lucide-react';
+import { LucideProps } from 'lucide-react' 
 
 
 
-import type { XIcon } from 'lucide-react';
+import type { XIcon } from 'lucide-react' 
 
 
 export type Icon = typeof XIcon

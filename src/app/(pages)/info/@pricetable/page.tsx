@@ -1,6 +1,4 @@
-import { Suspense } from 'react';
-
-
+import {Suspense} from 'react'
 
 import PriceTable from '@/components/infoPage/priceTable'
 

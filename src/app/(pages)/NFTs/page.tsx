@@ -1,18 +1,10 @@
-'use client';
+'use client'
 
-import ConnectButton from '@/components/navbar/connectButton';
-
-
-
-
+import ConnectButton from '@/components/navbar/connectButton'
 
 // import NFTsSection from '@/components/nftPage/nftSection'
 
-
-
-
-
-// import ThirdWeb from '@/components/providers/thirdWeb';
+// import ThirdWeb from '@/components/providers/thirdWeb'
 
 // import ThirdWeb from '@/components/providers/thirdWeb'
 
@@ -20,7 +12,7 @@ export default function NFTsPage() {
   const con = true
   if (!con) {
     return (
-      <main className="container flex flex-col items-center justify-center mt-20 ">
+      <main className="container mt-20 flex flex-col items-center justify-center ">
         <div className="flex flex-col space-y-4">
           <h1 className="text-center text-2xl font-medium">
             Tranfer your NFTs

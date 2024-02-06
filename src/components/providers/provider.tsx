@@ -1,14 +1,14 @@
-'use client';
+'use client' 
 
-import React from 'react';
-import { NextUIProvider } from '@nextui-org/react';
-import { Toaster } from 'sonner';
+import React from 'react' 
+import { NextUIProvider } from '@nextui-org/react' 
+import { Toaster } from 'sonner' 
 
 
 
-import DevProvider from '../devUI/devUtils';
-import ReactQueryProvider from './tanstackQueryProvider';
-import Web3Provider from './web3Provider';
+import DevProvider from '../devUI/devUtils' 
+import ReactQueryProvider from './tanstackQueryProvider' 
+import Web3Provider from './web3Provider' 
 
 
 

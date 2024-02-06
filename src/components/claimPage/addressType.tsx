@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {Radio, RadioGroup} from '@nextui-org/react'
 import {useAccount} from 'wagmi'
 

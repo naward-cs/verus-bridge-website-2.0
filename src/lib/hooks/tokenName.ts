@@ -1,5 +1,5 @@
-import fromTokenList from '@/data/fromTokenCorrection.json';
-import toTokenList from '@/data/toTokenCorrection.json';
+import fromTokenList from '@/data/fromTokenCorrection.json' 
+import toTokenList from '@/data/toTokenCorrection.json' 
 
 
 

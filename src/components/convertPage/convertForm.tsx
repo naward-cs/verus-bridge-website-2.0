@@ -1,42 +1,34 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { useDelegatorBridgeConverterActive } from '@/generated';
-import { AddressZero } from '@ethersproject/constants';
-import { Modal, ModalContent, useDisclosure } from '@nextui-org/react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { useAccount, useNetwork } from 'wagmi';
+import React, {useState} from 'react'
+import {useDelegatorBridgeConverterActive} from '@/generated'
+import {AddressZero} from '@ethersproject/constants'
+import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
+import {FormProvider, useForm} from 'react-hook-form'
+import {toast} from 'sonner'
+import {useAccount, useNetwork} from 'wagmi'
 
+import {useEthers} from '@/lib/hooks/ethers'
+import {DelegatorAddress, NetworkChain} from '@/lib/hooks/network'
+import {useGetTokens} from '@/lib/hooks/tokens'
+import {isValidVerusID} from '@/lib/server/verusQueries'
+import {AuthorizeTokenAmount} from '@/lib/utils/authorizeERC20'
+import {isETHAddress, isRAddress} from '@/lib/utils/rules'
+import {getConfigOptions} from '@/lib/utils/txConfig'
+import {Icons} from '@/components/shared/icons'
 
-
-import { useEthers } from '@/lib/hooks/ethers';
-import { DelegatorAddress, NetworkChain } from '@/lib/hooks/network';
-import { useGetTokens } from '@/lib/hooks/tokens';
-import { isValidVerusID } from '@/lib/server/verusQueries';
-import { AuthorizeTokenAmount } from '@/lib/utils/authorizeERC20';
-import { isETHAddress, isRAddress } from '@/lib/utils/rules';
-import { getConfigOptions } from '@/lib/utils/txConfig';
-import { Icons } from '@/components/shared/icons';
-
-
-
-import warnToast from '../shared/warnToast';
-import Address from './fields/address';
-import Amount from './fields/amount';
-import ConvertAmount from './fields/convertAmount';
-import ConvertRate from './fields/convertRate';
-// import ConvertWarn from './fields/convertWarn';
-import ConvertWarnForm from './fields/convertWarnForm';
-import FromTokenField from './fields/fromToken';
-import MaxAmountButton from './fields/maxButton';
-import SubmitButton from './fields/submit';
-import ToTokenField from './fields/toToken';
-import FinalReview from './finalReview';
-
-
-
-
+import warnToast from '../shared/warnToast'
+import Address from './fields/address'
+import Amount from './fields/amount'
+import ConvertAmount from './fields/convertAmount'
+import ConvertRate from './fields/convertRate'
+// import ConvertWarn from './fields/convertWarn'
+import ConvertWarnForm from './fields/convertWarnForm'
+import FromTokenField from './fields/fromToken'
+import MaxAmountButton from './fields/maxButton'
+import SubmitButton from './fields/submit'
+import ToTokenField from './fields/toToken'
+import FinalReview from './finalReview'
 
 const ConvertForm = () => {
   const {address: account} = useAccount()
@@ -183,7 +175,9 @@ const ConvertForm = () => {
         isDismissable={false}
       >
         <ModalContent>
-          {txConfig && <FinalReview account={account!} onClose={onClose} {...txConfig} />}
+          {txConfig && (
+            <FinalReview account={account!} onClose={onClose} {...txConfig} />
+          )}
         </ModalContent>
       </Modal>
     </>

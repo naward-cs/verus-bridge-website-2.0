@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { Modal, ModalBody, ModalContent, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react';
-import { useFormContext } from 'react-hook-form';
+import React, {useState} from 'react'
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Tooltip,
+  useDisclosure,
+} from '@nextui-org/react'
+import {useFormContext} from 'react-hook-form'
 // import {useWeb3Modal} from '@web3modal/wagmi/react'
-// import { useFormContext } from 'react-hook-form';
-import { useAccount, useConnect } from 'wagmi';
+// import { useFormContext } from 'react-hook-form'
+import {useAccount, useConnect} from 'wagmi'
 
-
-
-import { useFormValues } from '@/lib/hooks/formValues';
-import { useIsMounted } from '@/lib/hooks/mounted';
-import { isETHAddress } from '@/lib/utils/rules';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import {useFormValues} from '@/lib/hooks/formValues'
+import {useIsMounted} from '@/lib/hooks/mounted'
+import {isETHAddress} from '@/lib/utils/rules'
+import {Icons} from '@/components/shared/icons'
 
 export const WarnContent = () => {
   return (
@@ -36,13 +37,13 @@ const SubmitWarn = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {toAddress} = useFormValues()
-  
+
   return (
     <div className="flex w-fit items-center space-x-2.5 rounded-2xl bg-[#F4EEEE] px-2 py-1 text-[#C58484]">
       <Icons.iInfo className="h-full w-4 text-[#D95757] " />
       <p className=" text-xs">
         It can take up to
-        {(toAddress && isETHAddress(toAddress)) ? ' 2 hours ' : ' 60 mins '}
+        {toAddress && isETHAddress(toAddress) ? ' 2 hours ' : ' 60 mins '}
         before you receive the currency.{' '}
         <Tooltip
           showArrow

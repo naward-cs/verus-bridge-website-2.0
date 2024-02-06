@@ -1,6 +1,6 @@
-'use client';
+'use client' 
 
-import React, { Suspense } from 'react';
+import React, { Suspense } from 'react' 
 import Image from 'next/image'
 
 import {useCaprikaMarketInfo} from '@/lib/hooks/marketInfo'

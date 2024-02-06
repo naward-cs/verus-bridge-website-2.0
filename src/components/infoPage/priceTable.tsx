@@ -1,12 +1,12 @@
-'use client';
+'use client' 
 
-import React, { Suspense } from 'react';
+import React, { Suspense } from 'react' 
 import Image from 'next/image'
-import { Tooltip } from '@nextui-org/tooltip';
+import { Tooltip } from '@nextui-org/tooltip' 
 
 
 
-import { useBridgeInfo } from '@/lib/hooks/verus';
+import { useBridgeInfo } from '@/lib/hooks/verus' 
 
 import {Icons} from '../shared/icons'
 import PriceRow from './priceRow'

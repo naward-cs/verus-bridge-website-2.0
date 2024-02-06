@@ -1,26 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { cn, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
-import { useController, useFormContext } from 'react-hook-form';
+import React, {useCallback, useEffect, useState} from 'react'
+import {
+  cn,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/react'
+import {useController, useFormContext} from 'react-hook-form'
 
+import {useFormValues} from '@/lib/hooks/formValues'
+import {NetworkChain} from '@/lib/hooks/network'
+import {ToTokenName} from '@/lib/hooks/tokenName'
+import {useGetTokens} from '@/lib/hooks/tokens'
+import {DestinationOptions} from '@/lib/utils/destinationOptions'
+import {isETHAddress} from '@/lib/utils/rules'
+import {GetSendList} from '@/lib/utils/splitTokenList'
+import SearchInput from '@/components/formFields/searchField'
 
-
-import { useFormValues } from '@/lib/hooks/formValues';
-import { NetworkChain } from '@/lib/hooks/network';
-import { ToTokenName } from '@/lib/hooks/tokenName';
-import { useGetTokens } from '@/lib/hooks/tokens';
-import { DestinationOptions } from '@/lib/utils/destinationOptions';
-import { isETHAddress } from '@/lib/utils/rules';
-import { GetSendList } from '@/lib/utils/splitTokenList';
-import SearchInput from '@/components/formFields/searchField';
-
-
-
-import ButtonText from './toFromTokenButtonText';
-import ToTokenList from './toTokenList';
-
-
-
-
+import ButtonText from './toFromTokenButtonText'
+import ToTokenList from './toTokenList'
 
 const ToTokenField = () => {
   const {bridgeList, tokenList} = useGetTokens()
@@ -101,9 +100,7 @@ const ToTokenField = () => {
           iAddr={field.value?.iaddress}
         />
 
-        <span className="text-xs text-[#818181]">
-          {subButtonValue}
-        </span>
+        <span className="text-xs text-[#818181]">{subButtonValue}</span>
       </button>
       <Modal
         isOpen={isOpen}

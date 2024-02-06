@@ -1,7 +1,6 @@
-'use client';
+'use client'
 
 import React from 'react'
-
 
 import {AddressContext} from './addressContext'
 import AddressField from './addressField'

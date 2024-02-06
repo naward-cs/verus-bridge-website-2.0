@@ -1,4 +1,4 @@
-import { defineConfig } from '@wagmi/cli';
+import {defineConfig} from '@wagmi/cli'
 import {erc, react} from '@wagmi/cli/plugins'
 
 import {delegator} from '@/config/abi/DelegatorAbi'

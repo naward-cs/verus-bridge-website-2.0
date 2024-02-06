@@ -1,30 +1,22 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Link, ModalBody, ModalHeader, Spinner } from '@nextui-org/react';
-import { useQueryClient } from '@tanstack/react-query';
-import BigNumber from 'bignumber.js';
-import { toast } from 'sonner';
-import { formatEther } from 'viem';
-import { useWaitForTransaction } from 'wagmi';
+import {useState} from 'react'
+import {Link, ModalBody, ModalHeader, Spinner} from '@nextui-org/react'
+import {useQueryClient} from '@tanstack/react-query'
+import BigNumber from 'bignumber.js'
+import {toast} from 'sonner'
+import {formatEther} from 'viem'
+import {useWaitForTransaction} from 'wagmi'
 
+import {useDelgatorContract} from '@/lib/hooks/contract'
+import {EtherScan} from '@/lib/hooks/etherScan'
+import {isETHAddress} from '@/lib/utils/rules'
+import CoinLogos from '@/components/shared/coinLogos'
+import {Icons} from '@/components/shared/icons'
 
-
-import { useDelgatorContract } from '@/lib/hooks/contract';
-import { EtherScan } from '@/lib/hooks/etherScan';
-import { isETHAddress } from '@/lib/utils/rules';
-import CoinLogos from '@/components/shared/coinLogos';
-import { Icons } from '@/components/shared/icons';
-
-
-
-import ConvertWarn from './fields/convertWarn';
+import ConvertWarn from './fields/convertWarn'
 import FinalReviewInfo from './finalReviewInfo'
 import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
-
-
-
-
 
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
@@ -181,7 +173,11 @@ const FinalReview = (props: FinalProps) => {
             Transaction submitted
           </p>
 
-          <p className="text-center">Can take up to {isETHAddress(formValues.toAddress) ? '2 hours' : '45 minute'} to complete</p>
+          <p className="text-center">
+            Can take up to{' '}
+            {isETHAddress(formValues.toAddress) ? '2 hours' : '45 minute'} to
+            complete
+          </p>
           <Link
             size="sm"
             underline="always"
@@ -212,7 +208,7 @@ const FinalReview = (props: FinalProps) => {
                 <div className="flex w-fit items-center rounded-lg bg-white p-0.5 pr-2">
                   <CoinLogos
                     symbol={formValues.fromToken.value}
-                    iAddr={formValues.fromToken.iaddress}
+                    iAddr={formValues.fromToken.erc20address.slice(2)}
                   />
                   <p className=" text-xl font-medium">
                     {formValues.fromToken.value}

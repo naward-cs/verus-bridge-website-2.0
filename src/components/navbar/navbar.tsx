@@ -1,11 +1,11 @@
-'use client';
+'use client' 
 
-import React, { useState } from 'react';
-// import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
-import menuList from '@/data/navbar.json';
-import { Link, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Navbar as NextUINavbar } from '@nextui-org/react';
-import { Link as Next13Link } from 'nextjs13-progress';
+import React, { useState } from 'react' 
+// import NextLink from 'next/link' 
+import { usePathname } from 'next/navigation' 
+import menuList from '@/data/navbar.json' 
+import { Link, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Navbar as NextUINavbar } from '@nextui-org/react' 
+import { Link as Next13Link } from 'nextjs13-progress' 
 
 import {cn} from '@/lib/utils/tailwindUtil'
 import {Logo} from '@/components/shared/icons'

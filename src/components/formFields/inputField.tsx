@@ -1,4 +1,4 @@
-import { extendVariants, Input } from '@nextui-org/react';
+import { extendVariants, Input } from '@nextui-org/react' 
 
 
 

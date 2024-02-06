@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { formatEther } from '@ethersproject/units';
-import { Tooltip } from '@nextui-org/react';
-import BigNumber from 'bignumber.js';
+import React, {useEffect, useState} from 'react'
+import {formatEther} from '@ethersproject/units'
+import {Tooltip} from '@nextui-org/react'
+import BigNumber from 'bignumber.js'
 import {useFormContext} from 'react-hook-form'
 
 import {ETH_FEES} from '@/config/constants'
@@ -11,10 +11,6 @@ import {useMarketData} from '@/lib/hooks/marketInfo'
 import {useGetCurrencyRate} from '@/lib/hooks/verus'
 import {isETHAddress} from '@/lib/utils/rules'
 import {Icons} from '@/components/shared/icons'
-
-
-
-
 
 const ConvertRate = () => {
   const {setValue} = useFormContext()
