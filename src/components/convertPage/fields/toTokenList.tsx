@@ -1,13 +1,19 @@
-import React from 'react'
-import {AddressZero} from '@ethersproject/constants'
-import {Link} from '@nextui-org/react'
-import {useAccount, useBalance} from 'wagmi'
+import React from 'react';
+import { AddressZero } from '@ethersproject/constants';
+import { Link } from '@nextui-org/react';
+import { useAccount, useBalance } from 'wagmi';
 
-import {EtherScan} from '@/lib/hooks/etherScan'
-import {ToTokenName} from '@/lib/hooks/tokenName'
-import {useGetTokens} from '@/lib/hooks/tokens'
-import {isETHAddress} from '@/lib/utils/rules'
-import CoinLogos from '@/components/shared/coinLogos'
+
+
+import { EtherScan } from '@/lib/hooks/etherScan';
+import { ToTokenName } from '@/lib/hooks/tokenName';
+import { useGetTokens } from '@/lib/hooks/tokens';
+import { isETHAddress } from '@/lib/utils/rules';
+import CoinLogos from '@/components/shared/coinLogos';
+
+
+
+
 
 type PROPS = {
   toAddress: any
@@ -32,9 +38,11 @@ const VerusToken = (token: DestinationOption) => {
     <div className="flex items-center space-x-2 ">
       <CoinLogos symbol={token.currency} iAddr={token.iaddress} />
       <div className="flex flex-col">
-        <p className=" text-base font-medium leading-none ">{tokenInfo.name}</p>
+        <p className=" text-base font-medium leading-none ">
+          {tokenInfo?.name || token.label}
+        </p>
         <p className=" text-xs text-[#818181] ">
-          {tokenInfo.verusToken || token.currency}
+          {tokenInfo?.verusToken || token.currency}
         </p>
       </div>
     </div>
@@ -63,11 +71,11 @@ const EthToken = (token: DestinationOption) => {
         <CoinLogos symbol={token.currency} iAddr={token.iaddress} />
         <div className="flex flex-col">
           <p className=" text-base font-medium leading-none ">
-            {tokenInfo.name}
+            {tokenInfo?.name || token.label}
           </p>
           <div className="flex w-28 items-center justify-between">
             <p className="text-xs text-[#818181]">
-              {tokenInfo.ethToken || token.currency}
+              {tokenInfo?.ethToken || token.currency}
             </p>
             {additionalInfo && additionalInfo.erc20address !== AddressZero && (
               <Link
