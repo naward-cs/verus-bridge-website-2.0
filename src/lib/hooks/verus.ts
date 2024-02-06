@@ -86,6 +86,7 @@ export const useGetCurrencyRate = (
     cacheTime: 30 * 1000,
     refetchInterval: 60 * 1000,
     enabled: !!fromToken && !!toToken,
+    // eslint-disable-next-line @tanstack/query/no-deprecated-options
     onSuccess(data) {
       if (data?.value) {
         setValue('sendOnly', false)

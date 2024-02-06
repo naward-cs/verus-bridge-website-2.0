@@ -42,6 +42,7 @@ module.exports = {
     '@tanstack/query/exhaustive-deps': 'warn',
     '@tanstack/query/prefer-query-object-syntax': 'error',
     '@tanstack/query/stable-query-client': 'error',
+    '@tanstack/query/no-deprecated-options': 'warn',
   },
   settings: {
     tailwindcss: {
