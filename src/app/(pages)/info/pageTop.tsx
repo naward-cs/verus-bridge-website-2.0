@@ -5,7 +5,7 @@ import {Icons} from '@/components/shared/icons'
 
 const List = ({text}: {text: string}) => (
   <div className="flex">
-    <div className="relative float-left mr-4 mt-1 h-4 w-4 shrink-0">
+    <div className="relative float-left mr-4 mt-1 size-4 shrink-0">
       <Image src="/images/check-mark-button.png" fill alt="check mark" />
     </div>
     <p className=" max-w-[456px]">{text}</p>

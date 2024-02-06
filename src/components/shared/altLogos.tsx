@@ -42,7 +42,7 @@ const RenderPbassCurrencyLogo = ({
       {interiorColors.map((interiorColor, i) => (
         <div
           key={`${i}-${interiorColor}`}
-          className={small ? 'h-[6px] w-[6px]' : 'h-2 w-2'}
+          className={small ? 'size-[6px]' : 'size-2'}
           style={{backgroundColor: interiorColor}}
         />
       ))}
