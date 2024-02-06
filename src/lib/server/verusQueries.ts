@@ -2,6 +2,10 @@
 
 import { VerusRPC } from './verusRPC';
 
+
+
+
+
 export const getBlockHeight = async (chain?: number) => {
   try {
     const blockHeight = await VerusRPC(chain).getCurrentHeight()
@@ -34,13 +38,13 @@ export const getConversionRate = async (
     //   return null
     // }
     if (fromToken.value === toToken.currency) return null
-    console.log(fromToken)
+    
     const convertingTo = toToken.id
     // const convertingFrom = fromToken.id
     const convertingFrom = Object.values(bridgeList).filter(
       (k) => k.currency === fromToken.value
     )[0].id
-    console.log(convertingFrom)
+    
     const conversionPackage: {
       currency: string
       convertto: string
