@@ -1,30 +1,26 @@
-import {AddressZero} from '@ethersproject/constants'
-import {toast} from 'sonner'
-import {parseEther} from 'viem'
+import { AddressZero } from '@ethersproject/constants';
+import { toast } from 'sonner';
+import { parseEther } from 'viem';
 
-import {
-  bounceBackFee,
-  CONVERT,
-  DEST_ETH,
-  DEST_ID,
-  DEST_PKH,
-  ETH_FEES,
-  FLAG_DEST_AUX,
-  FLAG_DEST_GATEWAY,
-  IMPORT_TO_SOURCE,
-  RESERVE_TO_RESERVE,
-  VALID,
-} from '@/config/constants'
-import {BLOCKCHAIN_NAME} from '@/lib/server/verusChains'
 
-import {coinsToSats, convertVerustoEthAddress} from './convert'
-import {isETHAddress, isIAddress, isRAddress} from './rules'
+
+import { bounceBackFee, CONVERT, DEST_ETH, DEST_ID, DEST_PKH, ETH_FEES, FLAG_DEST_AUX, FLAG_DEST_GATEWAY, IMPORT_TO_SOURCE, RESERVE_TO_RESERVE, VALID } from '@/config/constants';
+import { BLOCKCHAIN_NAME } from '@/lib/server/verusChains';
+
+
+
+import { coinsToSats, convertVerustoEthAddress } from './convert';
+import { isETHAddress, isIAddress, isRAddress } from './rules';
+
+
+
+
 
 // type ConfigOptions = {
 //   toAddress: `0x${string}` | string
 //   toToken: DestinationOption
 //   poolAvailable: boolean
-//   fromToken: TokenList
+//   fromTokenReference: TokenList
 //   GasPrice: {SATSCOST: string; WEICOST: string}
 //   bounceBackAddr: string
 //   bridge: string
@@ -49,13 +45,44 @@ export const getConfigOptions = async ({
   bridgeList,
   chain,
 }: ConfigOptions) => {
-  const {toToken, fromToken, gasPrice: GasPrice, fromAmount} = formInput
+  const {
+    toToken,
+    fromToken,
+    gasPrice: GasPrice,
+    fromAmount,
+    sendOnly,
+  } = formInput
   let destinationType: null | number = null
   let flagValue = VALID
   let secondReserveId = AddressZero
   let destinationCurrency: null | string = null
   let destinationAddress: `0x${string}` | string
-
+  //due to change of fromToken to no longer have iaddress and id
+  //need to generate new reference of fromToken to fromTokenReference
+  //
+  let fromTokenReference: TokenList
+  if (sendOnly) {
+    fromTokenReference = {
+      label: toToken.label,
+      value: toToken.currency,
+      iaddress: toToken.iaddress,
+      erc20address: fromToken.erc20address,
+      id: toToken.id,
+      flags: fromToken.flags,
+    }
+  } else {
+    const tokenInfo = Object.values(bridgeList).filter(
+      (t) => t.currency === fromToken.value
+    )[0]
+    fromTokenReference = {
+      label: tokenInfo.label,
+      value: tokenInfo.currency,
+      iaddress: tokenInfo.iaddress,
+      erc20address: fromToken.erc20address,
+      id: toToken.id,
+      flags: fromToken.flags,
+    }
+  }
   //set destination to correct type
 
   if (isIAddress(toAddress)) {
@@ -108,7 +135,7 @@ export const getConfigOptions = async ({
         //#2: catch for bridge itself
 
         destinationCurrency = BETH //bridge open all sends go to bridge.veth
-        if (fromToken.iaddress !== BETH) {
+        if (fromTokenReference.iaddress !== BETH) {
           flagValue = VALID + CONVERT //add convert flag on
         } else {
           toast.error(
@@ -120,18 +147,18 @@ export const getConfigOptions = async ({
         //#3: catch for all bridge conversions
         //not from == self and not from bridge.veth
         if (
-          fromToken.iaddress !== GLOBAL_ADDRESS[toToken.value] &&
-          fromToken.iaddress !== BETH
+          fromTokenReference.iaddress !== GLOBAL_ADDRESS[toToken.value] &&
+          fromTokenReference.iaddress !== BETH
         ) {
           destinationCurrency = BETH //bridge open convert from token to VRSC
           secondReserveId = GLOBAL_ADDRESS[toToken.value]
           flagValue = VALID + CONVERT + RESERVE_TO_RESERVE //add convert flag on
-        } else if (fromToken.iaddress === BETH) {
+        } else if (fromTokenReference.iaddress === BETH) {
           destinationCurrency = GLOBAL_ADDRESS[toToken.value]
           flagValue = VALID + CONVERT + IMPORT_TO_SOURCE
         } else {
           toast.error(
-            `Cannot convert ${fromToken.value} to ${toToken.currency}. Send Direct to ${blockChainName}` //add in FLAGS logic for destination
+            `Cannot convert ${fromTokenReference.value} to ${toToken.currency}. Send Direct to ${blockChainName}` //add in FLAGS logic for destination
           )
           return null
         }
@@ -162,7 +189,7 @@ export const getConfigOptions = async ({
     // #1 Special convert for bridge.veth
     // #2 Can convert any other bridge token
     // #3 Can't do anything else, no sending
-    const isFromBETH = fromToken.iaddress === BETH
+    const isFromBETH = fromTokenReference.iaddress === BETH
 
     if (toToken.value === 'bridgeBridge') {
       //#1 going to bridge
@@ -208,7 +235,7 @@ export const getConfigOptions = async ({
   }
 
   const verusAmount = coinsToSats(fromAmount.toString())
-  const currencyIaddress = fromToken.iaddress as `0x${string}`
+  const currencyIaddress = fromTokenReference.iaddress as `0x${string}`
   const CReserveTransfer: CReserveTransferType = {
     version: 1,
     currencyvalue: {currency: currencyIaddress, amount: verusAmount}, // currency sending from ethereum
@@ -233,7 +260,7 @@ export const getConfigOptions = async ({
     walletFee = walletFee + BigInt(GasPrice.WEICOST) // bounceback fee
   }
 
-  if (fromToken.erc20address === AddressZero) {
+  if (fromTokenReference.erc20address === AddressZero) {
     // parseEther(fromAmount.toString())
 
     walletFee = walletFee + BigInt(parseEther(fromAmount.toString()))
