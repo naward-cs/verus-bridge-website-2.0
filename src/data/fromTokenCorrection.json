@@ -1,5 +1,11 @@
 [
   {
+    "name": "Bridge.vETH",
+    "misTypes": [
+      "bridge.vETH"
+    ]
+  },
+  {
     "name": "Dai",
     "misTypes": [
       "DAI.vETH",

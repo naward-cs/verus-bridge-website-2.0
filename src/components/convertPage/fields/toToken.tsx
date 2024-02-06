@@ -75,6 +75,11 @@ const ToTokenField = () => {
   }, [fromToken, bridgeList, tokenList, chain])
 
   const correctField = ToTokenName(field.value?.label) || undefined
+  let tokenCurrency = field.value?.currency
+  //temp fix
+  if (correctField?.verusToken === "VBRID"){
+    tokenCurrency = correctField.verusToken
+  }
   const subButtonValue = toAddress
     ? isETHAddress(toAddress)
       ? correctField?.ethToken
@@ -96,7 +101,7 @@ const ToTokenField = () => {
       >
         <ButtonText
           label={correctField?.name}
-          symbol={field.value?.currency}
+          symbol={tokenCurrency}
           iAddr={field.value?.iaddress}
         />
 

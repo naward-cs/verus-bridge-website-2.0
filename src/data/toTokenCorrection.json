@@ -1,5 +1,13 @@
 [
   {
+    "name": "Bridge.vETH",
+    "verusToken": "VBRID",
+    "ethToken": "VBRID",
+    "misTypes": [
+      "bridge.vETH"
+    ]
+  },
+  {
     "name": "Dai",
     "verusToken": "DAI.vETH",
     "ethToken": "DAI",
@@ -8,6 +16,7 @@
       "Testnet DAI"
     ]
   },
+  
   {
     "name": "Ethereum",
     "verusToken": "vETH",
