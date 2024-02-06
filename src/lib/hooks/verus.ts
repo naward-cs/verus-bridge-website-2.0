@@ -1,21 +1,21 @@
-'use client' 
+'use client';
 
-import { useQuery } from '@tanstack/react-query' 
-import { useFormContext } from 'react-hook-form' 
-
-
-
-import { getBlockHeight, getConversionRate, getDestinationList } from '@/lib/server/verusQueries' 
+import { useQuery } from '@tanstack/react-query';
+import { useFormContext } from 'react-hook-form';
 
 
 
-import { isETHAddress } from '../utils/rules' 
-import { NetworkChain } from './network' 
-import { useGetTokens } from './tokens' 
+import { getBlockHeight, getConversionRate, getDestinationList } from '@/lib/server/verusQueries';
 
 
 
-import type { primitives } from 'verusid-ts-client' 
+import { isETHAddress } from '../utils/rules';
+import { NetworkChain } from './network';
+import { useGetTokens } from './tokens';
+
+
+
+import type { primitives } from 'verusid-ts-client';
 
 
 export const useGetBLockHeight = () => {
@@ -88,6 +88,7 @@ export const useGetCurrencyRate = (
     enabled: !!fromToken && !!toToken,
     // eslint-disable-next-line @tanstack/query/no-deprecated-options
     onSuccess(data) {
+      //TODO: figure a way to remove this and support the dynamics
       if (data?.value) {
         setValue('sendOnly', false)
       } else {
