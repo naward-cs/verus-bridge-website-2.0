@@ -1,10 +1,5 @@
 import fromTokenList from '@/data/fromTokenCorrection.json' 
 import toTokenList from '@/data/toTokenCorrection.json' 
-
-
-
-
-
 export const FromTokenName = (name: string) => {
   let newName = name
   fromTokenList.map((t) => {
