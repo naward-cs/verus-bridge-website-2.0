@@ -92,22 +92,22 @@ const FromTokenField = () => {
 
   const {field} = useController({
     control,
-    name: 'selectedFromToken',
+    name: 'fromToken',
     defaultValue: fromList?.find((token) => token.value === 'ETH'),
   })
 
-  const {selectedFromToken} = useFormValues()
+  const {fromToken} = useFormValues()
   useEffect(() => {
     if (isMounted && fromList) {
-      if (!selectedFromToken) {
+      if (!fromToken) {
         // console.log('loadeding')
         setValue(
-          'selectedFromToken',
+          'fromToken',
           fromList.find((token) => token.value === 'ETH')
         )
       }
     }
-  }, [selectedFromToken, isMounted, setValue, fromList])
+  }, [fromToken, isMounted, setValue, fromList])
 
   if (!isMounted)
     return (
@@ -119,7 +119,7 @@ const FromTokenField = () => {
         <Icons.chevronDown className="ml-2 h-4" />
       </button>
     )
-  const correctField=FromTokenName(field.value.label)
+  const correctField = FromTokenName(field.value.label)
   return (
     <>
       <button

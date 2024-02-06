@@ -26,7 +26,7 @@ const ToTokenField = () => {
   const {bridgeList, tokenList} = useGetTokens()
   const chain = NetworkChain()
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
-  const {selectedFromToken, toAddress} = useFormValues()
+  const {fromToken, toAddress} = useFormValues()
   const [verusList, setVerusList] = useState<DestinationOption[]>()
   const [verusOptions, setVerusOptions] = useState(verusList)
   const [ethList, setEthList] = useState<DestinationOption[] | undefined>()
@@ -61,10 +61,10 @@ const ToTokenField = () => {
   )
 
   useEffect(() => {
-    if (selectedFromToken && bridgeList) {
+    if (fromToken && bridgeList) {
       const sendList = GetSendList(tokenList!, chain)
       const {vOptions, eOptions} = DestinationOptions({
-        from: selectedFromToken,
+        from: fromToken,
         sendList,
         bridge: bridgeList,
       })
@@ -73,7 +73,7 @@ const ToTokenField = () => {
       setVerusOptions(vOptions)
       setEthOptions(eOptions)
     }
-  }, [selectedFromToken, bridgeList, tokenList, chain])
+  }, [fromToken, bridgeList, tokenList, chain])
 
   const correctField = ToTokenName(field.value?.label) || undefined
   const subButtonValue = toAddress

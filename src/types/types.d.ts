@@ -30,8 +30,7 @@ type FromList = Omit<TokenList, 'iaddress' | 'id'>
 
 type ConvertFormData = {
   fromAmount: number | string | bigint
-  selectedFromToken: FromList
-  fromToken: TokenList
+  fromToken: FromList
   toToken: DestinationOption
   toAddress: string
   sendOnly: boolean

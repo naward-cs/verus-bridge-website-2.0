@@ -1,19 +1,22 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import {useFormContext} from 'react-hook-form'
+import { useFormContext } from 'react-hook-form';
 
-import {
-  getBlockHeight,
-  getConversionRate,
-  getDestinationList,
-} from '@/lib/server/verusQueries'
 
-import {isETHAddress} from '../utils/rules'
-import {NetworkChain} from './network'
-import {useGetTokens} from './tokens'
 
-import type {primitives} from 'verusid-ts-client'
+import { getBlockHeight, getConversionRate, getDestinationList } from '@/lib/server/verusQueries';
+
+
+
+import { isETHAddress } from '../utils/rules';
+import { NetworkChain } from './network';
+import { useGetTokens } from './tokens';
+
+
+
+import type { primitives } from 'verusid-ts-client';
+
 
 export const useGetBLockHeight = () => {
   const chainId = NetworkChain()
@@ -54,7 +57,7 @@ export const createConvertOptionsList = (
 }
 
 export const useGetCurrencyRate = (
-  fromToken: TokenList,
+  fromToken: FromList,
   toToken: DestinationOption,
   fromAmount?: number
 ) => {

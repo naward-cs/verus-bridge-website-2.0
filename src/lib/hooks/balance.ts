@@ -13,9 +13,9 @@ import type { FetchBalanceResult } from 'wagmi/actions';
 
 
 export const useBalances = () => {
-  const {selectedFromToken} = useFormValues()
+  const {fromToken} = useFormValues()
   const {address: account, isConnected} = useAccount()
-  const isEth = /^(0x)?[0]{40}$/.test(selectedFromToken?.erc20address)
+  const isEth = /^(0x)?[0]{40}$/.test(fromToken?.erc20address)
   const {data: EthBalance} = useBalance({
     address: account,
     formatUnits: 'ether',
@@ -25,10 +25,10 @@ export const useBalances = () => {
   })
   const {data: ErcBalance} = useBalance({
     address: account,
-    token: selectedFromToken?.erc20address,
+    token: fromToken?.erc20address,
     watch: true,
     staleTime: 60_000,
-    enabled: isConnected && selectedFromToken && !isEth,
+    enabled: isConnected && fromToken && !isEth,
   })
   return {isEth, isConnected, EthBalance, ErcBalance}
 }
