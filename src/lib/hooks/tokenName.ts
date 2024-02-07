@@ -1,6 +1,8 @@
-import fromTokenList from '@/data/fromTokenCorrection.json' 
-import toTokenList from '@/data/toTokenCorrection.json' 
-export const FromTokenName = (name: string) => {
+import fromTokenList from '@/data/fromTokenCorrection.json'
+import toTokenList from '@/data/toTokenCorrection.json'
+
+export const FromTokenName = (name?: string) => {
+  if (name === undefined) return name
   let newName = name
   fromTokenList.map((t) => {
     if (t.misTypes.includes(name)) {
