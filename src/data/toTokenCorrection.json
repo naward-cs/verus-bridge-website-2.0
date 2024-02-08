@@ -1,7 +1,7 @@
 [
   {
     "name": "Bridge.vETH",
-    "verusToken": "VBRID",
+    "verusToken": "Bridge.vETH",
     "ethToken": "VBRID",
     "misTypes": [
       "bridge.vETH"

@@ -121,7 +121,7 @@ const FinalReview = (props: FinalProps) => {
           </p>
           {formValues.sendOnly ? (
             <p className="break-all">
-              Sending {formValues.fromToken.value} to Verus Chain
+              Sending {formValues.fromToken.value} to the Verus blockchain
             </p>
           ) : (
             <p>

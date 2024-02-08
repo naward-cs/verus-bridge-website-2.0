@@ -26,7 +26,7 @@ export const validateAddress = (address: string, sendOnly?: boolean) => {
     if (isVerus || isRAddress(address)) {
       return true
     } else {
-      return 'Address must be an I-address or R-address to send'
+      return 'Enter correct Verus address'
     }
   } else {
     if (isETHAddress(address) || isRAddress(address) || isVerus) {
