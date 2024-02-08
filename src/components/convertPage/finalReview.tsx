@@ -1,20 +1,25 @@
-'use client'
+'use client';
 
-import {useState} from 'react'
-import {Link, ModalBody, ModalHeader, Spinner} from '@nextui-org/react'
-import {useQueryClient} from '@tanstack/react-query'
-import BigNumber from 'bignumber.js'
-import {toast} from 'sonner'
-import {formatEther} from 'viem'
-import {useWaitForTransaction} from 'wagmi'
+import { useState } from 'react';
+import { Link, ModalBody, ModalHeader, Spinner } from '@nextui-org/react';
+import { useQueryClient } from '@tanstack/react-query';
+import BigNumber from 'bignumber.js';
+import { toast } from 'sonner';
+import { formatEther } from 'viem';
+import { useWaitForTransaction } from 'wagmi';
 
-import {useDelgatorContract} from '@/lib/hooks/contract'
-import {EtherScan} from '@/lib/hooks/etherScan'
-import {isETHAddress} from '@/lib/utils/rules'
-import CoinLogos from '@/components/shared/coinLogos'
-import {Icons} from '@/components/shared/icons'
 
-import ConvertWarn from './fields/convertWarn'
+
+import { ETH_FEES } from '@/config/constants';
+import { useDelgatorContract } from '@/lib/hooks/contract';
+import { EtherScan } from '@/lib/hooks/etherScan';
+import { isETHAddress } from '@/lib/utils/rules';
+import CoinLogos from '@/components/shared/coinLogos';
+import { Icons } from '@/components/shared/icons';
+
+
+
+import ConvertWarn from './fields/convertWarn';
 import FinalReviewInfo from './finalReviewInfo'
 import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
 
@@ -72,12 +77,19 @@ const FinalReview = (props: FinalProps) => {
   const gasFetch = qQuery.find(['ETHmarket'])?.state.data as {
     [key: string]: any
   }
-  const gasRate = new BigNumber(
-    gasFetch.market_data.current_price?.usd.toString()
-  )
-    .times(new BigNumber(formatEther(BigInt(formValues.gasPrice.WEICOST))))
-    .decimalPlaces(2)
-    .toString()
+
+  let gasRate
+  if (isETHAddress(formValues.toAddress)) {
+    gasRate = new BigNumber(formatEther(BigInt(formValues.gasPrice.WEICOST)))
+      .times(new BigNumber(gasFetch.market_data.current_price?.usd.toString()))
+      .decimalPlaces(2)
+      .toString()
+  } else {
+    gasRate = new BigNumber(ETH_FEES.ETH)
+      .times(new BigNumber(gasFetch.market_data.current_price?.usd.toString()))
+      .decimalPlaces(2)
+      .toString()
+  }
 
   const contract = useDelgatorContract()
 
