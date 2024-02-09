@@ -66,10 +66,9 @@ const FinalReviewInfo = (formValues: ConvertFormData) => {
           <p>
             <span className="font-medium">
               {toFromBridge === 'from'
-                ? 'Bridge.vETH'
-                : formValues.fromToken.value}
-            </span>{' '}
-            in reserves
+                ? 'Bridge.vETH in supply'
+                : `${formValues.fromToken.value} in reserves`}
+            </span>
           </p>
           <p className="font-medium">
             {toFromBridge === 'from'
@@ -81,22 +80,21 @@ const FinalReviewInfo = (formValues: ConvertFormData) => {
                   }).format(bridgeInfo.bridge.amount)
                 : 'Error'
               : fromTokenAmount
-              ? Intl.NumberFormat('en-US', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 3,
-                }).format(fromTokenAmount)
-              : 'Loading...'}
+                ? Intl.NumberFormat('en-US', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 3,
+                  }).format(fromTokenAmount)
+                : 'Loading...'}
           </p>
         </div>
         <div className="flex items-center justify-between">
           <p>
             <span className="font-medium">
               {toFromBridge === 'to'
-                ? 'Bridge.vETH'
-                : formValues.toToken.currency}
-            </span>{' '}
-            in reserves
+                ? 'Bridge.vETH in supply'
+                : `${formValues.toToken.currency} in reserves`}
+            </span>
           </p>
           <p className="font-medium">
             {toFromBridge === 'to'
@@ -108,12 +106,12 @@ const FinalReviewInfo = (formValues: ConvertFormData) => {
                   }).format(bridgeInfo.bridge.amount)
                 : 'Error'
               : toTokenAmount
-              ? Intl.NumberFormat('en-US', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 3,
-                }).format(toTokenAmount)
-              : 'Loading...'}
+                ? Intl.NumberFormat('en-US', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 3,
+                  }).format(toTokenAmount)
+                : 'Loading...'}
           </p>
         </div>
       </div>
