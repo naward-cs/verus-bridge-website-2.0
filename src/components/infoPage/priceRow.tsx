@@ -88,7 +88,7 @@ const PriceRow = (coin: CoinList) => {
 
   return (
     <div className="grid grid-cols-4 rounded-lg border border-bluePrimary p-5 text-xs font-medium text-bluePrimary sm:text-base md:text-lg lg:text-xl">
-      <p className="flex items-center text-left text-black">
+      <p className="flex items-center text-left text-black text-sm">
         <Image
           src={coinLogo}
           alt="coin logo"
@@ -96,7 +96,9 @@ const PriceRow = (coin: CoinList) => {
           width={26}
           className="mr-1.5 rounded-full"
         />
-        {coinName}
+        
+        {coinName} {coin.name !== "VRSC" &&<span className='text-[#8E8E8E] text-xs font-normal self-end pb-1 ml-1'>{coin.name}</span>}
+        
       </p>
       <p className="text-right text-xs opacity-[.54] md:text-sm">
         {Intl.NumberFormat('en-US', {
