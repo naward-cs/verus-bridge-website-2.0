@@ -23,14 +23,26 @@ import ConvertWarn from './fields/convertWarn';
 import FinalReviewInfo from './finalReviewInfo'
 import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
 
+
+
+
+
 interface FinalProps extends TxConfigType {
   account: `0x${string}`
   onClose: () => void
+  setStatus: React.Dispatch<React.SetStateAction<'completed' | 'failed' | null>>
 }
 
 const maxGas = 1000000
 const FinalReview = (props: FinalProps) => {
-  const {formValues, CReserveTransfer: cr, fee, account, onClose} = props
+  const {
+    formValues,
+    CReserveTransfer: cr,
+    fee,
+    account,
+    onClose,
+    setStatus,
+  } = props
   const etherScan = EtherScan()
   const [pending, setPending] = useState(false)
   const [completed, setCompleted] = useState(false)
@@ -63,7 +75,7 @@ const FinalReview = (props: FinalProps) => {
     },
     onSuccess(data) {
       toast.success(`Transaction successful ${data.transactionHash}`)
-
+      setStatus('completed')
       setTimeout(() => {
         // setTx(undefined)
         onClose()
@@ -71,6 +83,7 @@ const FinalReview = (props: FinalProps) => {
     },
     onError: () => {
       setTxError(true)
+      setStatus('failed')
       toast.error('Something went wrong with transaction')
     },
   })
