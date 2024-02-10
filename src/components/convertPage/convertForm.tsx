@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDelegatorBridgeConverterActive} from '@/generated'
 import {AddressZero} from '@ethersproject/constants'
 import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
@@ -46,7 +46,7 @@ const ConvertForm = () => {
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
-
+  const [status, setStatus] = useState<"completed"|"failed"|null>(null)
   const formMethods = useForm<ConvertFormData>({
     defaultValues: {
       fromAmount: '',
@@ -82,6 +82,13 @@ const ConvertForm = () => {
     }
   }
 
+  useEffect(() => {
+    if (status && status === 'completed'){
+      setStatus(null)
+      formMethods.reset()
+    }
+  }, [formMethods, status])
+  
   const onSubmit = async (values: ConvertFormData) => {
     //check to make sure if VerusID, it is valid before continuing
     let sendAddress = values.toAddress
@@ -176,10 +183,11 @@ const ConvertForm = () => {
       >
         <ModalContent>
           {txConfig && (
-            <FinalReview account={account!} onClose={onClose} {...txConfig} />
+            <FinalReview account={account!} onClose={onClose} setStatus={setStatus} {...txConfig} />
           )}
         </ModalContent>
       </Modal>
+      
     </>
   )
 }
