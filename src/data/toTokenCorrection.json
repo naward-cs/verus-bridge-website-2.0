@@ -4,7 +4,8 @@
     "verusToken": "Bridge.vETH",
     "ethToken": "VBRID",
     "misTypes": [
-      "bridge.vETH"
+      "bridge.vETH",
+      "Bridge.vETH"
     ]
   },
   {
