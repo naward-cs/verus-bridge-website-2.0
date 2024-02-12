@@ -127,8 +127,19 @@ const FinalReview = (props: FinalProps) => {
       //   '0xee6a66a92f75436d19956fd7a20b7cdff5ff4b6ca0f96c645886615b8040b4a9'
       // )
       setPending(false)
-    } catch (e) {
+    } catch (e:any) {
       // console.log(error as BaseError)
+      if (e?.message.includes('User denied transaction')) {
+        toast.error('Transaction Stopped: User denied the transaction.')
+      } else if (e?.message) {
+        toast.error(
+          `An error occurred while processing the transaction: ${e.message}`
+        )
+      } else {
+        toast.error(
+          'An error occurred while processing the transaction.'
+        )
+      }
       setTxError(true)
 
       setPending(false)

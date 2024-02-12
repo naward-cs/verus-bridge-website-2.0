@@ -46,7 +46,7 @@ const ConvertForm = () => {
   const {bridgeList} = useGetTokens()
 
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
-  const [status, setStatus] = useState<"completed"|"failed"|null>(null)
+  const [status, setStatus] = useState<'completed' | 'failed' | null>(null)
   const formMethods = useForm<ConvertFormData>({
     defaultValues: {
       fromAmount: '',
@@ -83,12 +83,12 @@ const ConvertForm = () => {
   }
 
   useEffect(() => {
-    if (status && status === 'completed'){
+    if (status && status === 'completed') {
       setStatus(null)
       formMethods.reset()
     }
   }, [formMethods, status])
-  
+
   const onSubmit = async (values: ConvertFormData) => {
     //check to make sure if VerusID, it is valid before continuing
     let sendAddress = values.toAddress
@@ -105,11 +105,13 @@ const ConvertForm = () => {
     }
 
     const rAddress = await CheckIfReady(account!)
-
+    let authorize = true
     if (rAddress) {
       if (values.fromToken.erc20address !== AddressZero) {
+        //Set authorize as false to make sure user authorizes token to be sent
+        authorize = false
         //if ERC-20 Token, get approval to spend
-        await AuthorizeTokenAmount({
+        authorize = await AuthorizeTokenAmount({
           token: values.fromToken,
           amount: values.fromAmount.toString(), //to string just in case
           chain: chain!,
@@ -117,8 +119,7 @@ const ConvertForm = () => {
           delegatorAddr: delegatorAddr,
         })
       }
-      //TODO
-      //FIXME: Need to fix this portion based on how the new form values are queried
+
       const txConfigs = await getConfigOptions({
         formInput: values,
         toAddress: sendAddress,
@@ -128,7 +129,7 @@ const ConvertForm = () => {
         chain: chain!.id,
       })
 
-      if (txConfigs) {
+      if (txConfigs && authorize) {
         setTxConfig({formValues: values, ...txConfigs})
         onOpen()
       }
@@ -183,11 +184,15 @@ const ConvertForm = () => {
       >
         <ModalContent>
           {txConfig && (
-            <FinalReview account={account!} onClose={onClose} setStatus={setStatus} {...txConfig} />
+            <FinalReview
+              account={account!}
+              onClose={onClose}
+              setStatus={setStatus}
+              {...txConfig}
+            />
           )}
         </ModalContent>
       </Modal>
-      
     </>
   )
 }

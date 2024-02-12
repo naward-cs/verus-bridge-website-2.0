@@ -74,10 +74,19 @@ export const AuthorizeTokenAmount = async ({
         {duration: 10000}
       )
       return true
-    } catch (error) {
-      toast.error(
-        'Authorizing ERC20 Token Spend Failed, please check your balance.'
-      )
+    } catch (error: any) {
+      if (error?.message.includes('User denied transaction')) {
+        toast.error(
+          'Authorizing ERC20 token spend failed, you must authorize for conversion'
+        )
+      } else if (error?.message.include('insufficient funds')) {
+        toast.error(
+          'Authorizing ERC20 token spend failed, please check your balance.'
+        )
+      } else {
+        toast.error('An error occurred while processing the authorization of this transaction.')
+      }
+
       return false
     }
   } else {
