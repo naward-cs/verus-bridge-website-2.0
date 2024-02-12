@@ -200,7 +200,7 @@ const FinalReview = (props: FinalProps) => {
 
           <p className="text-center">
             Can take up to{' '}
-            {isETHAddress(formValues.toAddress) ? '2 hours' : '45 minute'} to
+            {isETHAddress(formValues.toAddress) ? '2 hours' : '45 minutes'} to
             complete
           </p>
           <Link
