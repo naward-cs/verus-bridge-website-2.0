@@ -27,7 +27,8 @@ const MaxAmountButton = () => {
   }
 
   //trying to prevent NaN displays
-  if (!isConnected || !isMounted || !EthBalance) return null
+  //FIXME: show after wallet is connected and has balance
+  if (!isConnected || !isMounted || !EthBalance ) return null
 
   return (
     <div className="flex items-center justify-end space-x-2">
@@ -51,8 +52,8 @@ const MaxAmountButton = () => {
           setValue(
             'fromAmount',
             isEth
-              ? Number(formatEther(maxEthValue)).toFixed(8).toString()
-              : Number(ErcBalance?.formatted).toFixed(8).toString()
+              ? parseFloat(Number(formatEther(maxEthValue)).toFixed(8)).toString()
+              : parseFloat(Number(ErcBalance?.formatted).toFixed(8)).toString()
           )
         }}
         className="rounded-md border border-black bg-[#CECECE] p-1 text-xs"
