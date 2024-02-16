@@ -1,24 +1,48 @@
-import React, {memo, useState} from 'react'
+import React, { memo, useState } from 'react';
 
-import {Icons} from '@/components/shared/icons'
 
-import {InputField} from './inputField'
+
+import { Icons } from '@/components/shared/icons';
+
+
+
+import { InputField } from './inputField';
+
+
+
+
 
 interface SearchProps {
   onChange: (text: string) => void
   searchTitle: string
+  trackText?: React.MutableRefObject<string>
 }
-const SearchField = ({searchTitle, onChange}: SearchProps) => {
+const SearchField = ({searchTitle, onChange, trackText}: SearchProps) => {
   const [text, setText] = useState('')
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value)
+    if (trackText) {
+      trackText.current = e.target.value
+    }
+  }
+
+  const handleClearText = () => {
+    setText('')
+    if (trackText) {
+      trackText.current = ''
+    }
+  }
+
   return (
     <InputField
       color="background"
       isClearable
       value={text}
       placeholder={searchTitle}
-      onChange={(e) => setText(e.target.value)}
+      onChange={handleTextChange}
       onValueChange={onChange}
-      onClear={() => setText('')}
+      onClear={handleClearText}
       startContent={
         <Icons.search className="pointer-events-none shrink-0 text-[#B6B6B6] " />
       }

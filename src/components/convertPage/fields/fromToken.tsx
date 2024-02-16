@@ -1,6 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {AddressZero} from '@ethersproject/constants'
 import {
+  Checkbox,
   Link,
   Modal,
   ModalBody,
@@ -76,20 +77,45 @@ const FromTokenField = () => {
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure()
   const {fromList} = useGetTokens()
 
-  const [tokens, setTokens] = useState(fromList)
+  const [tokens, setTokens] = useState(
+    fromList?.filter((t) => t.amount && t.amount > 0n)
+  )
+
+  const [hideZero, setHideZero] = useState(true)
+  const hideZeroRef = useRef(true)
+
+  const resetList = useCallback(() => {
+    let newList = fromList
+    if (hideZeroRef.current) {
+      newList = fromList?.filter((t) => t.amount && t.amount > 0n)
+    }
+    setTokens(newList)
+  }, [fromList])
+
   //search filter controller
   const handleSearch = useCallback(
     (text: string) => {
-      const filteredToken = fromList?.filter(
+      let filteredToken = fromList?.filter(
         (token) =>
           token.label.toLowerCase().includes(text.toLowerCase()) ||
           token.erc20address.toLowerCase().includes(text.toLowerCase())
       )
+      if (hideZeroRef.current) {
+        filteredToken = filteredToken?.filter((t) => t.amount && t.amount > 0n)
+      }
       setTokens(filteredToken)
     },
     [fromList]
   )
+  const handleSearchRef = useRef('')
+  const handleHideZero = () => {
+    setHideZero((prev) => {
+      hideZeroRef.current = !prev
+      return !prev
+    })
 
+    handleSearch(handleSearchRef.current)
+  }
   const {field} = useController({
     control,
     name: 'fromToken',
@@ -126,7 +152,7 @@ const FromTokenField = () => {
         className="flex h-fit min-w-fit items-center justify-center rounded-lg bg-white p-1 pr-3 text-xl font-medium hover:bg-[#EFEFEF]"
         onClick={(e) => {
           e.preventDefault()
-          setTokens(fromList)
+          resetList()
           onOpen()
         }}
       >
@@ -154,8 +180,14 @@ const FromTokenField = () => {
             <SearchInput
               onChange={handleSearch}
               searchTitle="Search name or paste contract address"
+              trackText={handleSearchRef}
             />
             <div className="-mx-6">
+              <div className="mx-6">
+                <Checkbox isSelected={hideZero} onChange={handleHideZero}>
+                  Hide tokens with 0 balance
+                </Checkbox>
+              </div>
               <ul className="space-y-1 pb-2">
                 {tokens?.map((token) => (
                   <li
@@ -165,7 +197,7 @@ const FromTokenField = () => {
                         resetField('toToken')
                         resetField('fromAmount')
                       }
-                      setTokens(fromList)
+                      resetList()
                       onClose()
                     }}
                     key={token.erc20address}

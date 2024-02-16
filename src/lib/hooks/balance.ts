@@ -1,16 +1,11 @@
-'use client' 
+'use client'
 
-import { AddressZero } from '@ethersproject/constants' 
-import { erc20ABI, useAccount, useBalance, useContractReads } from 'wagmi' 
+import {AddressZero} from '@ethersproject/constants'
+import {erc20ABI, useAccount, useBalance, useContractReads} from 'wagmi'
 
+import {useFormValues} from './formValues'
 
-
-import { useFormValues } from './formValues' 
-
-
-
-import type { FetchBalanceResult } from 'wagmi/actions' 
-
+import type {FetchBalanceResult} from 'wagmi/actions'
 
 export const useBalances = () => {
   const {fromToken} = useFormValues()
@@ -79,6 +74,7 @@ export const useGetAllERC20balances = (
         args: [account!],
       }
     })
+  
   return useContractReads({
     contracts,
     enabled: !!tokens && !!account,

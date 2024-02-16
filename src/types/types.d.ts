@@ -24,6 +24,7 @@ type TokenList = {
   erc20address: `0x${string}`
   id: string
   flags: number
+  amount?: bigint
 }
 
 type FromList = Omit<TokenList, 'iaddress' | 'id'>

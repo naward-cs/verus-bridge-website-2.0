@@ -1,6 +1,6 @@
 import {AddressZero} from '@ethersproject/constants'
 import {useQuery} from '@tanstack/react-query'
-import {useAccount} from 'wagmi'
+import {useAccount, useBalance} from 'wagmi'
 
 import {BridgeName} from '@/config/constants'
 import {getDestinationList} from '@/lib/server/verusQueries'
@@ -44,28 +44,52 @@ export const useGetTokens = () => {
 
   const tList = fromList?.map((t) => t.erc20address) as `0x${string}`[]
 
-  const {data: ethBalance} = useGetAllERC20balances(account, tList)
-  const hasEthBalance: string[] = []
+  const {data: ercBalance} = useGetAllERC20balances(account, tList)
+  const {data: ethBalance} = useBalance({
+    address: account,
+    enabled: !!account,
+  })
+  // const hasEthBalance: string[] = []
   if (isConnected) {
-    if (ethBalance) {
-      ethBalance.forEach((t) => {
-        for (const [key, value] of Object.entries(t)) {
-          if ((value as unknown as bigint) > 0n) {
-            hasEthBalance.push(key)
-          }
+    if (ercBalance) {
+      //reduce list to a single key:value array
+      const ethBalanceList = ercBalance.reduce((n, o) => {
+        return {...n, ...o}
+      }, {})
+      fromList = fromList?.map((t) => {
+        let amount: bigint | undefined
+        if (t.erc20address === AddressZero) {
+          amount = ethBalance?.value
+        } else {
+          amount = (ethBalanceList[t.erc20address] as bigint) || undefined
         }
+
+        return {...t, amount}
       })
-    }
-    if (!!hasEthBalance.length) {
-      fromList = fromList?.filter(
-        (t) =>
-          t.erc20address === AddressZero ||
-          hasEthBalance.includes(t.erc20address)
-      )
     } else {
       fromList = fromList?.filter((t) => t.erc20address === AddressZero)
     }
   }
+  // if (isConnected) {
+  //   if (ethBalance) {
+  //     ethBalance.forEach((t) => {
+  //       for (const [key, value] of Object.entries(t)) {
+  //         if ((value as unknown as bigint) > 0n) {
+  //           hasEthBalance.push(key)
+  //         }
+  //       }
+  //     })
+  //   }
+  //   if (!!hasEthBalance.length) {
+  //     fromList = fromList?.filter(
+  //       (t) =>
+  //         t.erc20address === AddressZero ||
+  //         hasEthBalance.includes(t.erc20address)
+  //     )
+  //   } else {
+  //     fromList = fromList?.filter((t) => t.erc20address === AddressZero)
+  //   }
+  // }
 
   return {tokenList, fromList, bridgeList, bridge}
 }
