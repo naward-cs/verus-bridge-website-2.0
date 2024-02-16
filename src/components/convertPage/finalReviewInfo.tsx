@@ -66,7 +66,7 @@ const FinalReviewInfo = (formValues: ConvertFormData) => {
           <p>
             <span className="font-medium">
               {toFromBridge === 'from'
-                ? 'Bridge.vETH in supply'
+                ? 'Bridge.vETH supply'
                 : `${formValues.fromToken.value} in reserves`}
             </span>
           </p>
@@ -92,7 +92,7 @@ const FinalReviewInfo = (formValues: ConvertFormData) => {
           <p>
             <span className="font-medium">
               {toFromBridge === 'to'
-                ? 'Bridge.vETH in supply'
+                ? 'Bridge.vETH supply'
                 : `${formValues.toToken.currency} in reserves`}
             </span>
           </p>
