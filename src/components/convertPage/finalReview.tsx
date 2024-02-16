@@ -13,6 +13,7 @@ import { useWaitForTransaction } from 'wagmi';
 import { ETH_FEES } from '@/config/constants';
 import { useDelgatorContract } from '@/lib/hooks/contract';
 import { EtherScan } from '@/lib/hooks/etherScan';
+import { ToTokenName } from '@/lib/hooks/tokenName';
 import { isETHAddress } from '@/lib/utils/rules';
 import CoinLogos from '@/components/shared/coinLogos';
 import { Icons } from '@/components/shared/icons';
@@ -20,8 +21,8 @@ import { Icons } from '@/components/shared/icons';
 
 
 import ConvertWarn from './fields/convertWarn';
-import FinalReviewInfo from './finalReviewInfo'
-import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly'
+import FinalReviewInfo from './finalReviewInfo';
+import FinalReviewInfoSendOnly from './finalReviewInfoSendOnly';
 
 
 
@@ -127,7 +128,7 @@ const FinalReview = (props: FinalProps) => {
       //   '0xee6a66a92f75436d19956fd7a20b7cdff5ff4b6ca0f96c645886615b8040b4a9'
       // )
       setPending(false)
-    } catch (e:any) {
+    } catch (e: any) {
       // console.log(error as BaseError)
       if (e?.message.includes('User denied transaction')) {
         toast.error('Transaction Stopped: User denied the transaction.')
@@ -136,9 +137,7 @@ const FinalReview = (props: FinalProps) => {
           `An error occurred while processing the transaction: ${e.message}`
         )
       } else {
-        toast.error(
-          'An error occurred while processing the transaction.'
-        )
+        toast.error('An error occurred while processing the transaction.')
       }
       setTxError(true)
 
@@ -147,6 +146,8 @@ const FinalReview = (props: FinalProps) => {
     setCompleted(true)
   }
 
+  const correctField = ToTokenName(formValues.toToken.label)
+  
   if (!completed && pending) {
     return (
       <ModalBody>
@@ -274,7 +275,10 @@ const FinalReview = (props: FinalProps) => {
                     iAddr={formValues.toToken.iaddress}
                   />
                   <p className=" text-xl font-medium">
-                    {formValues.toToken.currency}
+                    {isETHAddress(formValues.toAddress)
+                      ? correctField?.ethToken || formValues.toToken.currency
+                      : correctField?.verusToken || formValues.toToken.currency}
+                    {/* {formValues.toToken.currency} */}
                   </p>
                 </div>
               </div>
