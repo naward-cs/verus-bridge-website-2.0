@@ -65,7 +65,7 @@ const ConvertForm = () => {
       }
     }
     warnToast(
-      'You do not have a Verus Refund address. Please sign message to creating a Verus Refund address.'
+      'You do not have a Verus refund address. Please sign message to create one.'
     )
     await signMsg()
     if (signError) {
