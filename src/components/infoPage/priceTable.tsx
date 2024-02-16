@@ -66,16 +66,16 @@ const PriceTable = () => {
           <p className="col-span-2">Liquidity pool</p>
           <p className="flex items-center justify-end">
             Supply
-            <Tooltip content={SupplyToolTip()} delay={1000}>
-              <span>
+            <Tooltip content={SupplyToolTip()} delay={1000} isDismissable={true}>
+              <span className='cursor-help'>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
           </p>
           <p className="flex items-center justify-end ">
             Price in DAI
-            <Tooltip radius="sm" content={DaiTooltip()} delay={1000}>
-              <span>
+            <Tooltip radius="sm" content={DaiTooltip()} delay={1000} isDismissable={true} >
+              <span className='cursor-help'>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
@@ -117,8 +117,8 @@ const PriceTable = () => {
           <p className="self-end text-right">In reserves</p>
           <p className="flex items-center justify-end self-end">
             Price in DAI
-            <Tooltip content={ReserveDaiTip()} delay={1000}>
-              <span>
+            <Tooltip content={ReserveDaiTip()} delay={1000} isDismissable={true}>
+              <span className='cursor-help'>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>
@@ -127,8 +127,8 @@ const PriceTable = () => {
             Compared to
             <br />
             Coinpaprika
-            <Tooltip radius="sm" size="sm" content={MarketTip()} delay={1000}>
-              <span>
+            <Tooltip radius="sm" size="sm" content={MarketTip()} delay={1000} isDismissable={true}>
+              <span className='cursor-help'>
                 <Icons.info className="mb-0.5 text-[#81A0E2]" height={12} />
               </span>
             </Tooltip>

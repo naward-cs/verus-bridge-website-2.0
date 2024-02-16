@@ -51,10 +51,11 @@ const AddressLabel = (sendOnly: boolean) => {
         isOpen={isOpen}
         onOpenChange={(open) => setIsOpen(open)}
         delay={1000}
+        isDismissable={true}
       >
         <span
           onClick={() => setIsOpen(!isOpen)}
-          className="text-xs font-medium text-bluePrimary underline"
+          className="text-xs font-medium text-bluePrimary underline cursor-help"
         >
           How it works
         </span>

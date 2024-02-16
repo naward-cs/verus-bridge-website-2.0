@@ -52,10 +52,11 @@ const SubmitWarn = () => {
           isOpen={isOpen}
           onOpenChange={(open) => setIsOpen(open)}
           delay={1000}
+          isDismissable={true}
         >
           <span
             onClick={() => setIsOpen(!isOpen)}
-            className="font-medium text-bluePrimary"
+            className="font-medium text-bluePrimary cursor-help"
           >
             Why?
           </span>

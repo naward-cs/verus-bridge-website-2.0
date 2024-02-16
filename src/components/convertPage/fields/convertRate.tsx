@@ -77,8 +77,9 @@ const ConvertRate = () => {
           </div>
         }
         delay={1000}
+        isDismissable={true}
       >
-        <span className="flex">
+        <span className="flex cursor-help">
           {gas && (
             <>
               <Icons.gas className="mr-1.5 h-5 text-[#A5A5A5]  md:h-6" />≈{' '}

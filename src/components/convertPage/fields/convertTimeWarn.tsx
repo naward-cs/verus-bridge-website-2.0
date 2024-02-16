@@ -26,7 +26,7 @@ const ConvertTimeWarn = ({address}: {address: string}) => {
         >
           <span
             onClick={() => setIsOpen(!isOpen)}
-            className="font-medium text-bluePrimary"
+            className="font-medium text-bluePrimary cursor-help"
           >
             Why?
           </span>
