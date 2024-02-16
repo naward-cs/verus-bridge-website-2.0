@@ -20,6 +20,7 @@ export const FinalConvertWarn = () => {
           content={WarnContent()}
           isOpen={isOpen}
           onOpenChange={(open) => setIsOpen(open)}
+          delay={1000}
         >
           <span
             onClick={() => setIsOpen(!isOpen)}

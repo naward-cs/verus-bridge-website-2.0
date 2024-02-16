@@ -66,7 +66,7 @@ const PriceTable = () => {
           <p className="col-span-2">Liquidity pool</p>
           <p className="flex items-center justify-end">
             Supply
-            <Tooltip content={SupplyToolTip()}>
+            <Tooltip content={SupplyToolTip()} delay={1000}>
               <span>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
@@ -74,7 +74,7 @@ const PriceTable = () => {
           </p>
           <p className="flex items-center justify-end ">
             Price in DAI
-            <Tooltip radius="sm" content={DaiTooltip()}>
+            <Tooltip radius="sm" content={DaiTooltip()} delay={1000}>
               <span>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
@@ -117,7 +117,7 @@ const PriceTable = () => {
           <p className="self-end text-right">In reserves</p>
           <p className="flex items-center justify-end self-end">
             Price in DAI
-            <Tooltip content={ReserveDaiTip()}>
+            <Tooltip content={ReserveDaiTip()} delay={1000}>
               <span>
                 <Icons.info className="ml-1 text-[#81A0E2]" height={12} />
               </span>
@@ -127,7 +127,7 @@ const PriceTable = () => {
             Compared to
             <br />
             Coinpaprika
-            <Tooltip radius="sm" size="sm" content={MarketTip()}>
+            <Tooltip radius="sm" size="sm" content={MarketTip()} delay={1000}>
               <span>
                 <Icons.info className="mb-0.5 text-[#81A0E2]" height={12} />
               </span>

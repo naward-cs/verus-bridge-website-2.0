@@ -76,6 +76,7 @@ const ConvertRate = () => {
             Verus-Ethereum Bridge smart contract.
           </div>
         }
+        delay={1000}
       >
         <span className="flex">
           {gas && (
