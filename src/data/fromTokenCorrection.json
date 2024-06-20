@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Bridge.vETH",
+    "misTypes": [
+      "bridge.vETH"
+    ]
+  },
+  {
+    "name": "Dai",
+    "misTypes": [
+      "DAI.vETH",
+      "Testnet DAI",
+      "DAI"
+    ]
+  },
+  {
+    "name": "Ethereum",
+    "misTypes": [
+      "vETH",
+      "Testnet ETH"
+    ]
+  },
+  {
+    "name": "Maker",
+    "misTypes": [
+      "MKR.vETH"
+    ]
+  },
+  {
+    "name": "USD Coin",
+    "misTypes": [
+      "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+    ]
+  },
+  {
+    "name": "Verus",
+    "misTypes": [
+      "VRSC"
+    ]
+  }
+]
