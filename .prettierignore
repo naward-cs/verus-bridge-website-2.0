@@ -1,8 +1,0 @@
-**/node_modules/*
-**/out/*
-**/.next/*
-**/public/*
-**/.contentlayer/*
-**/build/*
-yarn.lock
-package-lock.json
