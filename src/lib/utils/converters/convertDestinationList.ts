@@ -4,7 +4,7 @@ export const convertDestinationList = (
   tokenList: TokenList[],
   currencyList: primitives.CurrencyDefinition
 ) => {
-  if (tokenList.length == 0) return {}
+  if (tokenList.length == 0 || currencyList == undefined) return {}
   const list = Object.fromEntries(
     currencyList.currencies.map((k) => {
       const token = tokenList.filter((t) => t.id === k)[0]
