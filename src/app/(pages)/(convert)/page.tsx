@@ -14,13 +14,12 @@ export default async function Home() {
   try {
     //Should always work, however, pending blocking cookies or
     //init on private browswer mode, wagmiStore has trouble initializing
-
     await prefetchConvertPage(queryClient)
   } catch {}
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <main className="justify-cente container mt-20 flex flex-col items-center ">
+      <main className="justify-center grow container mt-20 flex flex-col items-center ">
         <div className="flex flex-col">
           <BlockHeight delegatorAddr={delegatorAddr} />
           <div className="relative">

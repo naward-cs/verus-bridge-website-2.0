@@ -57,15 +57,17 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'relative flex min-h-screen flex-col justify-center font-geo antialiased',
+          'font-geo antialiased',
           inter.variable,
           geoFont.variable,
           roboto.variable
         )}
       >
         <Provider initialState={initialState}>
-          <Navbar />
-          {children}
+          <div className="relative min-h-screen flex flex-col">
+            <Navbar />
+            {children}
+          </div>
         </Provider>
       </body>
     </html>

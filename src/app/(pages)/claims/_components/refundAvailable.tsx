@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Spinner} from '@nextui-org/react'
 import * as dn from 'dnum'
 import {toast} from 'sonner'
@@ -6,20 +6,58 @@ import {erc20Abi} from 'viem'
 import {useReadContract} from 'wagmi'
 
 import {useGetAllRefunds} from '@/lib/hooks/claims/useGetAllFefunds'
+import {useDelegatorContract} from '@/lib/hooks/contracts/useDelegatorContract'
+import useTxReceiptHandler from '@/lib/hooks/verus/useTxReceiptHandler'
+import FormatAddress from '@/lib/utils/formatAddress'
+
+const maxGas = 800000
 
 interface MergeList extends TokenList {
   refund: bigint
 }
 
-const RefundSection = ({token}: {token: MergeList}) => {
+const RefundSection = ({
+  token,
+  address,
+}: {
+  token: MergeList
+  address: string
+}) => {
+  const [tx, setTx] = useState<`0x${string}` | undefined>(undefined)
   const {data: decimals} = useReadContract({
     address: token.erc20address,
     abi: erc20Abi,
     functionName: 'decimals',
   })
 
-  const onClaim = () => {
-    toast.info('This is not enabled yet')
+  const formattedAddress = FormatAddress(address)
+  const contract = useDelegatorContract()
+  const refund_avail = !!decimals ? dn.format([token.refund, decimals]) : null
+
+  useTxReceiptHandler({
+    tx,
+    reset: () => {
+      setTx(undefined)
+    },
+  })
+  const onClaim = async () => {
+    if (parseFloat(refund_avail || '0') > 0) {
+      try {
+        const txResult = await contract.claimRefund(
+          formattedAddress,
+          token.value,
+          {from: address, gasLimit: maxGas}
+        )
+        if (txResult) {
+          await txResult.wait()
+          setTx(txResult.hash)
+        }
+      } catch (error) {
+        toast.error('Something went wrong with the refund transaction')
+      }
+    } else {
+      toast.error(`No ${token.value} refunds available.`)
+    }
   }
 
   if (!decimals) return null
@@ -28,7 +66,7 @@ const RefundSection = ({token}: {token: MergeList}) => {
       <div>
         <p className="text-xs">Amount</p>
         <p>
-          {dn.format([token.refund, decimals])} {token.value}
+          {refund_avail} {token.value}
         </p>
       </div>
       <button
@@ -74,7 +112,7 @@ const RefundAvailable = ({
       {mergeData.map((token: MergeList, i) => {
         return (
           <div key={`${token.label}-${i}`}>
-            <RefundSection token={token} />
+            <RefundSection token={token} address={address} />
             <hr />
           </div>
         )

@@ -22,6 +22,7 @@ export const Provider = (props: ProviderProps) => {
       <ReactQueryProvider>
         <WagmiRevalidate initialState={props.initialState}>
           <NextUIProvider navigate={router.push}>
+            
             {props.children}
             <ProgressBar />
             <Toaster richColors closeButton />

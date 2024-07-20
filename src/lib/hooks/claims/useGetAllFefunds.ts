@@ -1,25 +1,14 @@
-import { delegatorAbi } from '@/generated';
-import { useChainId, useReadContracts } from 'wagmi';
+import {delegatorAbi} from '@/generated'
+import {useChainId, useReadContracts} from 'wagmi'
 
+import FormatAddress from '@/lib/utils/formatAddress'
 
-
-import { formatHexAddress } from '@/lib/utils/converters/formatHexAddress';
-
-
-
-import { useDelegatorAddress } from '../delegator/useDelegatorAddress';
-
-
-
-
+import {useDelegatorAddress} from '../delegator/useDelegatorAddress'
 
 export const useGetAllRefunds = (address: string, tokenList: TokenList[]) => {
   const chainId = useChainId()
   const delegatorAddr = useDelegatorAddress()
-  const formattedAddress = formatHexAddress(
-    address,
-    'REFUND_CHECK'
-  ) as `0x${string}`
+  const formattedAddress = FormatAddress(address)
   const contracts = tokenList.map((t) => ({
     address: delegatorAddr,
     abi: delegatorAbi,
@@ -30,6 +19,6 @@ export const useGetAllRefunds = (address: string, tokenList: TokenList[]) => {
 
   return useReadContracts({
     contracts,
-    query: {enabled: !!tokenList},
+    query: {enabled: !!tokenList && !!address},
   })
 }

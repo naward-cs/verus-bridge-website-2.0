@@ -3,7 +3,6 @@
 import {useEffect} from 'react'
 import {Link, Modal, ModalBody, ModalContent, Spinner} from '@nextui-org/react'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
-import {useFormContext} from 'react-hook-form'
 import {toast} from 'sonner'
 
 import useEthers from '@/lib/hooks/web/useEthers'
@@ -20,7 +19,6 @@ const RefundAddress = ({
 }) => {
   const {refundAddresses, isLoading, signMsg, msg} = useEthers()
 
-  const {setValue} = useFormContext()
   const signMessage = async () => {
     await signMsg({message: msg})
   }
@@ -32,12 +30,6 @@ const RefundAddress = ({
   }, [isOpen])
   const addresses = refundAddresses.current
 
-  const handleClose = () => {
-    if (addresses && addresses[address]) {
-      setValue('rAddress', addresses[address])
-    }
-  }
-
   return (
     <Modal
       isOpen={isOpen}
@@ -47,7 +39,6 @@ const RefundAddress = ({
       placement="center"
       onOpenChange={onOpenChange}
       isDismissable={false}
-      onClose={handleClose}
     >
       <ModalContent>
         <ModalBody className="my-10">

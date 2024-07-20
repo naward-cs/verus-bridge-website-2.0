@@ -1,23 +1,15 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { useDisclosure } from '@nextui-org/react';
-import { useFormContext } from 'react-hook-form';
-import { useAccount } from 'wagmi';
+import {useEffect, useState} from 'react'
+import {useDisclosure} from '@nextui-org/react'
+import {useFormContext} from 'react-hook-form'
+import {useAccount} from 'wagmi'
 
+import {useFormValues} from '@/lib/hooks/form'
+import useEthers from '@/lib/hooks/web/useEthers'
+import ConnectButton from '@/components/navbar/web3Button/connectButton'
 
-
-import { useFormValues } from '@/lib/hooks/form';
-import useEthers from '@/lib/hooks/web/useEthers';
-import ConnectButton from '@/components/navbar/web3Button/connectButton';
-
-
-
-import RefundAddress from './refundAddress';
-
-
-
-
+import RefundAddress from './refundAddress'
 
 const SubmitButton = () => {
   const {address, isConnected} = useAccount()

@@ -7,13 +7,13 @@ import {Input} from '@/components/form/input'
 
 import RefundAvailable from './refundAvailable'
 
-type refundForm = {
+type RefundForm = {
   address: string
 }
 
 const Refund = ({tokenList}: {tokenList: TokenList[]}) => {
   const [address, setAddress] = useState<string>('')
-  const {control, handleSubmit} = useForm<refundForm>({
+  const {control, handleSubmit} = useForm<RefundForm>({
     defaultValues: {
       address: '',
     },
@@ -21,7 +21,7 @@ const Refund = ({tokenList}: {tokenList: TokenList[]}) => {
     reValidateMode: 'onSubmit',
   })
 
-  const GetRefunds = async (values: refundForm) => {
+  const GetRefunds = async (values: RefundForm) => {
     setAddress(values.address)
   }
 

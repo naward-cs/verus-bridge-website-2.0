@@ -1,16 +1,10 @@
-'use client';
+'use client'
 
-import { useGetAllRefunds } from '@/lib/hooks/claims/useGetAllFefunds';
-import { useTokenList } from '@/lib/hooks/delegator/useTokenList';
+import {useGetAllRefunds} from '@/lib/hooks/claims/useGetAllFefunds'
+import {useTokenList} from '@/lib/hooks/delegator/useTokenList'
 
-
-
-import { useAddressContext } from './addressContext';
-import RefundToken from './refundToken';
-
-
-
-
+import {useAddressContext} from './addressContext'
+import RefundToken from './refundToken'
 
 const RefundsAvailable = () => {
   const {data: tokenList} = useTokenList()
@@ -20,7 +14,7 @@ const RefundsAvailable = () => {
   const {data: allFunds} = useGetAllRefunds(addressInfo.address, tokenList!)
 
   const tokens = tokenList
-  
+
   if (!addressInfo.address) {
     return <p>Enter Address to check available</p>
   }

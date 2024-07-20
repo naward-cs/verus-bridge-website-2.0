@@ -26,6 +26,7 @@ const useEthers = () => {
   const refundcKey = useRef<Record<`0x${string}`, {x1: string; x2: string}>>()
   useEffect(() => {
     if (address) {
+      setIsLoading(true)
       let keys = localStorage.getItem('refundAddresses')
       if (keys) {
         refundAddresses.current = JSON.parse(keys)
@@ -34,6 +35,7 @@ const useEthers = () => {
       if (keys) {
         refundcKey.current = JSON.parse(keys)
       }
+      setIsLoading(false)
     }
   }, [address])
 
@@ -87,7 +89,7 @@ const useEthers = () => {
     signMsg,
     signMsgNonAsync,
     msg,
-    signError
+    signError,
   }
 }
 
