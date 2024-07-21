@@ -34,7 +34,7 @@ const BlockHeight = ({delegatorAddr}: {delegatorAddr: `0x${string}`}) => {
       </Skeleton>
       <Skeleton isLoaded={!heightIsLoading} className="rounded-lg">
         <p className="text-sm">
-          {Intl.NumberFormat().format(txHeight!)}{' '}
+          {Intl.NumberFormat().format(txHeight! as number)}{' '}
           <span className="text-[#828282]">
             Confirmed Notarized Blockheight
           </span>

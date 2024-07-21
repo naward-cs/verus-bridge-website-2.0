@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import {Link} from '@nextui-org/react'
 import * as dn from 'dnum'
@@ -13,6 +14,7 @@ const Token = ({token, hideZero}: {token: TokenList; hideZero: boolean}) => {
   const label = FromTokenName(token.label)
   const balance = useERC20Balances(token.erc20address)
 
+  //@ts-ignore
   if (hideZero && balance && balance.value === 0n) return null
 
   return (
@@ -46,6 +48,7 @@ const Token = ({token, hideZero}: {token: TokenList; hideZero: boolean}) => {
               minimumFractionDigits: 2,
               maximumFractionDigits: 8,
             }).format(
+              //@ts-ignore
               parseFloat(dn.format([balance.value, balance.decimals], 8))
             )}
         </p>

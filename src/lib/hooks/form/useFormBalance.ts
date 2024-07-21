@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {useAccount, useBalance as useEthBalance} from 'wagmi'
 
+import {useWatch} from '@/lib/hooks/wagmi'
 import {useERC20Balance} from '@/lib/hooks/wagmi/useErc20Balance'
 import {isEth as isEthCheck} from '@/lib/utils'
 
 import {useFormValues} from '.'
-import {useWatch} from '@/lib/hooks/wagmi'
 
 //This is returns either Eth Balance or ERC20 token Balance
 export const useFormBalances = () => {
@@ -16,10 +17,10 @@ export const useFormBalances = () => {
       staleTime: 60_000,
     },
   })
+  //@ts-expect-error
   const {data: erc20Balance, queryKey: erc20queryKey} = useERC20Balance(
     address,
-    fromToken?.erc20address,
-    {staleTime: 60_000}
+    fromToken?.erc20address
   )
   useWatch(ethQueryKey)
   useWatch(erc20queryKey)

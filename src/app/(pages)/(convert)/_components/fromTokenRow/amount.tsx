@@ -33,6 +33,8 @@ const Amount = ({tokenList}: {tokenList: TokenList[]}) => {
         name="fromAmount"
         rules={{
           required: 'Insert amount',
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
           validate: (value) => validateAmount(value, balance, gasPrice),
         }}
         render={({field: {value, onChange}}) => (

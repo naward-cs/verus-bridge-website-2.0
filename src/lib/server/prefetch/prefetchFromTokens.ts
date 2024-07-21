@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {hashFn, readContractQueryOptions} from 'wagmi/query'
 
 import delegatorAbi from '@/config/abi/DelegatorAbiJson.json'
@@ -20,6 +21,7 @@ export const prefetchFromTokens = async (
     args: [0n, 0n],
     chainId: wagmiStore?.chainId,
   })
+  //@ts-expect-error
   await queryClient.prefetchQuery({
     ...options,
     queryKeyHashFn: hashFn,

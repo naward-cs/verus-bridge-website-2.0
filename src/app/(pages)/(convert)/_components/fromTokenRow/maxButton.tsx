@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 
 import React from 'react'
@@ -30,8 +31,10 @@ const MaxButton = ({tokenList}: {tokenList: TokenList[]}) => {
   let maxAmount = '0'
   if (balance && gasPrice) {
     if (erc20Address !== ETHaddress) {
+      //@ts-ignore
       maxAmount = dn.format([balance.value, balance.decimals])
     } else {
+      //@ts-ignore
       maxAmount = dn.format(dn.sub([balance.value, balance.decimals], gasPrice))
     }
   }

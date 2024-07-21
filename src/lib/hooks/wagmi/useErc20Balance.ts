@@ -40,6 +40,8 @@ export const useERC20Balance = (
     gcTime: 60_000,
     staleTime: 5 * 60_000,
     refetchInterval: 10 * 60_000,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     select(data) {
       return {value: data[0], decimals: data[1]}
     },

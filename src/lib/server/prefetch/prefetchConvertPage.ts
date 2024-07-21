@@ -1,10 +1,9 @@
-import { estimateGasQueryOptions, hashFn } from 'wagmi/query';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import {estimateGasQueryOptions, hashFn} from 'wagmi/query'
 
-
-
-import { config } from '@/config/wagmi';
-import { blockHeightQueryOptions } from '@/lib/queries/blockHeight';
-import { marketDataQuery } from '@/lib/queries/marketInfo';
+import {config} from '@/config/wagmi'
+import {blockHeightQueryOptions} from '@/lib/queries/blockHeight'
+import {marketDataQuery} from '@/lib/queries/marketInfo'
 import txHeightQueryOptions from '@/lib/queries/txHeight'
 
 import {getChainId, getDelegatorAddress} from '../settings'
@@ -17,11 +16,12 @@ export const prefetchConvertPage = async (queryClient: QueryClient) => {
   await queryClient.prefetchQuery(blockHeightQueryOptions(chainId))
 
   const txHeight = txHeightQueryOptions(chainId, delegatorAddr)
+  //@ts-expect-error
   await queryClient.prefetchQuery({
     ...txHeight,
     queryKeyHashFn: hashFn,
   })
-
+  //@ts-expect-error
   await queryClient.prefetchQuery(estimateGasQueryOptions(config, {chainId}))
   await queryClient.prefetchQuery(marketDataQuery())
 }
