@@ -8,8 +8,9 @@ import {useDelegatorAddress} from '../delegator/useDelegatorAddress'
 import {useProviderOrSigner} from './useEthersProvider'
 
 export const useDelegatorContract = () => {
-  const delegatorAddr = useDelegatorAddress()
   const chainId = useChainId()
+  const delegatorAddr = useDelegatorAddress(chainId)
+
   const signerOrProvider = useProviderOrSigner({chainId})
   return useMemo(
     () => new Contract(delegatorAddr, DelegatorAbi, signerOrProvider),

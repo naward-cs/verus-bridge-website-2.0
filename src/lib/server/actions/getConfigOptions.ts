@@ -1,7 +1,7 @@
-'use server'
+'use server';
 
 import {readDelegatorBridgeConverterActive} from '@/generated'
-import {toast} from 'sonner'
+// import {toast} from 'sonner'
 import {parseEther} from 'viem'
 
 // import {readContract} from 'wagmi/actions'
@@ -100,8 +100,8 @@ export const getConfigOptions = async ({
     ).slice(2)}` // vec 01 , subvec length 0x16, type DEST_PKH length 0x14
   } else {
     //error for assignment of destination address
-    toast.error('A destination address was not provided')
-    return null
+    return {error: 'A destination address was not provided'}
+    // return null
   }
   const blockChainName = BLOCKCHAIN_NAME(chainId)
   const GLOBAL_ADDRESS = Object.fromEntries(
@@ -115,8 +115,8 @@ export const getConfigOptions = async ({
         flagValue = VALID
         destinationCurrency = toToken.iaddress
       } else {
-        toast.error('Cannot convert yet Bridge.veth not launched') //add in FLAGS logic for destination
-        return null
+        return {error: 'Cannot convert yet Bridge.veth not launched'} //add in FLAGS logic for destination
+        // return null
       }
     } else {
       //if not in Globals list
@@ -139,10 +139,10 @@ export const getConfigOptions = async ({
         if (fromTokenReference.iaddress !== BETH) {
           flagValue = VALID + CONVERT //add convert flag on
         } else {
-          toast.error(
-            `Cannot convert bridge to bridge. Send Direct to ${blockChainName}`
-          ) //add in FLAGS logic for destination
-          return null
+          return {
+            error: `Cannot convert bridge to bridge. Send Direct to ${blockChainName}`,
+          } //add in FLAGS logic for destination
+          // return null
         }
       } else if (!!GLOBAL_ADDRESS[toToken.value]) {
         //#3: catch for all bridge conversions
@@ -158,15 +158,17 @@ export const getConfigOptions = async ({
           destinationCurrency = GLOBAL_ADDRESS[toToken.value]
           flagValue = VALID + CONVERT + IMPORT_TO_SOURCE
         } else {
-          toast.error(
-            `Cannot convert ${fromTokenReference.value} to ${toToken.currency}. Send Direct to ${blockChainName}` //add in FLAGS logic for destination
-          )
-          return null
+          return {
+            error: `Cannot convert ${fromTokenReference.value} to ${toToken.currency}. Send Direct to ${blockChainName}`, //add in FLAGS logic for destination
+          }
+          // return null
         }
       } else {
         //#4: neither convert or sending
-        toast.error('Cannot bounce back, direct send only with i or R address') //add in FLAGS logic for destination
-        return null
+        return {
+          error: 'Cannot bounce back, direct send only with i or R address',
+        } //add in FLAGS logic for destination
+        // return null
       }
     }
   } else if (
@@ -195,8 +197,8 @@ export const getConfigOptions = async ({
     if (toToken.value === 'bridgeBridge') {
       //#1 going to bridge
       if (isFromBETH) {
-        toast.error('Cannot bounce back, direct send only') //add in FLAGS logic for destination
-        return null
+        return {error: 'Cannot bounce back, direct send only'} //add in FLAGS logic for destination
+        // return null
       } else {
         destinationCurrency = BETH
         flagValue = VALID + CONVERT
@@ -215,14 +217,16 @@ export const getConfigOptions = async ({
       }
     } else {
       //#3 can't do
-      toast.error('Cannot bounce back, direct send only') //add in FLAGS logic for destination
-      return null
+      return {error: 'Cannot bounce back, direct send only'} //add in FLAGS logic for destination
     }
   } else {
-    toast.error(
-      'Bridge.veth not launched yet, send only direct to i or R until launch complete'
-    ) //add in FLAGS logic for destination
-    return null
+    // toast.error(
+    //   'Bridge.veth not launched yet, send only direct to i or R until launch complete'
+    // ) //add in FLAGS logic for destination
+    return {
+      error:
+        'Bridge.veth not launched yet, send only directly to i or R until launch complete',
+    }
   }
 
   let feeCurrency: `0x${string}`
@@ -252,8 +256,8 @@ export const getConfigOptions = async ({
     secondreserveid: secondReserveId as `0x${string}`, // used as return currency type on bounce back
   }
   if (currencyIaddress === secondReserveId) {
-    toast.error('Cannot bounceback to same currency')
-    return null
+    return {error: 'Cannot bounceback to same currency'}
+    // return null
   }
 
   let walletFee = parseEther(ETH_FEES.ETH)

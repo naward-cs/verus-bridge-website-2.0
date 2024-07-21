@@ -15,7 +15,7 @@ const FeesAvailable = ({address}: {address: string}) => {
           <p className="text-sm text-[#444444]">Amount available to claim</p>
           <p>{fee_avail} ETH</p>
         </div>
-        <FeesClaimButton fee_avail={fee_avail} type={refundType} />
+        <FeesClaimButton address={address}  type={refundType} />
       </div>
       {refundType === 'PUBLIC_KEY' && <FeesNotice address={address} />}
     </div>

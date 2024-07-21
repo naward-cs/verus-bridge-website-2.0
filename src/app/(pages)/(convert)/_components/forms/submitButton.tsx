@@ -6,7 +6,7 @@ import {useFormContext} from 'react-hook-form'
 import {useAccount} from 'wagmi'
 
 import {useFormValues} from '@/lib/hooks/form'
-import useEthers from '@/lib/hooks/web/useEthers'
+import {useRefundAddresses} from '@/lib/hooks/state/refundKeys'
 import ConnectButton from '@/components/navbar/web3Button/connectButton'
 
 import RefundAddress from './refundAddress'
@@ -20,15 +20,11 @@ const SubmitButton = () => {
     formState: {errors},
     setValue,
   } = useFormContext()
-  const {refundAddresses} = useEthers()
+  const {refundAddresses} = useRefundAddresses()
   useEffect(() => {
     if (!isReady) {
-      if (
-        refundAddresses.current &&
-        address &&
-        refundAddresses.current[address]
-      ) {
-        setValue('rAddress', refundAddresses.current[address])
+      if (refundAddresses && address && refundAddresses[address]) {
+        setValue('rAddress', refundAddresses[address])
         setIsReady(true)
       }
       if (!!rAddress) {

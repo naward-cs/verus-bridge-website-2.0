@@ -1,12 +1,14 @@
 'use client'
 
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {computePublicKey} from '@ethersproject/signing-key'
 import {toast} from 'sonner'
 import {hashMessage, recoverPublicKey} from 'viem'
 import {useAccount, useSignMessage} from 'wagmi'
 
 import {ethToVerusAddress} from '@/lib/utils/converters/ethToVerusAddress'
+
+import {useRefundAddresses, useRefundcKeys} from '../state/refundKeys'
 
 const useEthers = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -22,22 +24,27 @@ const useEthers = () => {
   const msg =
     'Agreeing to this will create a Verus refund address on the Verus blockchain.'
 
-  const refundAddresses = useRef<Record<`0x${string}`, string>>()
-  const refundcKey = useRef<Record<`0x${string}`, {x1: string; x2: string}>>()
-  useEffect(() => {
-    if (address) {
-      setIsLoading(true)
-      let keys = localStorage.getItem('refundAddresses')
-      if (keys) {
-        refundAddresses.current = JSON.parse(keys)
-      }
-      keys = localStorage.getItem('refundcKeys')
-      if (keys) {
-        refundcKey.current = JSON.parse(keys)
-      }
-      setIsLoading(false)
-    }
-  }, [address])
+  // const refundAddresses = useRef<Record<`0x${string}`, string>>()
+  // const refundcKey = useRef<Record<`0x${string}`, {x1: string; x2: string}>>()
+  //TODO: bring in useRefundAddresses and useRefundcKeys
+  const {refundAddresses, setRefundAddresses} = useRefundAddresses()
+  const {refundcKey, setRefundcKeys} = useRefundcKeys()
+  //TODO change global for refund keys
+  // useEffect(() => {
+  //   if (address) {
+  //     setIsLoading(true)
+  //     let keys = localStorage.getItem('refundAddresses')
+  //     if (keys) {
+
+  //       // refundAddresses.current = JSON.parse(keys)
+  //     }
+  //     keys = localStorage.getItem('refundcKeys')
+  //     if (keys) {
+  //       refundcKey.current = JSON.parse(keys)
+  //     }
+  //     setIsLoading(false)
+  //   }
+  // }, [address])
 
   useEffect(() => {
     async function getInfo() {
@@ -57,15 +64,19 @@ const useEthers = () => {
         'refundcKeys',
         JSON.stringify({...refundcKey, [address!]: cKey})
       )
+      setRefundcKeys({...refundcKey, [address!]: cKey})
+
       localStorage.setItem(
         'refundAddresses',
         JSON.stringify({...refundAddresses, [address!]: rAddress})
       )
-      refundAddresses.current = {
-        ...refundAddresses.current,
-        [address!]: rAddress,
-      }
-      refundcKey.current = {...refundcKey.current, [address!]: cKey}
+      setRefundAddresses({...refundAddresses, [address!]: rAddress})
+
+      // refundAddresses.current = {
+      //   ...refundAddresses.current,
+      //   [address!]: rAddress,
+      // }
+      // refundcKey.current = {...refundcKey.current, [address!]: cKey}
       setIsLoading(false)
     }
     if (signError) {
@@ -80,11 +91,12 @@ const useEthers = () => {
         getInfo()
       }
     }
-  }, [address, signData, signError, signMsg])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signData, signError, signMsg])
 
   return {
-    refundAddresses,
-    refundcKey,
+    // refundAddresses,
+    // refundcKey,
     isLoading,
     signMsg,
     signMsgNonAsync,

@@ -1,13 +1,21 @@
-import {delegatorAbi} from '@/generated'
-import {useChainId, useReadContracts} from 'wagmi'
+import { delegatorAbi } from '@/generated';
+import { useChainId, useReadContracts } from 'wagmi';
 
-import FormatAddress from '@/lib/utils/formatAddress'
 
-import {useDelegatorAddress} from '../delegator/useDelegatorAddress'
+
+import FormatAddress from '@/lib/utils/formatAddress';
+
+
+
+import { useDelegatorAddress } from '../delegator/useDelegatorAddress';
+
+
+
+
 
 export const useGetAllRefunds = (address: string, tokenList: TokenList[]) => {
   const chainId = useChainId()
-  const delegatorAddr = useDelegatorAddress()
+  const delegatorAddr = useDelegatorAddress(chainId)
   const formattedAddress = FormatAddress(address)
   const contracts = tokenList.map((t) => ({
     address: delegatorAddr,

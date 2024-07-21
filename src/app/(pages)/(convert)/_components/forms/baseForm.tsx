@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
-import {useState} from 'react'
-import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
+import { useState } from 'react';
+import { Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import {FormProvider, useForm} from 'react-hook-form'
+import {toast} from 'sonner'
 import {useAccount, useChainId} from 'wagmi'
 import {watchChainId} from 'wagmi/actions'
 
@@ -16,6 +17,7 @@ import {ReviewForm} from './reviewForm'
 
 const BaseForm = ({children}: {children: React.ReactNode}) => {
   const {address: account} = useAccount()
+
   const [txConfig, setTxConfig] = useState<TxConfigType | undefined>(undefined)
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
   const [, setStatus] = useState<'completed' | 'failed' | null>(null)
@@ -57,15 +59,20 @@ const BaseForm = ({children}: {children: React.ReactNode}) => {
       const authorize = await AuthorizeTokenAmount({
         fromToken: values.fromToken,
         amount: values.fromAmount.toString(),
+        account: account!,
       })
       const txConfigs = await getConfigOptions({
         formInput: values,
         toAddress: sendAddress,
       })
-
-      if (txConfigs && authorize) {
-        setTxConfig({formValues: values, ...txConfigs})
-        onOpen()
+      if (txConfigs?.error) {
+        toast.error(txConfigs.error)
+      } else {
+        if (txConfigs && authorize) {
+          const configs = txConfigs as Omit<TxConfigType, 'formValues'>
+          setTxConfig({formValues: values, ...configs})
+          onOpen()
+        }
       }
     }
   }

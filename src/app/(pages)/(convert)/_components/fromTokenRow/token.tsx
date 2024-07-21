@@ -29,7 +29,7 @@ const Token = ({token, hideZero}: {token: TokenList; hideZero: boolean}) => {
               <Link
                 isExternal
                 className="text-xs underline"
-                href={etherScan + 'address/' + token.erc20address}
+                href={etherScan + '/address/' + token.erc20address}
               >
                 {token.erc20address.slice(0, 5)}...
                 {token.erc20address.slice(-3)}

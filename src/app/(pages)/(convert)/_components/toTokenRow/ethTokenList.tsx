@@ -34,7 +34,7 @@ export const EthTokenList = ({
               <Link
                 isExternal
                 className="text-xs underline"
-                href={etherScan + 'address/' + additionalInfo.erc20address}
+                href={etherScan + '/address/' + additionalInfo.erc20address}
               >
                 {additionalInfo.erc20address.slice(0, 5)}...
                 {additionalInfo.erc20address.slice(-3)}

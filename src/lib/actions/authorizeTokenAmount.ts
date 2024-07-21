@@ -1,6 +1,5 @@
 import {toast} from 'sonner'
 import {erc20Abi} from 'viem'
-import {useAccount} from 'wagmi'
 import {
   getChainId,
   getChains,
@@ -21,19 +20,20 @@ const maxGas2 = BigInt('100000')
 const AuthorizeTokenAmount = async ({
   fromToken,
   amount,
+  account,
 }: {
   fromToken: FromList
   amount: string
+  account: `0x${string}`
 }) => {
-  const {address: account} = useAccount()
-  const delegatorAddr = useDelegatorAddress()
+  const chainId = getChainId(config)
+  const chains = getChains(config)
+  const delegatorAddr = useDelegatorAddress(chainId)
 
   if (fromToken.erc20address === ETHaddress) {
     return true
   }
 
-  const chainId = getChainId(config)
-  const chains = getChains(config)
   const chainName = chains[chainId].name
   warnToast(
     `Metamask will now pop up to allow the Verus Bridge Contract to spend ${amount} (${fromToken.label}) from your ${chainName} balance.`

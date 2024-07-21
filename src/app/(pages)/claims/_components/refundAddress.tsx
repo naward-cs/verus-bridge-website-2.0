@@ -5,6 +5,7 @@ import {Link, Modal, ModalBody, ModalContent, Spinner} from '@nextui-org/react'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {toast} from 'sonner'
 
+import {useRefundAddresses} from '@/lib/hooks/state/refundKeys'
 import useEthers from '@/lib/hooks/web/useEthers'
 import {Icons} from '@/components/shared/icons'
 
@@ -17,8 +18,8 @@ const RefundAddress = ({
   isOpen: boolean
   onOpenChange: () => void
 }) => {
-  const {refundAddresses, isLoading, signMsg, msg} = useEthers()
-
+  const {isLoading, signMsg, msg} = useEthers()
+  const {refundAddresses} = useRefundAddresses()
   const signMessage = async () => {
     await signMsg({message: msg})
   }
@@ -28,7 +29,6 @@ const RefundAddress = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
-  const addresses = refundAddresses.current
 
   return (
     <Modal
@@ -45,32 +45,19 @@ const RefundAddress = ({
           <h2 className="text-center text-2xl font-medium">
             Create Verus refund address
           </h2>
-          {addresses && addresses[address] ? (
-            <>
-              <div className="mx-2 flex items-center justify-between space-x-2">
-                <div className="w-full rounded-lg border-1 border-[#999999] bg-[#DDDDDD] px-3 py-2">
-                  {addresses[address]}
-                </div>
-                <CopyToClipboard
-                  text={addresses[address]}
-                  onCopy={() => toast.success('refund address copied!!')}
-                >
-                  <Icons.copy
-                    height={24}
-                    className="cursor-pointer opacity-35"
-                  />
-                </CopyToClipboard>
+
+          {refundAddresses && refundAddresses[address!] ? (
+            <div className="mx-2 flex items-center justify-between space-x-2">
+              <div className="w-full rounded-lg border-1 border-[#999999] bg-[#DDDDDD] px-3 py-2">
+                {refundAddresses[address!]}
               </div>
-              <div className="mx-8 text-sm">
-                <p>
-                  Go to the{' '}
-                  <Link href="/claims" className="text-sm">
-                    Refunds/claims
-                  </Link>{' '}
-                  page to check for refunds and how to retrieve them.
-                </p>
-              </div>
-            </>
+              <CopyToClipboard
+                text={refundAddresses[address!]}
+                onCopy={() => toast.success('refund address copied!!')}
+              >
+                <Icons.copy height={24} className="cursor-pointer opacity-35" />
+              </CopyToClipboard>
+            </div>
           ) : isLoading ? (
             <div className="mx-auto">
               <Spinner />
