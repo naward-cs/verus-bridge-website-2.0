@@ -12,9 +12,11 @@ const maxGasClaim = 80000
 const maxGas = 800000
 export const FeesClaimButton = ({
   address,
+  fees_avail,
   type,
 }: {
   address: string
+  fees_avail: string
   type: 'PUBLIC_KEY' | 'FEE'
 }) => {
   const {address: account, isConnected} = useAccount()
@@ -81,8 +83,8 @@ export const FeesClaimButton = ({
     }
   }
   const disabled =
-    // parseFloat(fee_avail) < 0.006 ||
-    refundAddresses && account && refundAddresses[account] !== address
+    parseFloat(fees_avail) < 0.006 ||
+    (refundAddresses && account && refundAddresses[account] !== address)
 
   return isConnected ? (
     <button
