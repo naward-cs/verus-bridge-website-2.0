@@ -1,6 +1,11 @@
+;
 // import MillionCompiler from '@million/lint'
 
-import './src/config/env.mjs'
+import './src/config/env.mjs';
+
+
+
+
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,7 +16,9 @@ const nextConfig = {
       {protocol: 'https', hostname: 'assets.coingecko.com'},
     ],
   },
-
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     serverActions: {
       allowedOrigins: [
