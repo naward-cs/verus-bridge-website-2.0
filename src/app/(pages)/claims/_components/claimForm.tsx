@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React, {useState} from 'react'
 
@@ -13,7 +13,7 @@ const ClaimForm = ({tokenList}: {tokenList: TokenList[]}) => {
   const [claimType, setClaimType] = useState<ClaimType>('refund')
   return (
     <ClaimContext.Provider value={{claimType, setClaimType}}>
-      <div className="flex w-full flex-col grow items-center gap-16">
+      <div className="flex w-full grow flex-col items-center gap-16">
         <ClaimNav />
         <ClaimSection tokenList={tokenList} />
         <ClaimInfo />

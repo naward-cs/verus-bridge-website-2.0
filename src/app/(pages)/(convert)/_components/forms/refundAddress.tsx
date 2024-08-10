@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
-import { Link, Modal, ModalBody, ModalContent, Spinner } from '@nextui-org/react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useFormContext } from 'react-hook-form';
+import {useEffect} from 'react'
+import {Link, Modal, ModalBody, ModalContent, Spinner} from '@nextui-org/react'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
+import {useFormContext} from 'react-hook-form'
 import {toast} from 'sonner'
 
 import {useRefundAddresses} from '@/lib/hooks/state/refundKeys'

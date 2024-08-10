@@ -51,8 +51,6 @@ export const EthTokenList = ({
               minimumFractionDigits: 2,
               maximumFractionDigits: 8,
             }).format(
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
               parseFloat(dn.format([balance.value, balance.decimals], 8))
             )}
         </p>

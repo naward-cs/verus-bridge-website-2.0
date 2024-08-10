@@ -1,18 +1,20 @@
-import {toast} from 'sonner'
-import {erc20Abi} from 'viem'
-import {
-  getChainId,
-  getChains,
-  readContract,
-  simulateContract,
-  writeContract,
-} from 'wagmi/actions'
+import { toast } from 'sonner';
+import { erc20Abi } from 'viem';
+import { getChainId, getChains, readContract, simulateContract, writeContract } from 'wagmi/actions';
 
-import {ETHaddress} from '@/config/constants'
-import {config} from '@/config/wagmi'
-import warnToast from '@/components/shared/warnToast'
 
-import {useDelegatorAddress} from '../hooks/delegator/useDelegatorAddress'
+
+import { ETHaddress } from '@/config/constants';
+import { config } from '@/config/wagmi';
+import warnToast from '@/components/shared/warnToast';
+
+
+
+import { useDelegatorAddress } from '../hooks/delegator/useDelegatorAddress';
+
+
+
+
 
 const ten = BigInt('10')
 const maxGas2 = BigInt('100000')
@@ -64,7 +66,7 @@ const AuthorizeTokenAmount = async ({
     fraction = BigInt(fraction)
     bigAmount = whole * base + fraction
     tokenAddress = fromToken.erc20address as `0x${string}`
-  } catch (error) {
+  } catch {
     toast.error('Something went wrong, try Again')
     return false
   }

@@ -1,9 +1,6 @@
-import { LucideProps } from 'lucide-react';
+import {LucideProps} from 'lucide-react'
 
-
-
-import type { XIcon } from 'lucide-react';
-
+import type {XIcon} from 'lucide-react'
 
 export type Icon = typeof XIcon
 
@@ -110,7 +107,7 @@ export const Icons = {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-label='copy'
+      aria-label="copy"
       {...props}
     >
       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />

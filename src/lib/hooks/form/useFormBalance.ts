@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {useAccount, useBalance as useEthBalance} from 'wagmi'
 
 import {useWatch} from '@/lib/hooks/wagmi'
@@ -17,7 +16,6 @@ export const useFormBalances = () => {
       staleTime: 60_000,
     },
   })
-  //@ts-expect-error
   const {data: erc20Balance, queryKey: erc20queryKey} = useERC20Balance(
     address,
     fromToken?.erc20address

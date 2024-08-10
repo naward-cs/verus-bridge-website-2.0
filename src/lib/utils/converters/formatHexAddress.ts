@@ -27,6 +27,6 @@ export const formatHexAddress = (address: string, type?: CLAIM_TYPE) => {
       return `0x${return_value.toString('hex')}`
     }
     return `0x${return_value}`
-  } catch (error) {}
+  } catch {}
   return {address, type}
 }

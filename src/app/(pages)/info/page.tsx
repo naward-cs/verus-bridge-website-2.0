@@ -1,16 +1,8 @@
-import { Link } from '@nextui-org/react';
+import {Link} from '@nextui-org/react'
 
+import {Icons} from '@/components/shared/icons'
 
-
-import { Icons } from '@/components/shared/icons';
-
-
-
-import AssetsSecuredSection from './_components/assetsSecuredSection';
-
-
-
-
+import AssetsSecuredSection from './_components/assetsSecuredSection'
 
 export default function Infopage() {
   return (

@@ -1,8 +1,7 @@
 'use client'
 
-import {useQuery} from '@tanstack/react-query'
-
-// import {useQuery} from 'wagmi/query'
+// import {useQuery} from '@tanstack/react-query'
+import {useQuery} from 'wagmi/query'
 
 import txHeightQueryOptions from '@/lib/queries/txHeight'
 
@@ -11,8 +10,6 @@ export const useTransactionHeight = (
   delegatorAddr: `0x${string}`
 ) => {
   const txHeightOptions = txHeightQueryOptions(chainId, delegatorAddr)
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
   return useQuery({
     ...txHeightOptions,
     gcTime: 30_000,

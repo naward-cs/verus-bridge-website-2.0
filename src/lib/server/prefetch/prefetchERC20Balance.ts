@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {getWagmiCookie} from '@/lib/actions/getWagmiCookie'
 import {erc20BalanceQuery} from '@/lib/hooks/wagmi/useErc20Balance'
 
@@ -12,7 +11,6 @@ export const prefetchERC20Balances = async (
   if (wagmiInfo?.current) {
     const account = wagmiInfo.connections.get(wagmiInfo.current)?.accounts[0]
     const queries = tokenList.map((token) =>
-      //@ts-expect-error
       queryClient.prefetchQuery(erc20BalanceQuery(token.erc20address, account))
     )
     await Promise.all(queries)

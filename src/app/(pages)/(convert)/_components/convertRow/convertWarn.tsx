@@ -1,15 +1,9 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Link, Tooltip } from '@nextui-org/react';
+import React, {useState} from 'react'
+import {Link, Tooltip} from '@nextui-org/react'
 
-
-
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import {Icons} from '@/components/shared/icons'
 
 export const WarnContent = () => {
   return (

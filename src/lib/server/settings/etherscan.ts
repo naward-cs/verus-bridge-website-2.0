@@ -1,8 +1,6 @@
-'use server';
+'use server'
 
-import { env } from '@/config/env.mjs';
-
-
+import {env} from '@/config/env.mjs'
 
 import {getChainId} from './getChainId'
 

@@ -51,7 +51,7 @@ export const getConversionRate = async (
       }
     }
     return null
-  } catch (error) {
+  } catch {
     //TODO: need to support server error logging
     throw new Error('Failed to fetch conversion rate')
   }

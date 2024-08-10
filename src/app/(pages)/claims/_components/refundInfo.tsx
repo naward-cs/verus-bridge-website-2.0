@@ -1,20 +1,15 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { Link, useDisclosure } from '@nextui-org/react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { toast } from 'sonner';
-import { useAccount } from 'wagmi';
+import React from 'react'
+import {Link, useDisclosure} from '@nextui-org/react'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import {toast} from 'sonner'
+import {useAccount} from 'wagmi'
 
+import {useRefundAddresses} from '@/lib/hooks/state/refundKeys'
+import {Icons} from '@/components/shared/icons'
 
-
-import { useRefundAddresses } from '@/lib/hooks/state/refundKeys';
-import { Icons } from '@/components/shared/icons';
 import RefundAddress from './refundAddress'
-
-
-
-
 
 const RefundInfo = () => {
   const {address, isConnected} = useAccount()
@@ -66,7 +61,10 @@ const RefundInfo = () => {
                 Sign message to see Verus refund address
               </p>
             </div>
-            <button className="text-bluePrimary underline underline-offset-2" onClick={onOpen}>
+            <button
+              className="text-bluePrimary underline underline-offset-2"
+              onClick={onOpen}
+            >
               Sign Message
             </button>
           </div>

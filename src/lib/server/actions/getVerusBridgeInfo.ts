@@ -7,7 +7,7 @@ export const getVerusBridgeInfo = async () => {
   try {
     const currencies = await WidgetRPC().interface.getCurrency('Bridge.vETH')
     return currencies
-  } catch (e) {
+  } catch {
     throw new Error('Failed to fetch currency list')
   }
 }

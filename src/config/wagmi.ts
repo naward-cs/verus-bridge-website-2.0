@@ -1,15 +1,24 @@
-import { cookieStorage, createConfig, createStorage, fallback, http, unstable_connector, webSocket } from 'wagmi';
-import { mainnet, sepolia } from 'wagmi/chains';
-import { injected, walletConnect } from 'wagmi/connectors';
+import {
+  cookieStorage,
+  createConfig,
+  createStorage,
+  fallback,
+  http,
+  unstable_connector,
+  webSocket,
+} from 'wagmi'
+import {mainnet, sepolia} from 'wagmi/chains'
+import {injected, walletConnect} from 'wagmi/connectors'
 
+import {env} from '@/config/env.mjs'
 
-
-import { env } from '@/config/env.mjs';
-
-
-
-import type { Chain, FallbackTransport, HttpTransport, Transport, WebSocketTransport } from 'viem';
-
+import type {
+  Chain,
+  FallbackTransport,
+  HttpTransport,
+  Transport,
+  WebSocketTransport,
+} from 'viem'
 
 declare module 'wagmi' {
   interface Register {

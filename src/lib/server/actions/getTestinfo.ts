@@ -13,7 +13,7 @@ export const getTestInfo = async () => {
         t.currencydefinition.currencies.length > 1
     )
     return convertList
-  } catch (e) {
+  } catch {
     throw new Error('Failed to fetch currency list')
   }
 }

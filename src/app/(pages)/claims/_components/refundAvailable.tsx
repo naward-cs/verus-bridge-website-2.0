@@ -1,14 +1,20 @@
-import React, {useState} from 'react'
-import {Spinner} from '@nextui-org/react'
-import * as dn from 'dnum'
-import {toast} from 'sonner'
-import {erc20Abi} from 'viem'
-import {useReadContract} from 'wagmi'
+import React, { useState } from 'react';
+import { Spinner } from '@nextui-org/react';
+import * as dn from 'dnum';
+import { toast } from 'sonner';
+import { erc20Abi } from 'viem';
+import { useReadContract } from 'wagmi';
 
-import {useGetAllRefunds} from '@/lib/hooks/claims/useGetAllFefunds'
-import {useDelegatorContract} from '@/lib/hooks/contracts/useDelegatorContract'
-import useTxReceiptHandler from '@/lib/hooks/verus/useTxReceiptHandler'
-import FormatAddress from '@/lib/utils/formatAddress'
+
+
+import { useGetAllRefunds } from '@/lib/hooks/claims/useGetAllFefunds';
+import { useDelegatorContract } from '@/lib/hooks/contracts/useDelegatorContract';
+import useTxReceiptHandler from '@/lib/hooks/verus/useTxReceiptHandler';
+import FormatAddress from '@/lib/utils/formatAddress';
+
+
+
+
 
 const maxGas = 800000
 
@@ -52,7 +58,7 @@ const RefundSection = ({
           await txResult.wait()
           setTx(txResult.hash)
         }
-      } catch (error) {
+      } catch {
         toast.error('Something went wrong with the refund transaction')
       }
     } else {
@@ -98,9 +104,11 @@ const RefundAvailable = ({
     )
 
   const mergeData = tokenList.map((token, i) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const refundAmount = allFunds[i].result as bigint
+    let refundAmount = 0n
+    if (allFunds != undefined) {
+      //@ts-expect-error: issue bounces as valid and invalid
+      refundAmount = (allFunds[i]?.result as bigint) || 0n
+    }
     return {...token, refund: refundAmount}
   })
   // .filter((t) => t.refund) as MergeList[]

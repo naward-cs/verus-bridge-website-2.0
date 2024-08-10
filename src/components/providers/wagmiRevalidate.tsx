@@ -1,8 +1,9 @@
-'use client';
+'use client'
 
-import type {ProviderProps} from '@/types/wagmi'
 import {useEffect, useState} from 'react'
 import {useChainId, useConfig} from 'wagmi'
+
+import type {ProviderProps} from '@/types/wagmi'
 
 /**
  *  WagmiRevalidate

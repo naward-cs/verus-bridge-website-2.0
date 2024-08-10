@@ -1,14 +1,8 @@
-import { isETHAddress } from '@/lib/utils';
-import { CoinLogo } from '@/components/shared/coinLogo';
+import {isETHAddress} from '@/lib/utils'
+import {CoinLogo} from '@/components/shared/coinLogo'
 
-
-
-import { EthTokenList } from './ethTokenList';
-import { VerusTokenList } from './verusTokenList';
-
-
-
-
+import {EthTokenList} from './ethTokenList'
+import {VerusTokenList} from './verusTokenList'
 
 type TokenListProps = {
   listType: 'verus' | 'eth'

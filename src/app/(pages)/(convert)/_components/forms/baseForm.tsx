@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import {useState} from 'react'
+import {Modal, ModalContent, useDisclosure} from '@nextui-org/react'
 import {FormProvider, useForm} from 'react-hook-form'
 import {toast} from 'sonner'
 import {useAccount, useChainId} from 'wagmi'

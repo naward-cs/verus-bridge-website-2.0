@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React from 'react'
 import {NextUIProvider} from '@nextui-org/react'
@@ -22,7 +22,6 @@ export const Provider = (props: ProviderProps) => {
       <ReactQueryProvider>
         <WagmiRevalidate initialState={props.initialState}>
           <NextUIProvider navigate={router.push}>
-            
             {props.children}
             <ProgressBar />
             <Toaster richColors closeButton />

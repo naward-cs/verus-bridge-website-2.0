@@ -1,28 +1,29 @@
-import React from 'react';
-import { Divider, Modal, ModalBody, ModalContent, ModalHeader, Spinner, useDisclosure } from '@nextui-org/react';
-import { formatUnits } from 'viem';
-import { useAccount, useBalance, useChains, useDisconnect } from 'wagmi';
+import React from 'react'
+import {
+  Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Spinner,
+  useDisclosure,
+} from '@nextui-org/react'
+import {formatUnits} from 'viem'
+import {useAccount, useBalance, useChains, useDisconnect} from 'wagmi'
 
+import {useWatch} from '@/lib/hooks/wagmi'
+import {Web3Skeleton} from '@/components/skeletons/web3Skeleton'
 
+import NetworkSwitch from '../networkSwitch'
 
-import { useWatch } from '@/lib/hooks/wagmi';
-import { Web3Skeleton } from '@/components/skeletons/web3Skeleton';
-
-
-
-import NetworkSwitch from '../networkSwitch';
-
-
-
-import type { Chain } from 'viem';
-
+import type {Chain} from 'viem'
 
 const AccountButton = () => {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
   const {address, chainId, isReconnecting, isConnecting} = useAccount()
   const chains = useChains()
   // const validChaind = chains.map((x) => x.id)
-  
+
   // throw new Error('Invalid Chain')
   const {disconnect} = useDisconnect()
   const {data: balance, isFetching, queryKey} = useBalance({address})

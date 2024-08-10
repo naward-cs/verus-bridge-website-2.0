@@ -1,4 +1,4 @@
-'use server';
+'use server'
 
 import {readDelegatorBridgeConverterActive} from '@/generated'
 // import {toast} from 'sonner'

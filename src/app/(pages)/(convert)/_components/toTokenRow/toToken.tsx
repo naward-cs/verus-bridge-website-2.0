@@ -1,25 +1,24 @@
-'use client';
+'use client'
 
-import React, { useCallback, useMemo, useState } from 'react';
-import { cn, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
-import { useController, useFormContext } from 'react-hook-form';
+import React, {useCallback, useMemo, useState} from 'react'
+import {
+  cn,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/react'
+import {useController, useFormContext} from 'react-hook-form'
 
+import {useFormValues} from '@/lib/hooks/form'
+import {isETHAddress} from '@/lib/utils'
+import {createOptionsList} from '@/lib/utils/converters/createToTokenList'
+import {ToTokenName} from '@/lib/utils/correctTokenName'
+import Search from '@/components/form/search'
+import TokenButton from '@/components/form/tokenButton'
 
-
-import { useFormValues } from '@/lib/hooks/form';
-import { isETHAddress } from '@/lib/utils';
-import { createOptionsList } from '@/lib/utils/converters/createToTokenList';
-import { ToTokenName } from '@/lib/utils/correctTokenName';
-import Search from '@/components/form/search';
-import TokenButton from '@/components/form/tokenButton';
-
-
-
-import { ToTokenList } from './tokenList';
-
-
-
-
+import {ToTokenList} from './tokenList'
 
 type TokenModalProps = {
   sendList: Record<string, DestinationOption[]>

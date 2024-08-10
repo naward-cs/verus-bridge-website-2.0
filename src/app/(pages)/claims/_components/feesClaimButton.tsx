@@ -49,7 +49,7 @@ export const FeesClaimButton = ({
               setTx(txResult.hash)
               toast.success('Claim to ETH Transaction Success!')
             }
-          } catch (error) {
+          } catch {
             toast.error('Unable to claim fees')
           }
         }
@@ -72,13 +72,13 @@ export const FeesClaimButton = ({
             setTx(txResult.hash)
             toast.success('Fee reimburse Transaction Success!')
           }
-        } catch (error) {
+        } catch {
           toast.error('unable to claim fees')
         }
       } else {
         throw Error()
       }
-    } catch (error) {
+    } catch {
       toast.error('unable to claim fees')
     }
   }

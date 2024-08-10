@@ -1,25 +1,19 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { Skeleton, Tooltip } from '@nextui-org/react';
-import BigNumber from 'bignumber.js';
-import { useFormContext } from 'react-hook-form';
-import { formatEther } from 'viem';
+import React, {useEffect, useState} from 'react'
+import {Skeleton, Tooltip} from '@nextui-org/react'
+import BigNumber from 'bignumber.js'
+import {useFormContext} from 'react-hook-form'
+import {formatEther} from 'viem'
 
-
-
-import { ETH_FEES, ETHaddress } from '@/config/constants';
-import { useFormValues } from '@/lib/hooks/form';
-import { useConvesionRate } from '@/lib/hooks/verus/useConvesionRate';
-import { useGaseRate } from '@/lib/hooks/wagmi/useGaseRate';
-import { useMarket } from '@/lib/hooks/web/useMarketData';
-import { isETHAddress } from '@/lib/utils';
-import { CoinLogo } from '@/components/shared/coinLogo';
-import { Icons } from '@/components/shared/icons';
-
-
-
-
+import {ETH_FEES, ETHaddress} from '@/config/constants'
+import {useFormValues} from '@/lib/hooks/form'
+import {useConvesionRate} from '@/lib/hooks/verus/useConvesionRate'
+import {useGaseRate} from '@/lib/hooks/wagmi/useGaseRate'
+import {useMarket} from '@/lib/hooks/web/useMarketData'
+import {isETHAddress} from '@/lib/utils'
+import {CoinLogo} from '@/components/shared/coinLogo'
+import {Icons} from '@/components/shared/icons'
 
 export const ConvertRate = ({hideExtra}: {hideExtra?: boolean}) => {
   const {setValue} = useFormContext()
@@ -49,7 +43,6 @@ export const ConvertRate = ({hideExtra}: {hideExtra?: boolean}) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gas.SATSCOST, gas.WEICOST])
-    
 
   const EthGasPrice = new BigNumber(formatEther(BigInt(gas.WEICOST)))
     .times(new BigNumber(marketInfo || 0))
