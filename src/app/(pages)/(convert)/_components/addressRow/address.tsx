@@ -33,9 +33,9 @@ const Address = () => {
             classNames={{
               label: 'font-normal',
               input:
-                'text-black/90 placeholder:text-default-700/50 text-base placeholder:font-medium py-5',
+                'text-black/90 placeholder:text-default-700/50 text-base lg:text-lg placeholder:font-medium',
               inputWrapper:
-                'border-small rounded-lg border-[#BBB] data-[hover=true]:border-[#8B8B8B] group-data-[focus=true]:border-bluePrimary bg-[#F5F5F5] pl-4 h-unit-13',
+                'border-small rounded-lg border-[#BBB] data-[hover=true]:border-[#8B8B8B] group-data-[focus=true]:border-bluePrimary bg-[#F5F5F5] pl-4 py-6 h-unit-13',
               errorMessage: 'font-medium',
             }}
             onValueChange={onChange}

@@ -20,7 +20,6 @@ export const ToTokenList = (props: TokenListProps) => {
   return (
     <>
       <div className="mx-6 flex items-center border-b-1 border-[#E5E5E5] py-0.5 font-medium [&>img]:mx-1 [&>img]:size-3.5">
-        Convert/Send
         <p>On the</p>
         <CoinLogo symbol={listType === 'verus' ? 'VRSC' : 'ETH'} iAddr="" />
         <p>{listType === 'verus' ? 'Verus' : 'Ethereum'} blockchain</p>

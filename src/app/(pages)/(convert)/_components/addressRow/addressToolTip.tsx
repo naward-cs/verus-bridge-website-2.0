@@ -9,7 +9,7 @@ export const ToolTipText = (sendOnly: boolean) => {
           className="text-xs text-bluePrimary underline-offset-1"
           isExternal
           underline="always"
-          href="https://docs.verus.io/guides/getewallet.html"
+          href="https://docs.verus.io/guides/getwallet.html"
         >
           Get a Verus address
         </Link>
