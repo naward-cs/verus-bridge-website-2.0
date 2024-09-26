@@ -10,7 +10,6 @@ import { getDelegatorAddress } from '@/lib/server/settings';
 
 import BlockHeight from './_components/blockHeight';
 import ConvertForm from './_components/convertForm';
-import PriceWidget from './_components/priceWidget'
 import Widget from './_components/protocolPriceWidget/widget'
 
 export default async function Home() {
@@ -38,7 +37,8 @@ export default async function Home() {
           </div>
           <div className="mx-auto flex w-fit flex-col min-[850px]:hidden">
             <Suspense>
-              <PriceWidget />
+              {/* <PriceWidget /> */}
+              <Widget />
             </Suspense>
           </div>
         </div>

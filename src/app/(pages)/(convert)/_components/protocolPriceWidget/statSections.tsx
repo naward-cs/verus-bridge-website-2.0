@@ -9,6 +9,7 @@ import Stat from './stat'
 
 const StatSections = () => {
   const {list, isLoading} = useBridgeInfo()
+
   if (isLoading)
     return (
       <>

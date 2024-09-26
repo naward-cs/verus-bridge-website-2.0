@@ -10,10 +10,30 @@ const DaiWidgetTicker = () => {
   )
 }
 
+const FormatCoinLabel = (txt: string) => {
+  if (txt == 'vETH') {
+    return (
+      <p className="col-span-2">
+        ETH <span className="text-xs text-[#858585]">{txt}</span>
+      </p>
+    )
+  }
+
+  if (txt.endsWith('vETH')) {
+    return (
+      <p className="col-span-2">
+        {txt.split('.')[0]}{' '}
+        <span className="text-xs text-[#858585]">{txt}</span>
+      </p>
+    )
+  }
+  return <p className="col-span-2">{txt}</p>
+}
+
 const Stat = (coin: CoinList) => {
   return (
-    <div className="grid grid-cols-3 px-2 font-medium">
-      <p>{coin.name}</p>
+    <div className="grid grid-cols-4 font-medium">
+      {FormatCoinLabel(coin.name)}
       <p className="text-right">
         {Intl.NumberFormat('en-US', {
           style: 'decimal',
