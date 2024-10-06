@@ -42,5 +42,13 @@
   {
     "symbol": "wbtc",
     "image": "/logos/wbtc.svg"
+  },
+  {
+    "symbol": "pure",
+    "image": "/logos/pure.svg"
+  },
+  {
+    "symbol": "switch",
+    "image": "/logos/switch.svg"
   }
 ]

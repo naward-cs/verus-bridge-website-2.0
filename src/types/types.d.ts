@@ -87,3 +87,11 @@ type CoinList = {
   daiPrice: number
   value?: string
 }
+
+type WidgetCoinList = {
+  name: string
+  amount: number
+  price: number
+  currency: string
+  value?: string
+}

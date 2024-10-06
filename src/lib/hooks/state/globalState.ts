@@ -1,6 +1,10 @@
-'use client'
+'use client';
 
-import {useQuery, useQueryClient} from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
+
+
+
 
 export function createGlobalState<T>(
   queryKey: string,
@@ -15,8 +19,8 @@ export function createGlobalState<T>(
       queryFn: () => Promise.resolve(initialData),
       refetchInterval: false,
       refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
       refetchIntervalInBackground: false,
     })
 

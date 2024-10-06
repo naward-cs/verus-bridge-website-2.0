@@ -1,6 +1,10 @@
-'use client'
+'use client';
 
-import {useQuery, useQueryClient} from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
+
+
+
 
 type RefundAddress = Record<`0x${string}`, string>
 
@@ -21,8 +25,8 @@ export const useRefundAddresses = () => {
     },
     refetchInterval: false,
     refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
     refetchIntervalInBackground: false,
   })
 
@@ -53,8 +57,8 @@ export const useRefundcKeys = () => {
     },
     refetchInterval: false,
     refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
     refetchIntervalInBackground: false,
   })
 

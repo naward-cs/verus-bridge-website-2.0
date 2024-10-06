@@ -5,8 +5,8 @@ import {Card, CardBody} from '@nextui-org/react'
 
 import LiquidityRow from './liquidityRow'
 import PriceRow from './priceRow'
+import ProtocolTokens from './protocolTokens'
 import SelectProtocol from './selectProtocol'
-import StatSections from './statSections'
 import {WidgetContext} from './widgetProvider'
 
 import type {Selection} from '@nextui-org/react'
@@ -15,7 +15,9 @@ const Widget = () => {
   const [fromValue, setFromValue] = useState<Selection>(
     new Set(['Bridge.vETH'])
   )
-  const [toValue, setToValue] = useState<Selection>(new Set([]))
+  const [toValue, setToValue] = useState<Selection>(
+    new Set(['iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM'])
+  )
   return (
     <Card className="mx-1 bg-transparent shadow-none">
       <CardBody className="gap-2">
@@ -29,7 +31,7 @@ const Widget = () => {
               <PriceRow />
               <hr className="border-[#DFDFDF]" />
               <div className="px-2">
-                <StatSections />
+                <ProtocolTokens />
               </div>
               <hr className="border-[#DFDFDF]" />
               <LiquidityRow />
