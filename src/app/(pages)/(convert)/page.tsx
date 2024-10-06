@@ -1,16 +1,14 @@
-import { Suspense } from 'react';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import {dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query'
 
+import {prefetchConvertPage} from '@/lib/server/prefetch/prefetchConvertPage'
+import {getDelegatorAddress} from '@/lib/server/settings'
 
-
-import { prefetchConvertPage } from '@/lib/server/prefetch/prefetchConvertPage';
-import { getDelegatorAddress } from '@/lib/server/settings';
-
-
-
-import BlockHeight from './_components/blockHeight';
-import ConvertForm from './_components/convertForm';
-import Widget from './_components/protocolPriceWidget/widget'
+import BlockHeight from './_components/blockHeight'
+import ConvertForm from './_components/convertForm'
+import {
+  PriceWidgetFullScreen,
+  PriceWidgetMobileScreen,
+} from './_components/protocolPriceWidget'
 
 export default async function Home() {
   const queryClient = new QueryClient()
@@ -27,20 +25,12 @@ export default async function Home() {
         <div className="flex flex-col gap-4 min-[850px]:gap-0 min-[850px]:max-lg:mr-[-34%] lg:max-xl:mr-[-25%]">
           <BlockHeight delegatorAddr={delegatorAddr} />
           <div className="relative">
-            <div className="absolute right-0 top-[-30px] mr-[100%] hidden min-[850px]:block">
-              <Suspense>
-                {/* <PriceWidget /> */}
-                <Widget />
-              </Suspense>
-            </div>
+            <PriceWidgetFullScreen />
+
             <ConvertForm />
           </div>
-          <div className="mx-auto flex w-fit flex-col min-[850px]:hidden">
-            <Suspense>
-              {/* <PriceWidget /> */}
-              <Widget />
-            </Suspense>
-          </div>
+
+          <PriceWidgetMobileScreen />
         </div>
       </main>
     </HydrationBoundary>

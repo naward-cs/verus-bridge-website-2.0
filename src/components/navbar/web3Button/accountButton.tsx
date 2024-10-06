@@ -11,7 +11,6 @@ import {
 import {formatUnits} from 'viem'
 import {useAccount, useBalance, useChains, useDisconnect} from 'wagmi'
 
-import {useWatch} from '@/lib/hooks/wagmi'
 import {Web3Skeleton} from '@/components/skeletons/web3Skeleton'
 
 import NetworkSwitch from '../networkSwitch'
@@ -26,9 +25,12 @@ const AccountButton = () => {
 
   // throw new Error('Invalid Chain')
   const {disconnect} = useDisconnect()
-  const {data: balance, isFetching, queryKey} = useBalance({address})
-  useWatch(queryKey, 10)
-  if (isReconnecting || isConnecting || isFetching) return <Web3Skeleton />
+  const {data: balance} = useBalance({
+    address,
+    query: {refetchInterval: 10_000},
+  })
+  // useWatch(queryKey, 10)
+  if (isReconnecting || isConnecting) return <Web3Skeleton />
   return (
     <>
       <button
@@ -39,22 +41,22 @@ const AccountButton = () => {
           <Spinner className="w-full" size="sm" color="white" />
         ) : (
           <>
-            {isFetching ? (
-              <Spinner className="w-full" size="sm" color="white" />
-            ) : (
+            {balance ? (
               <>
                 {Intl.NumberFormat('en-US', {
                   style: 'decimal',
                   maximumFractionDigits: 3,
                 }).format(
                   parseFloat(
-                    formatUnits(balance!.value, balance!.decimals) || '0'
+                    formatUnits(balance.value, balance.decimals) || '0'
                   )
                 )}{' '}
                 ETH
               </>
+            ) : (
+              <Spinner className="w-full" size="sm" color="white" />
             )}
-            <span className=" ml-6 mr-0  rounded-xl border-2 border-bluePrimary bg-[#417DFF] p-2 group-hover:bg-bluePrimary">
+            <span className="ml-6 mr-0 rounded-xl border-2 border-bluePrimary bg-[#417DFF] p-2 group-hover:bg-bluePrimary">
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </span>
           </>
@@ -91,7 +93,7 @@ const AccountButton = () => {
             )}
             <button
               onClick={() => disconnect()}
-              className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white "
+              className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white"
             >
               Disconnect Wallet
             </button>

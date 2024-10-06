@@ -1,24 +1,12 @@
-'use server';
+'use server'
 
-import { WidgetRPC } from '../settings/widgetRPC';
-import { getTokenList } from './getTokenList';
-
-
-
-
+import {WidgetRPC} from '../settings/widgetRPC'
+import {getWidgetTokenList} from './getWidgetTokenList'
 
 export const getWidgetDestinationList = async (bridge: string) => {
-  const tokenList = await getTokenList()
-  let currencies
-  try {
-    let network = undefined
-    if (bridge === 'Bridge.vARRR') {
-      network = 'vARRR'
-    }
-    currencies = await WidgetRPC(network).interface.getCurrency(bridge)
-  } catch {
-    throw new Error('Failed to fetch currency list')
-  }
+  const tokenList = await getWidgetTokenList()
+
+  const currencies = await WidgetRPC(bridge).interface.getCurrency(bridge)
 
   if (currencies.error) throw new Error('Invalid currency list')
 

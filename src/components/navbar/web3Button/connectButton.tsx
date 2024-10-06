@@ -21,7 +21,7 @@ const ConnectButton = () => {
       <button
         type='button'
         onClick={onOpen}
-        className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 text-center text-white hover:bg-[#417DFF] "
+        className="min-h-[42px] min-w-[232px] rounded-xl bg-bluePrimary p-2.5 font-medium text-center text-white hover:bg-[#417DFF] "
       >
         {isOpen ? (
           <Spinner className="w-full" size="sm" color="white" />

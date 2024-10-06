@@ -9,30 +9,43 @@ import type {SelectedItems} from '@nextui-org/react'
 
 const PriceRow = () => {
   const {fromValue, toValue, setToValue} = useWidgetContext()
-  const fromValueId = Object.values(fromValue)[0]?.toString()
-  const toValueId = Object.values(toValue)[0]?.toString()
+  // const fromValueId = Object.values(fromValue)[0]?.toString()
+  const fromValueId = new Set(fromValue).values().next().value?.toString()
+  // const toValueId = Object.values(toValue)[0]?.toString()
+  const toValueId = new Set(toValue).values().next().value?.toString()
+  
+  
   const {data: bridgeInfo, isLoading} = useWidgetData(
     fromValueId || 'Bridge.vETH'
   )
   let rate
+  // console.log(bridgeInfo?.currencyPrices)
   if (bridgeInfo?.currencyPrices && toValueId) {
     rate = bridgeInfo.currencyPrices[toValueId].viaconversionprice || undefined
   }
+  
   const tokenList = Object.values(
     bridgeInfo?.list || {}
   ) as unknown as TokenList[]
-
+  
   return (
     <div className="flex items-center justify-between px-2">
-      <p>
-        <span className="text-xs text-[#565656]">Price</span>{' '}
-        {rate && <span className="font-medium">{rate.toFixed(2)}</span>}
+      <p className="text-xs">
+        <span className="text-[#565656]">Price</span>{' '}
+        {rate && <span className="font-medium">
+          {/* {rate.toFixed(2)} */}
+          {Intl.NumberFormat('en-US', {
+          style: 'decimal',
+          maximumFractionDigits: 4,
+          minimumFractionDigits: 2,
+        }).format(rate || 0)}
+          </span>}
       </p>
       <Select
         items={Object.values(tokenList)}
         variant="flat"
-        placeholder="Select Token"
-        aria-label="Select Token"
+        placeholder="Select currency"
+        aria-label="Select currency"
         selectedKeys={toValue}
         isLoading={isLoading}
         className="max-w-[152px]"

@@ -82,12 +82,12 @@ const RefundAddress = ({
               to you on the Verus blockchain.
             </p>
             <p>
-              To be able to retrieve the currency that is strored on the Verus
-              blockchain you need to hve an address that is controlled by you.
+              To be able to retrieve the currency that is stored on the Verus
+              blockchain you need to have an address that is controlled by you.
             </p>
             <p>
               The refund address created here is derived from your Ethereum
-              private key. Only you controll this address.
+              private key. Only you control this address.
             </p>
           </div>
           <div className="mx-8 mt-3 text-sm">

@@ -5,14 +5,56 @@ import {CoinLogo} from '@/components/shared/coinLogo'
 import {useWidgetContext} from './widgetProvider'
 
 const bridgeList = [
-  {label: 'Bridge.vETH', currency: 'VBRID'},
-  {label: 'Bridge.vARRR', currency: 'vARRR'},
-  {label: 'Pure', currency: 'PURE'},
-  {label: 'Switch', currency: 'SWITCH'},
+  {
+    label: 'Bridge.vETH',
+    currency: 'VBRID',
+    default: 'iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM',
+  },
+  {
+    label: 'Bridge.vARRR',
+    currency: 'vARRR',
+    default: 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU',
+  },
+  {
+    label: 'Bridge.vDEX',
+    currency: 'vDEX',
+    default: 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU',
+  },
+  {
+    label: 'Pure',
+    currency: 'PURE',
+    default: 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU',
+  },
+  {
+    label: 'Switch',
+    currency: 'SWITCH',
+    default: 'iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM',
+  },
+  {
+    label: 'NATI',
+    currency: 'NATI',
+    default: 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx',
+  },
+  {
+    label: 'NATI🦉',
+    currency: 'NATI🦉',
+    default: 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU',
+  },
+  {
+    label: 'Kaiju',
+    currency: 'KAIJU',
+    default: 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU',
+  },
 ]
+// i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV
 
 const SelectProtocol = () => {
   const {fromValue, setFromValue, setToValue} = useWidgetContext()
+  const setDefaultValue = (keys: string) => {
+    setToValue(
+      new Set([bridgeList.find((t) => t.label === keys)?.default || ''])
+    )
+  }
   return (
     <Select
       items={bridgeList}
@@ -25,7 +67,7 @@ const SelectProtocol = () => {
         trigger:
           'border-small bg-white h-12 data-[hover=true]:border-default-200 data-[open=true]:border-default-200 data-[focus=true]:border-default-200',
       }}
-      onChange={() => setToValue(new Set([]))}
+      onChange={(keys) => setDefaultValue(keys.target.value)}
       onSelectionChange={setFromValue}
       renderValue={(
         tokens: SelectedItems<{label: string; currency: string}>
