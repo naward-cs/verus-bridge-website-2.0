@@ -106,7 +106,6 @@ const RefundAvailable = ({
   const mergeData = tokenList.map((token, i) => {
     let refundAmount = 0n
     if (allFunds != undefined) {
-      //@ts-expect-error: issue bounces as valid and invalid
       refundAmount = (allFunds[i]?.result as bigint) || 0n
     }
     return {...token, refund: refundAmount}
