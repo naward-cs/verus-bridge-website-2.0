@@ -1,9 +1,14 @@
-import {getChainId as getWagmiChainId} from 'wagmi/actions'
+import { getChainId as getWagmiChainId } from 'wagmi/actions';
 
-import {env} from '@/config/env.mjs'
+
+
+import { env } from '@/config/env.mjs';
 import {config} from '@/config/wagmi'
+import {getWagmiCookie} from '@/lib/actions/getWagmiCookie'
 
-import {getWagmiCookie} from '../../actions/getWagmiCookie'
+
+
+
 
 const ValidateChain = () => {
   const chainId = getWagmiCookie()?.chainId
